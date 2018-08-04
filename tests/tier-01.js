@@ -2,12 +2,15 @@ const {expect} = require('chai');
 import enzyme, {shallow} from 'enzyme'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
+import {MemoryRouter} from 'react-router-dom'
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import AllCampuses from '../app/components/AllCampuses'
 import AllStudents from '../app/components/AllStudents'
+import Root from '../app/components/root'
+import {Dummy} from '../app/components/root'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
@@ -50,10 +53,28 @@ describe('Tier One', () => {
       })
     })
     describe('Navigation', () => {
-      xit('renders <Home />', () => {
+      xit('says Welcome at /', () => {
+        const wrapper = shallow(
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        )
+        expect(wrapper.html()).to.include('Welcome')
+      })
+      xit('renders <AllCampuses /> at /campuses', () => {
+        const wrapper = shallow(
+          <MemoryRouter initialEntries={['/campuses']}>
+            <Root />
+          </MemoryRouter>
+        )
+        // console.log(wrapper.html())
+        // TODO: Find a good way to test react-router
+        // expect(wrapper.children().contains(<Dummy />)).to.equal(true)
+      })
+      xit('renders <AllStudents /> at /students', () => {
 
       })
-      xit('renders the students passed in as props', () => {
+      xit('navbar to navigate to home, campuses, students', () => {
 
       })
     })
