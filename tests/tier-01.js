@@ -7,6 +7,7 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import AllCampuses from '../app/components/AllCampuses'
+import AllStudents from '../app/components/AllStudents'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
@@ -17,18 +18,17 @@ describe('Tier One', () => {
       })
       xit('renders the campuses passed in as props', () => {
         const wrapper = shallow(<AllCampuses campuses={[
-            {
-              id: 1,
-              name: 'Mars Academy',
-              description: 'Red Planet, Blue Ribbons',
-            },
-            {
-              id: 2,
-              name: 'Jupiter Jumpstart',
-              description: 'Best Pre-K in the Galaxy',
-            },
-          ]} />
-        )
+          {
+            id: 1,
+            name: 'Mars Academy',
+            description: 'Red Planet, Blue Ribbons',
+          },
+          {
+            id: 2,
+            name: 'Jupiter Jumpstart',
+            description: 'Best Pre-K in the Galaxy',
+          },
+        ]} />)
         expect(wrapper.text()).to.include('Mars Academy')
         expect(wrapper.text()).to.include('Jupiter Jumpstart')
         expect(wrapper.text()).to.include('Red Planet, Blue Ribbons')
@@ -37,10 +37,16 @@ describe('Tier One', () => {
     })
     describe('<AllStudents /> component', () => {
       xit('renders an unordered list', () => {
-
+        const wrapper = shallow(<AllStudents students={[]} />)
+        expect(wrapper.find('ul')).to.have.length(1)
       })
       xit('renders the students passed in as props', () => {
-
+        const wrapper = shallow(<AllStudents students={[
+          { id: 1, name: 'Mae Jemison' },
+          { id: 2, name: 'Sally Ride' },
+        ]} />)
+        expect(wrapper.text()).to.include('Mae Jemison')
+        expect(wrapper.text()).to.include('Sally Ride')
       })
     })
     describe('Navigation', () => {
