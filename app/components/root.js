@@ -13,7 +13,7 @@ const Root = () => {
           Welcome!
         </nav>
         <main>
-          <Switch>
+          {/* <Switch> */}
             <Route path="/campuses" component={AllCampuses} />
             <Route path="/students" component={AllStudents} />
             <Route render={() => (
@@ -23,7 +23,7 @@ const Root = () => {
                 <p>This seems like a nice place to get started with some Routes!</p>
               </div>
             )} />
-          </Switch>
+          {/* </Switch> */}
         </main>
       </div>
     </Router>

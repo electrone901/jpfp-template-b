@@ -1,5 +1,5 @@
 const {expect} = require('chai');
-import enzyme, {shallow} from 'enzyme'
+import enzyme, {shallow, mount} from 'enzyme'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
 import {MemoryRouter} from 'react-router-dom'
@@ -61,15 +61,15 @@ describe('Tier One', () => {
         )
         expect(wrapper.html()).to.include('Welcome')
       })
-      xit('renders <AllCampuses /> at /campuses', () => {
-        const wrapper = shallow(
+      it('renders <AllCampuses /> at /campuses', () => {
+        const wrapper = mount(
           <MemoryRouter initialEntries={['/campuses']}>
             <Root />
           </MemoryRouter>
         )
         // console.log(wrapper.html())
         // TODO: Find a good way to test react-router
-        // expect(wrapper.children().contains(<Dummy />)).to.equal(true)
+        expect(wrapper.find(Dummy)).to.have.length(1)
       })
       xit('renders <AllStudents /> at /students', () => {
 
