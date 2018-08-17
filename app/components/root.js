@@ -3,7 +3,16 @@ import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import AllCampuses from './AllCampuses'
 import AllStudents from './AllStudents'
 
-export const Dummy = () => <h1>HELLO THERE</h1>
+const BadComponent = () => {
+  throw Error('Oh no! I contemplated the fleeting nature of existence!')
+}
+
+export const Dummy = () => (
+  <div>
+    <h1>HELLO THERE</h1>
+    <BadComponent />
+  </div>
+)
 
 const Root = () => {
   return (
