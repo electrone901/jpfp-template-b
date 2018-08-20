@@ -6,7 +6,7 @@ import Adapter from 'enzyme-adapter-react-16'
 
 
 import * as rrd from 'react-router-dom'
-const { MemoryRouter } = rrd
+const { MemoryRouter, Link } = rrd
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
@@ -14,7 +14,6 @@ enzyme.configure({ adapter })
 import AllCampuses from '../app/components/AllCampuses'
 import AllStudents from '../app/components/AllStudents'
 import Root from '../app/components/root'
-import {Dummy} from '../app/components/root'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
@@ -57,41 +56,51 @@ describe('Tier One', () => {
       })
     })
     describe('Navigation', () => {
-      xit('says Welcome at /', () => {
+      beforeEach(() => {
+        sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
+          return (<div>{children}</div>)
+        })
+      })
+      afterEach(() => {
+        rrd.BrowserRouter.restore()
+      })
+      it('says Welcome at /', () => {
         const wrapper = shallow(
           <MemoryRouter initialEntries={['/']}>
             <Root />
           </MemoryRouter>
         )
         expect(wrapper.html()).to.include('Welcome')
+        expect(wrapper.find(AllCampuses)).to.have.length(0)
+        expect(wrapper.find(AllStudents)).to.have.length(0)
       })
       it('renders <AllCampuses /> at /campuses', () => {
-        // TODO: Find a good way to test react-router
-        // sinon.mock(BrowserRouter, ({ children }) => {
-        //   console.log('MOCKED BROWSER ROUTER')
-        //   return <div>{children}</div>
-        //   }
-        // )
-        sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
-          console.log('MOCKED BROWSER ROUTER')
-          return (<div>{children}</div>)
-        })
         const wrapper = mount(
           <MemoryRouter initialEntries={['/campuses']}>
             <Root />
           </MemoryRouter>
         )
-        // expect(wrapper.find(Dummy)).to.have.length(1)
         expect(wrapper.find(AllCampuses)).to.have.length(1)
-        rrd.BrowserRouter.restore()
-        // expect(wrapper.find(AllStudents)).to.have.length(0)
-        // rrd.BrowserRouter.restore()
+        expect(wrapper.find(AllStudents)).to.have.length(0)
       })
-      xit('renders <AllStudents /> at /students', () => {
-
+      it('renders <AllStudents /> at /students', () => {
+        const wrapper = mount(
+          <MemoryRouter initialEntries={['/students']}>
+            <Root />
+          </MemoryRouter>
+        )
+        expect(wrapper.find(AllCampuses)).to.have.length(0)
+        expect(wrapper.find(AllStudents)).to.have.length(1)
       })
-      xit('navbar to navigate to home, campuses, students', () => {
-
+      it('navbar to navigate to home, campuses, students', () => {
+        const wrapper = mount(
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        )
+        expect(wrapper.find('nav')).to.have.length(1)
+        expect(wrapper.find(Link)).to.have.length.greaterThan(2)
+        // TODO: Simulate clickon on each of the nav buttons
       })
     })
   })
