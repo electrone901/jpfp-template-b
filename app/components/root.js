@@ -1,18 +1,28 @@
 import React from 'react'
+// import * as rrd from 'react-router-dom'
 import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import AllCampuses from './AllCampuses'
 import AllStudents from './AllStudents'
+
+// import sinon from 'sinon'
+// sinon.mock(Router, ({ children }) => {
+//   console.log('MOCKED BROWSER ROUTER')
+//   return (<div>{children}</div>)
+// })
 
 const BadComponent = () => {
   throw Error('Oh no! I contemplated the fleeting nature of existence!')
 }
 
-export const Dummy = () => (
-  <div>
-    <h1>HELLO THERE</h1>
-    <BadComponent />
-  </div>
-)
+export const Dummy = () => {
+  console.log('DUMMY RENDERED')
+  return (
+    <div>
+      <h1>HELLO THERE</h1>
+      {/* <BadComponent /> */}
+    </div>
+  )
+}
 
 const Root = () => {
   return (
@@ -22,7 +32,7 @@ const Root = () => {
           Welcome!
         </nav>
         <main>
-          {/* <Switch> */}
+          <Switch>
             <Route path="/campuses" component={AllCampuses} />
             <Route path="/students" component={AllStudents} />
             <Route render={() => (
@@ -32,7 +42,7 @@ const Root = () => {
                 <p>This seems like a nice place to get started with some Routes!</p>
               </div>
             )} />
-          {/* </Switch> */}
+          </Switch>
         </main>
       </div>
     </Router>

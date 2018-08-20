@@ -1,8 +1,12 @@
 const {expect} = require('chai');
 import enzyme, {shallow, mount} from 'enzyme'
+import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
-import {MemoryRouter} from 'react-router-dom'
+
+
+import * as rrd from 'react-router-dom'
+const { MemoryRouter } = rrd
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
@@ -62,14 +66,26 @@ describe('Tier One', () => {
         expect(wrapper.html()).to.include('Welcome')
       })
       it('renders <AllCampuses /> at /campuses', () => {
+        // TODO: Find a good way to test react-router
+        // sinon.mock(BrowserRouter, ({ children }) => {
+        //   console.log('MOCKED BROWSER ROUTER')
+        //   return <div>{children}</div>
+        //   }
+        // )
+        sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
+          console.log('MOCKED BROWSER ROUTER')
+          return (<div>{children}</div>)
+        })
         const wrapper = mount(
           <MemoryRouter initialEntries={['/campuses']}>
             <Root />
           </MemoryRouter>
         )
-        // console.log(wrapper.html())
-        // TODO: Find a good way to test react-router
-        expect(wrapper.find(Dummy)).to.have.length(1)
+        // expect(wrapper.find(Dummy)).to.have.length(1)
+        expect(wrapper.find(AllCampuses)).to.have.length(1)
+        rrd.BrowserRouter.restore()
+        // expect(wrapper.find(AllStudents)).to.have.length(0)
+        // rrd.BrowserRouter.restore()
       })
       xit('renders <AllStudents /> at /students', () => {
 
