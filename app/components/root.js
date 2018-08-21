@@ -1,14 +1,7 @@
 import React from 'react'
-// import * as rrd from 'react-router-dom'
 import { BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import AllCampuses from './AllCampuses'
 import AllStudents from './AllStudents'
-
-// import sinon from 'sinon'
-// sinon.mock(Router, ({ children }) => {
-//   console.log('MOCKED BROWSER ROUTER')
-//   return (<div>{children}</div>)
-// })
 
 const VeryNaughtyComponent = () => {
   throw Error("I'm full of mischief 😈 ")

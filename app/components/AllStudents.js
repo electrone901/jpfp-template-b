@@ -1,8 +1,14 @@
 import React from 'react';
 
-const AllStudents = () => {
+const AllStudents = (props) => {
   return (
-    <h1>All Students</h1>
+    <div>
+      <ul>
+        {props.students && props.students.map(student => (
+          <li key={student.id}>{student.firstName} {student.lastName}</li>
+        ))}
+      </ul>
+    </div>
   )
 }
 

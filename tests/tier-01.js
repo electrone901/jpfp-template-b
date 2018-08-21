@@ -4,7 +4,6 @@ import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
 
-
 import * as rrd from 'react-router-dom'
 const { MemoryRouter, Link } = rrd
 
@@ -18,38 +17,43 @@ import Root from '../app/components/root'
 describe('Tier One', () => {
   describe('Client-side', () => {
     describe('<AllCampuses /> component', () => {
-      xit('renders an unordered list', () => {
+      it('renders an unordered list', () => {
         const wrapper = shallow(<AllCampuses campuses={[]} />)
         expect(wrapper.find('ul')).to.have.length(1)
       })
-      xit('renders the campuses passed in as props', () => {
-        const wrapper = shallow(<AllCampuses campuses={[
-          {
-            id: 1,
-            name: 'Mars Academy',
-            description: 'Red Planet, Blue Ribbons',
-          },
-          {
-            id: 2,
-            name: 'Jupiter Jumpstart',
-            description: 'Best Pre-K in the Galaxy',
-          },
-        ]} />)
+      it('renders the campuses passed in as props', () => {
+        const wrapper = shallow(
+          <AllCampuses campuses={[
+            {
+              id: 1,
+              name: 'Mars Academy',
+              imageUrl: '/images/mars.png',
+            },
+            {
+              id: 2,
+              name: 'Jupiter Jumpstart',
+              imageUrl: '/images/jupiter.jpeg',
+            }
+          ]} />
+        )
         expect(wrapper.text()).to.include('Mars Academy')
         expect(wrapper.text()).to.include('Jupiter Jumpstart')
-        expect(wrapper.text()).to.include('Red Planet, Blue Ribbons')
-        expect(wrapper.text()).to.include('Best Pre-K in the Galaxy')
+        const images = wrapper.find('img').map(node => node.get(0).props.src)
+        expect(images).to.include.members([
+          '/images/mars.png',
+          '/images/jupiter.jpeg',
+        ])
       })
     })
     describe('<AllStudents /> component', () => {
-      xit('renders an unordered list', () => {
+      it('renders an unordered list', () => {
         const wrapper = shallow(<AllStudents students={[]} />)
         expect(wrapper.find('ul')).to.have.length(1)
       })
-      xit('renders the students passed in as props', () => {
+      it('renders the students passed in as props', () => {
         const wrapper = shallow(<AllStudents students={[
-          { id: 1, name: 'Mae Jemison' },
-          { id: 2, name: 'Sally Ride' },
+          { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+          { id: 2, firstName: 'Sally', lastName: 'Ride' },
         ]} />)
         expect(wrapper.text()).to.include('Mae Jemison')
         expect(wrapper.text()).to.include('Sally Ride')
@@ -76,7 +80,6 @@ describe('Tier One', () => {
             <Root />
           </MemoryRouter>
         )
-        expect(wrapper.html()).to.include('Welcome')
         expect(wrapper.find(AllCampuses)).to.have.length(0)
         expect(wrapper.find(AllStudents)).to.have.length(0)
       })
@@ -119,7 +122,7 @@ describe('Tier One', () => {
     })
   })
   describe('Models', () => {
-    xit('', () => {
+    xit('does some model stuff', () => {
 
     })
   })
