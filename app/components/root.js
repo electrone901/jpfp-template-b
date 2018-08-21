@@ -1,6 +1,6 @@
 import React from 'react'
 // import * as rrd from 'react-router-dom'
-import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom'
 import AllCampuses from './AllCampuses'
 import AllStudents from './AllStudents'
 
@@ -29,7 +29,6 @@ const Root = () => {
     <Router>
       <div>
         <nav>
-          Welcome!
           <Link to="/">Home</Link>
           <Link to="/campuses">Campuses</Link>
           <Link to="/students">Students</Link>

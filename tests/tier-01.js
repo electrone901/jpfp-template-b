@@ -56,6 +56,12 @@ describe('Tier One', () => {
       })
     })
     describe('Navigation', () => {
+      /** In order to test react-router, we need ot hijack the BrowserRouter
+       *  in the root of our app. Sinon allows us to "stub" the BrowserRouter.
+       *  Whenever a component calls BrowserRouter, it'll instead render a
+       *  component that merely renders the children. After the tests are done,
+       *  let's clean up after ourselves by restoring BrowserRouter.
+       */
       beforeEach(() => {
         sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
           return (<div>{children}</div>)
@@ -98,9 +104,10 @@ describe('Tier One', () => {
             <Root />
           </MemoryRouter>
         )
-        expect(wrapper.find('nav')).to.have.length(1)
-        expect(wrapper.find(Link)).to.have.length.greaterThan(2)
-        // TODO: Simulate clickon on each of the nav buttons
+        const nav = wrapper.find('nav')
+        expect(nav).to.have.length(1)
+        const links = nav.find(Link).map(node => node.get(0).props.to)
+        expect(links).to.include.members(['/', '/campuses', '/students'])
       })
     })
   })
