@@ -7,8 +7,10 @@ import Adapter from 'enzyme-adapter-react-16'
 const app = require('../server')
 const agent = require('supertest')(app)
 
+const {Campus, Student} = require('../server/db')
+
 import * as rrd from 'react-router-dom'
-const { MemoryRouter, Link } = rrd
+const {MemoryRouter, Link} = rrd
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
@@ -27,16 +29,8 @@ describe('Tier One', () => {
       xit('renders the campuses passed in as props', () => {
         const wrapper = shallow(
           <AllCampuses campuses={[
-            {
-              id: 1,
-              name: 'Mars Academy',
-              imageUrl: '/images/mars.png',
-            },
-            {
-              id: 2,
-              name: 'Jupiter Jumpstart',
-              imageUrl: '/images/jupiter.jpeg',
-            }
+            { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+            { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
           ]} />
         )
         expect(wrapper.text()).to.include('Mars Academy')
@@ -109,17 +103,41 @@ describe('Tier One', () => {
     })
   })
   describe('API', () => {
+    const {findAll: campusFindAll} = Campus
+    const {findAll: studentFindAll} = Student
     beforeEach(() => {
-      sinon.stub()
+      Campus.findAll = sinon.spy(() => [
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ])
+      Student.findAll = sinon.spy(() => [
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ])
+    })
+    afterEach(() => {
+      Campus.findAll = campusFindAll
+      Student.findAll = studentFindAll
     })
     it('GET /api/campuses responds with all campuses', async () => {
       const response = await agent
         .get('/api/campuses')
         .expect(200)
-      expect(response.body).to.have.length(2)
+      expect(response.body).to.deep.equal([
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ])
+      expect(Campus.findAll.calledOnce).to.be.true /* eslint-disable-line no-unused-expressions */
     })
-    xit('GET /api/students responds with all students', () => {
-
+    it('GET /api/students responds with all students', async () => {
+      const response = await agent
+        .get('/api/students')
+        .expect(200)
+      expect(response.body).to.deep.equal([
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ])
+      expect(Student.findAll.calledOnce).to.be.true /* eslint-disable-line no-unused-expressions */
     })
   })
   describe('Models', () => {
