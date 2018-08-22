@@ -4,6 +4,9 @@ import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
 
+const app = require('../server')
+const agent = require('supertest')(app)
+
 import * as rrd from 'react-router-dom'
 const { MemoryRouter, Link } = rrd
 
@@ -106,10 +109,17 @@ describe('Tier One', () => {
     })
   })
   describe('API', () => {
-    describe('/api/campuses endpoint', () => {
-      xit('GET /api/campuses responds with all campuses', () => {
+    beforeEach(() => {
+      sinon.stub()
+    })
+    it('GET /api/campuses responds with all campuses', async () => {
+      const response = await agent
+        .get('/api/campuses')
+        .expect(200)
+      expect(response.body).to.have.length(2)
+    })
+    xit('GET /api/students responds with all students', () => {
 
-      })
     })
   })
   describe('Models', () => {
