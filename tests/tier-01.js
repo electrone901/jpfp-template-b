@@ -119,7 +119,7 @@ describe('Tier One', () => {
       Campus.findAll = campusFindAll
       Student.findAll = studentFindAll
     })
-    it('GET /api/campuses responds with all campuses', async () => {
+    xit('GET /api/campuses responds with all campuses', async () => {
       const response = await agent
         .get('/api/campuses')
         .expect(200)
@@ -129,7 +129,7 @@ describe('Tier One', () => {
       ])
       expect(Campus.findAll.calledOnce).to.be.true /* eslint-disable-line no-unused-expressions */
     })
-    it('GET /api/students responds with all students', async () => {
+    xit('GET /api/students responds with all students', async () => {
       const response = await agent
         .get('/api/students')
         .expect(200)
