@@ -181,8 +181,97 @@ describe('Tier One', () => {
           name: 'Jupiter Jumpstart',
           address: '5.2 AU',
         })
+        await campus.validate()
         expect(campus.imageUrl).to.be.a('string')
         expect(campus.imageUrl.length).to.be.greaterThan(1)
+      })
+    })
+    describe('Student', () => {
+      it('has fields firstName, lastName, email, imageUrl, gpa', async () => {
+        const student = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          imageUrl: '/images/sallyride.png',
+          gpa: 3.8,
+        })
+        expect(student.firstName).to.eq('Sally')
+        expect(student.lastName).to.eq('Ride')
+        expect(student.imageUrl).to.eq('/images/sallyride.png')
+        expect(student.email).to.eq('sallyride@nasa.gov')
+        expect(student.gpa).to.eq(3.8)
+      })
+      it('requires firstName, lastName, email', async () => {
+        const student = Student.build()
+        try {
+          await student.validate()
+          throw Error('validation should have failed without firstName, lastName, email')
+        }
+        catch (err) {
+          expect(err.message).to.contain('firstName cannot be null')
+          expect(err.message).to.contain('lastName cannot be null')
+          expect(err.message).to.contain('email cannot be null')
+        }
+      })
+      it('firstName, lastName, email cannot be empty', async () => {
+        const student = Student.build({ firstName: '', lastName: '', email: '' })
+        try {
+          await student.validate()
+          throw Error('validation should have failed with empty name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation notEmpty on firstName')
+          expect(err.message).to.contain('Validation notEmpty on lastName')
+          expect(err.message).to.contain('Validation notEmpty on email')
+        }
+      })
+      it('email must be a valid email', async () => {
+        const student = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: '@sallyridenasagov...',
+          imageUrl: '/images/sallyride.png',
+        })
+        try {
+          await student.validate()
+          throw Error('validation should have failed with invalid email')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation isEmail on email')
+        }
+      })
+      it('gpa must be decimal between 0.0 and 4.0', async () => {
+        const studentA = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          gpa: 4.1,
+        })
+        try {
+          await studentA.validate()
+          throw Error('validation should have failed with too high gpa')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation max on gpa')
+        }
+        const studentB = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          gpa: -1,
+        })
+        try {
+          await studentB.validate()
+          throw Error('validation should have failed with too low gpa')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation min on gpa')
+        }
+      })
+      it('default imageUrl if left blank', async () => {
+        const student = Student.build({ firstName: '', lastName: '', email: '' })
+        expect(student.imageUrl).to.be.a('string')
+        expect(student.imageUrl.length).to.be.greaterThan(1)
       })
     })
   })
