@@ -142,6 +142,18 @@ describe('Tier One', () => {
   })
   describe('Models', () => {
     describe('Campus', () => {
+      it('has fields name, address, imageUrl, description', async () => {
+        const campus = Campus.build({
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+          imageUrl: '/images/jupiter.png',
+          description: 'The best JavaScript Academy for toddlers in the solar system!',
+        })
+        expect(campus.name).to.eq('Jupiter Jumpstart')
+        expect(campus.address).to.eq('5.2 AU')
+        expect(campus.imageUrl).to.eq('/images/jupiter.png')
+        expect(campus.description).to.eq('The best JavaScript Academy for toddlers in the solar system!')
+      })
       it('requires name and address', async () => {
         const campus = Campus.build()
         try {

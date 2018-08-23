@@ -15,7 +15,10 @@ const Campus = db.define('campus', {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: '/images/planet.png'
-  }
+  },
+  description: {
+    type: Sequelize.TEXT,
+  },
 })
 
 module.exports = Campus
