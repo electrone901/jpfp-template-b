@@ -11,6 +11,10 @@ const Campus = db.define('campus', {
     type: Sequelize.STRING,
     allowNull: false,
     validate: { notEmpty: true },
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: '/images/planet.png'
   }
 })
 

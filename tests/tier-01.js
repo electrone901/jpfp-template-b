@@ -141,30 +141,37 @@ describe('Tier One', () => {
     })
   })
   describe('Models', () => {
-    it('Campus requires name and address', async () => {
-      const campus = Campus.build()
-      try {
-        await campus.validate()
-        throw Error('validation should have failed without name and address')
-      }
-      catch (err) {
-        expect(err.message).to.contain('name cannot be null')
-        expect(err.message).to.contain('address cannot be null')
-      }
-    })
-    it('Campus name and address cannot be empty', async () => {
-      const campus = Campus.build({
-        name: '',
-        address: '',
+    describe('Campus', () => {
+      it('requires name and address', async () => {
+        const campus = Campus.build()
+        try {
+          await campus.validate()
+          throw Error('validation should have failed without name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('name cannot be null')
+          expect(err.message).to.contain('address cannot be null')
+        }
       })
-      try {
-        await campus.validate()
-        throw Error('validation should have failed with empty name and address')
-      }
-      catch (err) {
-        expect(err.message).to.contain('Validation notEmpty on name')
-        expect(err.message).to.contain('Validation notEmpty on address')
-      }
+      it('name and address cannot be empty', async () => {
+        const campus = Campus.build({ name: '', address: '' })
+        try {
+          await campus.validate()
+          throw Error('validation should have failed with empty name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation notEmpty on name')
+          expect(err.message).to.contain('Validation notEmpty on address')
+        }
+      })
+      it('default imageUrl if left blank', async () => {
+        const campus = Campus.build({
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+        })
+        expect(campus.imageUrl).to.be.a('string')
+        expect(campus.imageUrl.length).to.be.greaterThan(1)
+      })
     })
   })
 })
