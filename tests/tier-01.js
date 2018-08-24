@@ -142,7 +142,7 @@ describe('Tier One', () => {
   })
   describe('Models', () => {
     describe('Campus', () => {
-      xit('has fields name, address, imageUrl, description', async () => {
+      it('has fields name, address, imageUrl, description', () => {
         const campus = Campus.build({
           name: 'Jupiter Jumpstart',
           address: '5.2 AU',
@@ -154,7 +154,7 @@ describe('Tier One', () => {
         expect(campus.imageUrl).to.eq('/images/jupiter.png')
         expect(campus.description).to.eq('The best JavaScript Academy for toddlers in the solar system!')
       })
-      xit('requires name and address', async () => {
+      it('requires name and address', async () => {
         const campus = Campus.build()
         try {
           await campus.validate()
@@ -165,7 +165,7 @@ describe('Tier One', () => {
           expect(err.message).to.contain('address cannot be null')
         }
       })
-      xit('name and address cannot be empty', async () => {
+      it('name and address cannot be empty', async () => {
         const campus = Campus.build({ name: '', address: '' })
         try {
           await campus.validate()
@@ -176,7 +176,7 @@ describe('Tier One', () => {
           expect(err.message).to.contain('Validation notEmpty on address')
         }
       })
-      xit('default imageUrl if left blank', async () => {
+      it('default imageUrl if left blank', async () => {
         const campus = Campus.build({
           name: 'Jupiter Jumpstart',
           address: '5.2 AU',
@@ -187,7 +187,7 @@ describe('Tier One', () => {
       })
     })
     describe('Student', () => {
-      xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
+      it('has fields firstName, lastName, email, imageUrl, gpa', () => {
         const student = Student.build({
           firstName: 'Sally',
           lastName: 'Ride',
@@ -201,7 +201,7 @@ describe('Tier One', () => {
         expect(student.email).to.eq('sallyride@nasa.gov')
         expect(student.gpa).to.eq(3.8)
       })
-      xit('requires firstName, lastName, email', async () => {
+      it('requires firstName, lastName, email', async () => {
         const student = Student.build()
         try {
           await student.validate()
@@ -213,7 +213,7 @@ describe('Tier One', () => {
           expect(err.message).to.contain('email cannot be null')
         }
       })
-      xit('firstName, lastName, email cannot be empty', async () => {
+      it('firstName, lastName, email cannot be empty', async () => {
         const student = Student.build({ firstName: '', lastName: '', email: '' })
         try {
           await student.validate()
@@ -225,7 +225,7 @@ describe('Tier One', () => {
           expect(err.message).to.contain('Validation notEmpty on email')
         }
       })
-      xit('email must be a valid email', async () => {
+      it('email must be a valid email', async () => {
         const student = Student.build({
           firstName: 'Sally',
           lastName: 'Ride',
@@ -240,7 +240,7 @@ describe('Tier One', () => {
           expect(err.message).to.contain('Validation isEmail on email')
         }
       })
-      xit('gpa must be decimal between 0.0 and 4.0', async () => {
+      it('gpa must be decimal between 0.0 and 4.0', async () => {
         const student = {
           firstName: 'Sally',
           lastName: 'Ride',
@@ -265,10 +265,42 @@ describe('Tier One', () => {
           expect(err.message).to.contain('Validation min on gpa')
         }
       })
-      xit('default imageUrl if left blank', async () => {
+      it('default imageUrl if left blank', () => {
         const student = Student.build({ firstName: '', lastName: '', email: '' })
         expect(student.imageUrl).to.be.a('string')
         expect(student.imageUrl.length).to.be.greaterThan(1)
+      })
+    })
+    describe('Student > Campus Association', () => {
+      // { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+      let sallyStudent, maeStudent, campus
+      beforeEach(() => {
+        [sallyStudent, maeStudent] = Student.bulkBuild([
+          {
+            firstName: 'Sally',
+            lastName: 'Ride',
+            email: 'sallyride@nasa.gov',
+            gpa: 3.8,
+          },
+          {
+            firstName: 'Mae',
+            lastName: 'Jemison',
+            email: 'maejemison@nasa.gov',
+            gpa: 3.9,
+          },
+        ])
+        campus = Campus.build({
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+        })
+      })
+      it('a student may be assigned to at most one campus', () => {
+        console.log('sallyStudent', sallyStudent)
+        sallyStudent.setCampus(campus)
+        expect(sallyStudent.campusId).to.be.a('number')
+      })
+      it('a campus may have many enrolled students', () => {
+
       })
     })
   })
