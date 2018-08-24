@@ -241,27 +241,24 @@ describe('Tier One', () => {
         }
       })
       xit('gpa must be decimal between 0.0 and 4.0', async () => {
-        const studentA = Student.build({
+        const student = {
           firstName: 'Sally',
           lastName: 'Ride',
           email: 'sallyride@nasa.gov',
           gpa: 4.1,
-        })
+        }
+        const overachiever = Student.build(student)
         try {
-          await studentA.validate()
+          await overachiever.validate()
           throw Error('validation should have failed with too high gpa')
         }
         catch (err) {
           expect(err.message).to.contain('Validation max on gpa')
         }
-        const studentB = Student.build({
-          firstName: 'Sally',
-          lastName: 'Ride',
-          email: 'sallyride@nasa.gov',
-          gpa: -1,
-        })
+        student.gpa = -1
+        const underachiever = Student.build(student)
         try {
-          await studentB.validate()
+          await underachiever.validate()
           throw Error('validation should have failed with too low gpa')
         }
         catch (err) {
