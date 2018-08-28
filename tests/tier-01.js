@@ -127,7 +127,7 @@ describe('Tier One', () => {
         { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
         { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
       ])
-      expect(Campus.findAll.calledOnce).to.be.true /* eslint-disable-line no-unused-expressions */
+      expect(Campus.findAll.calledOnce).to.be.equal(true)
     })
     xit('GET /api/students responds with all students', async () => {
       const response = await agent
@@ -137,7 +137,7 @@ describe('Tier One', () => {
         { id: 1, firstName: 'Mae', lastName: 'Jemison' },
         { id: 2, firstName: 'Sally', lastName: 'Ride' },
       ])
-      expect(Student.findAll.calledOnce).to.be.true /* eslint-disable-line no-unused-expressions */
+      expect(Student.findAll.calledOnce).to.be.equal(true)
     })
   })
   describe('Models', () => {
@@ -149,10 +149,10 @@ describe('Tier One', () => {
           imageUrl: '/images/jupiter.png',
           description: 'The best JavaScript Academy for toddlers in the solar system!',
         })
-        expect(campus.name).to.eq('Jupiter Jumpstart')
-        expect(campus.address).to.eq('5.2 AU')
-        expect(campus.imageUrl).to.eq('/images/jupiter.png')
-        expect(campus.description).to.eq('The best JavaScript Academy for toddlers in the solar system!')
+        expect(campus.name).to.equal('Jupiter Jumpstart')
+        expect(campus.address).to.equal('5.2 AU')
+        expect(campus.imageUrl).to.equal('/images/jupiter.png')
+        expect(campus.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
       })
       it('requires name and address', async () => {
         const campus = Campus.build()
@@ -195,11 +195,11 @@ describe('Tier One', () => {
           imageUrl: '/images/sallyride.png',
           gpa: 3.8,
         })
-        expect(student.firstName).to.eq('Sally')
-        expect(student.lastName).to.eq('Ride')
-        expect(student.imageUrl).to.eq('/images/sallyride.png')
-        expect(student.email).to.eq('sallyride@nasa.gov')
-        expect(student.gpa).to.eq(3.8)
+        expect(student.firstName).to.equal('Sally')
+        expect(student.lastName).to.equal('Ride')
+        expect(student.imageUrl).to.equal('/images/sallyride.png')
+        expect(student.email).to.equal('sallyride@nasa.gov')
+        expect(student.gpa).to.equal(3.8)
       })
       it('requires firstName, lastName, email', async () => {
         const student = Student.build()
@@ -294,18 +294,13 @@ describe('Tier One', () => {
           campusId: 1,
         })
       })
-      xit('a student may be assigned to at most one campus', async () => {
-        // console.log('sallyStudent', sallyStudent)
-        // sallyStudent.campus = campus
-        // let student = await Student.create(sallyStudent)
-        // student = await student.setCampus(campus)
-        // sallyStudent.setCampus(campus)
-        // console.log(student)
-        // expect(student.campusId).to.be.a('number')
+      it('a student may be assigned to at most one campus', async () => {
+        const sallysCampus = await student1.getCampus()
+        expect(sallysCampus.name).to.equal(campus.name)
       })
       it('a campus may have many enrolled students', async () => {
         const result = await campus.hasStudents([student1, student2])
-        expect(result).to.be.true; // eslint-disable-line no-unused-expressions
+        expect(result).to.be.equal(true)
       })
     })
   })
