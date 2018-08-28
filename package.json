@@ -7,7 +7,7 @@
     "start-dev": "npm run build-watch & npm run start-server",
     "start-server": "nodemon main.js -e html,js,css --ignore public",
     "build-watch": "webpack -w",
-    "test": "mocha  ./tests --recursive --watch --require babel-polyfill --require babel-register",
+    "test": "NODE_ENV='test' mocha  ./tests --recursive --watch --require babel-polyfill --require babel-register",
     "start": "echo 'Running server for production - developers, use npm run start:dev for development' && node main",
     "seed": "node seed.js"
   },
@@ -52,6 +52,7 @@
     "mocha": "^5.2.0",
     "sinon": "^6.1.5",
     "style-loader": "^0.21.0",
+    "supertest": "^3.1.0",
     "volleyball": "^1.5.1",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3"

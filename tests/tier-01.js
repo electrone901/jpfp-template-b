@@ -4,8 +4,13 @@ import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
 
+const app = require('../server')
+const agent = require('supertest')(app)
+
+const {Campus, Student} = require('../server/db')
+
 import * as rrd from 'react-router-dom'
-const { MemoryRouter, Link } = rrd
+const {MemoryRouter, Link} = rrd
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
@@ -24,16 +29,8 @@ describe('Tier One', () => {
       xit('renders the campuses passed in as props', () => {
         const wrapper = shallow(
           <AllCampuses campuses={[
-            {
-              id: 1,
-              name: 'Mars Academy',
-              imageUrl: '/images/mars.png',
-            },
-            {
-              id: 2,
-              name: 'Jupiter Jumpstart',
-              imageUrl: '/images/jupiter.jpeg',
-            }
+            { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+            { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
           ]} />
         )
         expect(wrapper.text()).to.include('Mars Academy')
@@ -106,15 +103,205 @@ describe('Tier One', () => {
     })
   })
   describe('API', () => {
-    describe('/api/campuses endpoint', () => {
-      xit('GET /api/campuses responds with all campuses', () => {
-
-      })
+    const {findAll: campusFindAll} = Campus
+    const {findAll: studentFindAll} = Student
+    beforeEach(() => {
+      Campus.findAll = sinon.spy(() => [
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ])
+      Student.findAll = sinon.spy(() => [
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ])
+    })
+    afterEach(() => {
+      Campus.findAll = campusFindAll
+      Student.findAll = studentFindAll
+    })
+    xit('GET /api/campuses responds with all campuses', async () => {
+      const response = await agent
+        .get('/api/campuses')
+        .expect(200)
+      expect(response.body).to.deep.equal([
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ])
+      expect(Campus.findAll.calledOnce).to.be.equal(true)
+    })
+    xit('GET /api/students responds with all students', async () => {
+      const response = await agent
+        .get('/api/students')
+        .expect(200)
+      expect(response.body).to.deep.equal([
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ])
+      expect(Student.findAll.calledOnce).to.be.equal(true)
     })
   })
   describe('Models', () => {
-    xit('does some model stuff', () => {
-
+    describe('Campus', () => {
+      xit('has fields name, address, imageUrl, description', () => {
+        const campus = Campus.build({
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+          imageUrl: '/images/jupiter.png',
+          description: 'The best JavaScript Academy for toddlers in the solar system!',
+        })
+        expect(campus.name).to.equal('Jupiter Jumpstart')
+        expect(campus.address).to.equal('5.2 AU')
+        expect(campus.imageUrl).to.equal('/images/jupiter.png')
+        expect(campus.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
+      })
+      xit('requires name and address', async () => {
+        const campus = Campus.build()
+        try {
+          await campus.validate()
+          throw Error('validation should have failed without name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('name cannot be null')
+          expect(err.message).to.contain('address cannot be null')
+        }
+      })
+      xit('name and address cannot be empty', async () => {
+        const campus = Campus.build({ name: '', address: '' })
+        try {
+          await campus.validate()
+          throw Error('validation should have failed with empty name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation notEmpty on name')
+          expect(err.message).to.contain('Validation notEmpty on address')
+        }
+      })
+      xit('default imageUrl if left blank', async () => {
+        const campus = Campus.build({
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+        })
+        await campus.validate()
+        expect(campus.imageUrl).to.be.a('string')
+        expect(campus.imageUrl.length).to.be.greaterThan(1)
+      })
+    })
+    describe('Student', () => {
+      xit('has fields firstName, lastName, email, imageUrl, gpa', () => {
+        const student = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          imageUrl: '/images/sallyride.png',
+          gpa: 3.8,
+        })
+        expect(student.firstName).to.equal('Sally')
+        expect(student.lastName).to.equal('Ride')
+        expect(student.imageUrl).to.equal('/images/sallyride.png')
+        expect(student.email).to.equal('sallyride@nasa.gov')
+        expect(student.gpa).to.equal(3.8)
+      })
+      xit('requires firstName, lastName, email', async () => {
+        const student = Student.build()
+        try {
+          await student.validate()
+          throw Error('validation should have failed without firstName, lastName, email')
+        }
+        catch (err) {
+          expect(err.message).to.contain('firstName cannot be null')
+          expect(err.message).to.contain('lastName cannot be null')
+          expect(err.message).to.contain('email cannot be null')
+        }
+      })
+      xit('firstName, lastName, email cannot be empty', async () => {
+        const student = Student.build({ firstName: '', lastName: '', email: '' })
+        try {
+          await student.validate()
+          throw Error('validation should have failed with empty name and address')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation notEmpty on firstName')
+          expect(err.message).to.contain('Validation notEmpty on lastName')
+          expect(err.message).to.contain('Validation notEmpty on email')
+        }
+      })
+      xit('email must be a valid email', async () => {
+        const student = Student.build({
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: '@sallyridenasagov...',
+          imageUrl: '/images/sallyride.png',
+        })
+        try {
+          await student.validate()
+          throw Error('validation should have failed with invalid email')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation isEmail on email')
+        }
+      })
+      xit('gpa must be decimal between 0.0 and 4.0', async () => {
+        const student = {
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          gpa: 4.1,
+        }
+        const overachiever = Student.build(student)
+        try {
+          await overachiever.validate()
+          throw Error('validation should have failed with too high gpa')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation max on gpa')
+        }
+        student.gpa = -1
+        const underachiever = Student.build(student)
+        try {
+          await underachiever.validate()
+          throw Error('validation should have failed with too low gpa')
+        }
+        catch (err) {
+          expect(err.message).to.contain('Validation min on gpa')
+        }
+      })
+      xit('default imageUrl if left blank', () => {
+        const student = Student.build({ firstName: '', lastName: '', email: '' })
+        expect(student.imageUrl).to.be.a('string')
+        expect(student.imageUrl.length).to.be.greaterThan(1)
+      })
+    })
+    describe('Student > Campus Association', () => {
+      let student1, student2, campus
+      beforeEach(async () => {
+        campus = await Campus.create({
+          id: 1,
+          name: 'Jupiter Jumpstart',
+          address: '5.2 AU',
+        })
+        student1 = await Student.create({
+          id: 1,
+          firstName: 'Sally',
+          lastName: 'Ride',
+          email: 'sallyride@nasa.gov',
+          campusId: 1,
+        })
+        student2 = await Student.create({
+          id: 2,
+          firstName: 'Mae',
+          lastName: 'Jemison',
+          email: 'maejemison@nasa.gov',
+          campusId: 1,
+        })
+      })
+      xit('a student may be assigned to at most one campus', async () => {
+        const sallysCampus = await student1.getCampus()
+        expect(sallysCampus.name).to.equal(campus.name)
+      })
+      xit('a campus may have many enrolled students', async () => {
+        const result = await campus.hasStudents([student1, student2])
+        expect(result).to.be.equal(true)
+      })
     })
   })
 })
