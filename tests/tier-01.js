@@ -15,9 +15,11 @@ const {MemoryRouter, Link} = rrd
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import AllCampuses from '../app/components/AllCampuses'
-import AllStudents from '../app/components/AllStudents'
-import Root from '../app/components/root'
+import { AllCampuses } from '../app/components/AllCampuses'
+import { AllStudents } from '../app/components/AllStudents'
+import { Root } from '../app/components/root'
+
+import campusesReducer, { setCampuses, fetchCampuses } from '../app/redux/campuses'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
@@ -99,6 +101,25 @@ describe('Tier One', () => {
         expect(nav).to.have.length(1)
         const links = nav.find(Link).map(node => node.get(0).props.to)
         expect(links).to.include.members(['/', '/campuses', '/students'])
+      })
+    })
+    describe('Redux', () => {
+      describe('campuses sub-reducer', () => {
+        const campuses = [
+          { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+          { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
+        ]
+        it('setCampuses action creator', () => {
+          expect(setCampuses(campuses)).to.deep.equal({
+            type: 'SET_CAMPUSES',
+            campuses,
+          })
+        })
+        xit('fetchCampuses thunk creator', () => {})
+      })
+      describe('students sub-reducer', () => {
+        xit('setStudents action creator', () => {})
+        xit('fetchCampuses thunk creator', () => {})
       })
     })
   })
