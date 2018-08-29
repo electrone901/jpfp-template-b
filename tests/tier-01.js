@@ -3,21 +3,35 @@ import enzyme, {shallow, mount} from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16'
+import configureMockStore from 'redux-mock-store';
+import thunkMiddleware from 'redux-thunk';
+
+import * as rrd from 'react-router-dom'
+const { MemoryRouter, Link } = rrd
+
+const middlewares = [thunkMiddleware]
+const mockStore = configureMockStore(middlewares)
+const initialState = {
+  campuses: [],
+  students: [],
+}
+let store = mockStore(initialState)
+
+import mockAxios from './mock-axios'
+import { setCampuses, fetchCampuses } from '../app/redux/campuses'
+import { setStudents, fetchStudents } from '../app/redux/students'
 
 const app = require('../server')
 const agent = require('supertest')(app)
 
 const {Campus, Student} = require('../server/db')
 
-import * as rrd from 'react-router-dom'
-const {MemoryRouter, Link} = rrd
-
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import AllCampuses from '../app/components/AllCampuses'
-import AllStudents from '../app/components/AllStudents'
-import Root from '../app/components/root'
+import { AllCampuses } from '../app/components/AllCampuses'
+import { AllStudents } from '../app/components/AllStudents'
+import { Root } from '../app/components/root'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
@@ -99,6 +113,49 @@ describe('Tier One', () => {
         expect(nav).to.have.length(1)
         const links = nav.find(Link).map(node => node.get(0).props.to)
         expect(links).to.include.members(['/', '/campuses', '/students'])
+      })
+    })
+    describe('Redux', () => {
+      beforeEach(() => {
+        store = mockStore(initialState)
+      })
+      describe('campuses sub-reducer', () => {
+        const campuses = [
+          { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+          { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
+        ]
+        xit('setCampuses action creator', () => {
+          expect(setCampuses(campuses)).to.deep.equal({
+            type: 'SET_CAMPUSES',
+            campuses,
+          })
+        })
+        xit('fetchCampuses thunk creator', async () => {
+          mockAxios.onGet('/api/campuses').replyOnce(200, campuses)
+          await store.dispatch(fetchCampuses())
+          const actions = store.getActions()
+          expect(actions[0].type).to.equal('SET_CAMPUSES')
+          expect(actions[0].campuses).to.deep.equal(campuses)
+        })
+      })
+      describe('students sub-reducer', () => {
+        const students = [
+          { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+          { id: 2, firstName: 'Sally', lastName: 'Ride' },
+        ]
+        xit('setStudents action creator', () => {
+          expect(setStudents(students)).to.deep.equal({
+            type: 'SET_STUDENTS',
+            students,
+          })
+        })
+        xit('fetchStudents thunk creator', async () => {
+          mockAxios.onGet('/api/students').replyOnce(200, students)
+          await store.dispatch(fetchStudents())
+          const actions = store.getActions()
+          expect(actions[0].type).to.equal('SET_STUDENTS')
+          expect(actions[0].students).to.deep.equal(students)
+        })
       })
     })
   })

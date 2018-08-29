@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AllCampuses = () => {
+export const AllCampuses = () => {
   return <div />
 }
 

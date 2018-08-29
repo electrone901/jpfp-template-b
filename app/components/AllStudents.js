@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AllStudents = () => {
+export const AllStudents = () => {
   return <div />
 }
 
