@@ -124,13 +124,13 @@ describe('Tier One', () => {
           { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
           { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
         ]
-        it('setCampuses action creator', () => {
+        xit('setCampuses action creator', () => {
           expect(setCampuses(campuses)).to.deep.equal({
             type: 'SET_CAMPUSES',
             campuses,
           })
         })
-        it('fetchCampuses thunk creator', async () => {
+        xit('fetchCampuses thunk creator', async () => {
           mockAxios.onGet('/api/campuses').replyOnce(200, campuses)
           await store.dispatch(fetchCampuses())
           const actions = store.getActions()
@@ -143,13 +143,13 @@ describe('Tier One', () => {
           { id: 1, firstName: 'Mae', lastName: 'Jemison' },
           { id: 2, firstName: 'Sally', lastName: 'Ride' },
         ]
-        it('setStudents action creator', () => {
+        xit('setStudents action creator', () => {
           expect(setStudents(students)).to.deep.equal({
             type: 'SET_STUDENTS',
             students,
           })
         })
-        it('fetchStudents thunk creator', async () => {
+        xit('fetchStudents thunk creator', async () => {
           mockAxios.onGet('/api/students').replyOnce(200, students)
           await store.dispatch(fetchStudents())
           const actions = store.getActions()
