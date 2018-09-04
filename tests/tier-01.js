@@ -36,9 +36,9 @@ import { Root } from '../app/components/root'
 describe('Tier One', () => {
   describe('Client-side', () => {
     describe('<AllCampuses /> component', () => {
-      xit('renders an unordered list', () => {
+      xit('renders "No Campuses" if passed an empty array of campuses', () => {
         const wrapper = shallow(<AllCampuses campuses={[]} />)
-        expect(wrapper.find('ul')).to.have.length(1)
+        expect(wrapper.text().toLowerCase()).to.include('no campuses')
       })
       xit('renders the campuses passed in as props', () => {
         const wrapper = shallow(
@@ -57,9 +57,9 @@ describe('Tier One', () => {
       })
     })
     describe('<AllStudents /> component', () => {
-      xit('renders an unordered list', () => {
+      xit('renders "No Students" if passed an empty array of students', () => {
         const wrapper = shallow(<AllStudents students={[]} />)
-        expect(wrapper.find('ul')).to.have.length(1)
+        expect(wrapper.text().toLowerCase()).to.include('no students')
       })
       xit('renders the students passed in as props', () => {
         const wrapper = shallow(<AllStudents students={[
