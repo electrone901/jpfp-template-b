@@ -1,7 +1,6 @@
 import React from 'react';
 
-export const AllStudents = (props) => {
-  if (!props.students.length) return (<h1>No Students</h1>)
+export const AllStudents = () => {
   return <div />
 }
 

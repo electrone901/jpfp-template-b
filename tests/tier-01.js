@@ -34,9 +34,9 @@ import { AllStudents } from '../app/components/AllStudents'
 import { Root } from '../app/components/root'
 
 describe('Tier One', () => {
-  describe.only('Client-side', () => {
+  describe('Client-side', () => {
     describe('<AllCampuses /> component', () => {
-      it('renders "No Campuses" if passed an empty array of campuses', () => {
+      xit('renders "No Campuses" if passed an empty array of campuses', () => {
         const wrapper = shallow(<AllCampuses campuses={[]} />)
         expect(wrapper.text().toLowerCase()).to.include('no campuses')
       })
@@ -57,7 +57,7 @@ describe('Tier One', () => {
       })
     })
     describe('<AllStudents /> component', () => {
-      it('renders "No Students" if passed an empty array of students', () => {
+      xit('renders "No Students" if passed an empty array of students', () => {
         const wrapper = shallow(<AllStudents students={[]} />)
         expect(wrapper.text().toLowerCase()).to.include('no students')
       })
