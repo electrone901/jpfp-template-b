@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllCampuses } from '../app/components/AllCampuses'
 import { AllStudents } from '../app/components/AllStudents'
-import { Root } from '../app/components/root'
+import Root from '../app/components/root'
 
 describe('Tier One', () => {
   describe('Client-side', () => {
