@@ -11,7 +11,8 @@ const pkg = require('../../package.json')
 console.log(chalk.yellow('Opening database connection'))
 
 // create the database instance that can be used in other database files
-const db = new Sequelize(`postgres://localhost:5432/${pkg.name}`, {
+const dbName = process.env.NODE_ENV === 'test' ? `${pkg.name}-test` : pkg.name;
+const db = new Sequelize(`postgres://localhost:5432/${dbName}`, {
   logging: false, // so we don't see all the SQL queries getting made
   operatorsAliases: false,
 })
