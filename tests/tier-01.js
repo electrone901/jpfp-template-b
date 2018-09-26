@@ -21,6 +21,11 @@ import mockAxios from './mock-axios'
 import { setCampuses, fetchCampuses } from '../app/redux/campuses'
 import { setStudents, fetchStudents } from '../app/redux/students'
 
+import rootReducer from '../app/redux'
+import {createStore} from 'redux'
+// creates test store using real reducer
+let testStore = createStore(rootReducer)
+
 const app = require('../server')
 const agent = require('supertest')(app)
 
@@ -119,7 +124,7 @@ describe('Tier One', () => {
       beforeEach(() => {
         store = mockStore(initialState)
       })
-      describe('campuses sub-reducer', () => {
+      describe('set campuses', () => {
         const campuses = [
           { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
           { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
@@ -138,7 +143,7 @@ describe('Tier One', () => {
           expect(actions[0].campuses).to.deep.equal(campuses)
         })
       })
-      describe('students sub-reducer', () => {
+      describe('set students', () => {
         const students = [
           { id: 1, firstName: 'Mae', lastName: 'Jemison' },
           { id: 2, firstName: 'Sally', lastName: 'Ride' },
@@ -155,6 +160,43 @@ describe('Tier One', () => {
           const actions = store.getActions()
           expect(actions[0].type).to.equal('SET_STUDENTS')
           expect(actions[0].students).to.deep.equal(students)
+        })
+      })
+      describe('reducer', () => {
+        beforeEach(() => {
+          testStore = createStore(rootReducer)
+        })
+        xit('returns the initial state by default', () => {
+          expect(testStore.getState().campuses).to.be.an('array')
+          expect(testStore.getState().students).to.be.an('array')
+        })
+        xit('reduces on SET_CAMPUSES action', () => {
+          const campuses = [
+            { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+            { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
+          ]
+          const action = {type: 'SET_CAMPUSES', campuses}
+
+          const prevState = testStore.getState()
+          testStore.dispatch(action)
+          const newState = testStore.getState()
+
+          expect(newState.campuses).to.be.deep.equal(campuses);
+          expect(newState.campuses).to.not.be.equal(prevState.campuses);
+        })
+        xit('reduces on SET_STUDENTS action', () => {
+          const students = [
+            { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+            { id: 2, firstName: 'Sally', lastName: 'Ride' },
+          ]
+          const action = {type: 'SET_STUDENTS', students}
+
+          const prevState = testStore.getState()
+          testStore.dispatch(action)
+          const newState = testStore.getState()
+
+          expect(newState.students).to.be.deep.equal(students);
+          expect(newState.students).to.not.be.equal(prevState.students);
         })
       })
     })
