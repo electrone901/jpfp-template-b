@@ -256,7 +256,7 @@ describe('Tier One', () => {
         expect(student.lastName).to.equal('Ride')
         expect(student.imageUrl).to.equal('/images/sallyride.png')
         expect(student.email).to.equal('sallyride@nasa.gov')
-        expect(student.gpa).to.equal(3.8)
+        expect(parseFloat(student.gpa)).to.equal(3.8)
       })
       xit('requires firstName, lastName, email', async () => {
         const student = Student.build()
