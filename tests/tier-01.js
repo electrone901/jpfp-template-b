@@ -24,6 +24,7 @@ import { setStudents, fetchStudents } from '../app/redux/students'
 const app = require('../server')
 const agent = require('supertest')(app)
 
+const { db } = require('../server/db')
 const {Campus, Student} = require('../server/db')
 
 const adapter = new Adapter()
@@ -244,8 +245,9 @@ describe('Tier One', () => {
       })
     })
     describe('Student', () => {
-      xit('has fields firstName, lastName, email, imageUrl, gpa', () => {
-        const student = Student.build({
+      afterEach(() => db.sync({ force: true }))
+      xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
+        const student = await Student.create({
           firstName: 'Sally',
           lastName: 'Ride',
           email: 'sallyride@nasa.gov',
