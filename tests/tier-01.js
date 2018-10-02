@@ -42,11 +42,11 @@ import Root from '../app/components/root'
 describe('Tier One: All Campuses and Students', () => {
   describe('Client-side', () => {
     describe('<AllCampuses /> component', () => {
-      it('renders "No Campuses" if passed an empty array of campuses', () => {
+      xit('renders "No Campuses" if passed an empty array of campuses', () => {
         const wrapper = shallow(<AllCampuses campuses={[]} />)
         expect(wrapper.text().toLowerCase()).to.include('no campuses')
       })
-      it('renders the campuses passed in as props', () => {
+      xit('renders the campuses passed in as props', () => {
         const wrapper = shallow(
           <AllCampuses campuses={[
             { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
@@ -63,11 +63,11 @@ describe('Tier One: All Campuses and Students', () => {
       })
     })
     describe('<AllStudents /> component', () => {
-      it('renders "No Students" if passed an empty array of students', () => {
+      xit('renders "No Students" if passed an empty array of students', () => {
         const wrapper = shallow(<AllStudents students={[]} />)
         expect(wrapper.text().toLowerCase()).to.include('no students')
       })
-      it('renders the students passed in as props', () => {
+      xit('renders the students passed in as props', () => {
         const wrapper = shallow(<AllStudents students={[
           { id: 1, firstName: 'Mae', lastName: 'Jemison' },
           { id: 2, firstName: 'Sally', lastName: 'Ride' },
@@ -86,13 +86,13 @@ describe('Tier One: All Campuses and Students', () => {
           { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
           { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
         ]
-        it('setCampuses action creator', () => {
+        xit('setCampuses action creator', () => {
           expect(setCampuses(campuses)).to.deep.equal({
             type: 'SET_CAMPUSES',
             campuses,
           })
         })
-        it('fetchCampuses thunk creator', async () => {
+        xit('fetchCampuses thunk creator', async () => {
           mockAxios.onGet('/api/campuses').replyOnce(200, campuses)
           await fakeStore.dispatch(fetchCampuses())
           const actions = fakeStore.getActions()
@@ -105,13 +105,13 @@ describe('Tier One: All Campuses and Students', () => {
           { id: 1, firstName: 'Mae', lastName: 'Jemison' },
           { id: 2, firstName: 'Sally', lastName: 'Ride' },
         ]
-        it('setStudents action creator', () => {
+        xit('setStudents action creator', () => {
           expect(setStudents(students)).to.deep.equal({
             type: 'SET_STUDENTS',
             students,
           })
         })
-        it('fetchStudents thunk creator', async () => {
+        xit('fetchStudents thunk creator', async () => {
           mockAxios.onGet('/api/students').replyOnce(200, students)
           await fakeStore.dispatch(fetchStudents())
           const actions = fakeStore.getActions()
@@ -124,11 +124,11 @@ describe('Tier One: All Campuses and Students', () => {
         beforeEach(() => {
           testStore = createStore(rootReducer)
         })
-        it('returns the initial state by default', () => {
+        xit('returns the initial state by default', () => {
           expect(testStore.getState().campuses).to.be.an('array')
           expect(testStore.getState().students).to.be.an('array')
         })
-        it('reduces on SET_CAMPUSES action', () => {
+        xit('reduces on SET_CAMPUSES action', () => {
           const campuses = [
             { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
             { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
@@ -142,7 +142,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(newState.campuses).to.be.deep.equal(campuses);
           expect(newState.campuses).to.not.be.equal(prevState.campuses);
         })
-        it('reduces on SET_STUDENTS action', () => {
+        xit('reduces on SET_STUDENTS action', () => {
           const students = [
             { id: 1, firstName: 'Mae', lastName: 'Jemison' },
             { id: 2, firstName: 'Sally', lastName: 'Ride' },
@@ -176,7 +176,7 @@ describe('Tier One: All Campuses and Students', () => {
       Campus.findAll = campusFindAll
       Student.findAll = studentFindAll
     })
-    it('GET /api/campuses responds with all campuses', async () => {
+    xit('GET /api/campuses responds with all campuses', async () => {
       const response = await agent
         .get('/api/campuses')
         .expect(200)
@@ -186,7 +186,7 @@ describe('Tier One: All Campuses and Students', () => {
       ])
       expect(Campus.findAll.calledOnce).to.be.equal(true)
     })
-    it('GET /api/students responds with all students', async () => {
+    xit('GET /api/students responds with all students', async () => {
       const response = await agent
         .get('/api/students')
         .expect(200)
@@ -199,7 +199,7 @@ describe('Tier One: All Campuses and Students', () => {
   })
   describe('Models', () => {
     describe('Campus', () => {
-      it('has fields name, address, imageUrl, description', () => {
+      xit('has fields name, address, imageUrl, description', () => {
         const campus = Campus.build({
           name: 'Jupiter Jumpstart',
           address: '5.2 AU',
@@ -211,7 +211,7 @@ describe('Tier One: All Campuses and Students', () => {
         expect(campus.imageUrl).to.equal('/images/jupiter.png')
         expect(campus.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
       })
-      it('requires name and address', async () => {
+      xit('requires name and address', async () => {
         const campus = Campus.build()
         try {
           await campus.validate()
@@ -222,7 +222,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('address cannot be null')
         }
       })
-      it('name and address cannot be empty', async () => {
+      xit('name and address cannot be empty', async () => {
         const campus = Campus.build({ name: '', address: '' })
         try {
           await campus.validate()
@@ -233,7 +233,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('Validation notEmpty on address')
         }
       })
-      it('default imageUrl if left blank', async () => {
+      xit('default imageUrl if left blank', async () => {
         const campus = Campus.build({
           name: 'Jupiter Jumpstart',
           address: '5.2 AU',
@@ -245,7 +245,7 @@ describe('Tier One: All Campuses and Students', () => {
     })
     describe('Student', () => {
       afterEach(() => db.sync({ force: true }))
-      it('has fields firstName, lastName, email, imageUrl, gpa', async () => {
+      xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
         const student = await Student.create({
           firstName: 'Sally',
           lastName: 'Ride',
@@ -259,7 +259,7 @@ describe('Tier One: All Campuses and Students', () => {
         expect(student.email).to.equal('sallyride@nasa.gov')
         expect(parseFloat(student.gpa)).to.equal(3.8)
       })
-      it('requires firstName, lastName, email', async () => {
+      xit('requires firstName, lastName, email', async () => {
         const student = Student.build()
         try {
           await student.validate()
@@ -271,7 +271,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('email cannot be null')
         }
       })
-      it('firstName, lastName, email cannot be empty', async () => {
+      xit('firstName, lastName, email cannot be empty', async () => {
         const student = Student.build({ firstName: '', lastName: '', email: '' })
         try {
           await student.validate()
@@ -283,7 +283,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('Validation notEmpty on email')
         }
       })
-      it('email must be a valid email', async () => {
+      xit('email must be a valid email', async () => {
         const student = Student.build({
           firstName: 'Sally',
           lastName: 'Ride',
@@ -298,7 +298,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('Validation isEmail on email')
         }
       })
-      it('gpa must be a float between 0.0 and 4.0', async () => {
+      xit('gpa must be a float between 0.0 and 4.0', async () => {
         const student = {
           firstName: 'Sally',
           lastName: 'Ride',
@@ -323,7 +323,7 @@ describe('Tier One: All Campuses and Students', () => {
           expect(err.message).to.contain('Validation min on gpa')
         }
       })
-      it('default imageUrl if left blank', () => {
+      xit('default imageUrl if left blank', () => {
         const student = Student.build({ firstName: '', lastName: '', email: '' })
         expect(student.imageUrl).to.be.a('string')
         expect(student.imageUrl.length).to.be.greaterThan(1)
@@ -350,11 +350,11 @@ describe('Tier One: All Campuses and Students', () => {
         })
       })
       afterEach(() => db.sync({ force: true }))
-      it('a student may be assigned to at most one campus', async () => {
+      xit('a student may be assigned to at most one campus', async () => {
         const sallysCampus = await student1.getCampus()
         expect(sallysCampus.name).to.equal(campus.name)
       })
-      it('a campus may have many enrolled students', async () => {
+      xit('a campus may have many enrolled students', async () => {
         const result = await campus.hasStudents([student1, student2])
         expect(result).to.be.equal(true)
       })
@@ -364,7 +364,7 @@ describe('Tier One: All Campuses and Students', () => {
     describe('Navigation', () => {
       /** In order to test react-router, we need to hijack the BrowserRouter
        *  in the root of our app. Sinon allows us to "stub" the BrowserRouter.
-       *  Whenever a component calls BrowserRouter, it'll instead render a
+       *  Whenever a component calls BrowserRouter, xit'll instead render a
        *  component that merely renders the children. After the tests are done,
        *  let's clean up after ourselves by restoring BrowserRouter.
        */
@@ -386,7 +386,7 @@ describe('Tier One: All Campuses and Students', () => {
       afterEach(() => {
         rrd.BrowserRouter.restore()
       })
-      it('renders <AllCampuses /> at /campuses', async () => {
+      xit('renders <AllCampuses /> at /campuses', async () => {
         const wrapper = mount(
           <Provider store={store}>
             <MemoryRouter initialEntries={['/campuses']}>
@@ -398,7 +398,7 @@ describe('Tier One: All Campuses and Students', () => {
         expect(wrapper.find(AllCampuses)).to.have.length(1)
         expect(wrapper.find(AllStudents)).to.have.length(0)
       })
-      it('renders <AllStudents /> at /students', () => {
+      xit('renders <AllStudents /> at /students', () => {
         const wrapper = mount(
           <Provider store={store}>
             <MemoryRouter initialEntries={['/students']}>
@@ -409,7 +409,7 @@ describe('Tier One: All Campuses and Students', () => {
         expect(wrapper.find(AllCampuses)).to.have.length(0)
         expect(wrapper.find(AllStudents)).to.have.length(1)
       })
-      it('navbar to navigate to home, campuses, students', () => {
+      xit('navbar to navigate to home, campuses, students', () => {
         const wrapper = mount(
           <Provider store={store}>
             <MemoryRouter initialEntries={['/']}>
@@ -424,23 +424,23 @@ describe('Tier One: All Campuses and Students', () => {
       })
     })
     describe('Seed file', () => {
-      before(seed)
-      it('populates the database with at least three campuses', async () => {
+      beforeEach(seed)
+      xit('populates the database with at least three campuses', async () => {
         const campuses = await Campus.findAll()
         expect(campuses).to.have.lengthOf.at.least(3)
       })
-      it('populates the database with at least four students', async () => {
+      xit('populates the database with at least four students', async () => {
         const students = await Student.findAll()
         expect(students).to.have.lengthOf.at.least(4)
       })
-      it('creates exactly one campus has no students', async () => {
+      xit('creates exactly one campus that has no students', async () => {
         const campuses = await Campus.findAll({
           include: [{ model: Student }]
         })
         const emptyCampuses = campuses.filter(campus => !campus.students.length)
         expect(emptyCampuses).to.have.lengthOf(1)
       })
-      it('creates exactly one student is not enrolled in a campus', async () => {
+      xit('creates exactly one student that is not enrolled in a campus', async () => {
         const students = await Student.findAll()
         const notEnrolled = students.filter(student => !student.campusId)
         expect(notEnrolled).to.have.lengthOf(1)

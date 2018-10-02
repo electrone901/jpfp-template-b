@@ -8,7 +8,7 @@ const seed = async () => {
     // seed your database here!
 
   } catch (err) {
-    console.log(red(err))
+   console.log(red(err))
   }
 }
 
