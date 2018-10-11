@@ -465,11 +465,6 @@ describe('Tier One: All Campuses and Students', () => {
       afterEach(() => {
         rrd.BrowserRouter.restore()
       })
-      xit('redux store initializes campuses and students as empty arrays', () => {
-        const reduxState = store.getState()
-        expect(reduxState.students).to.be.deep.equal([])
-        expect(reduxState.campuses).to.be.deep.equal([])
-      })
       xit('initializes campuses and students from the server when the app first loads', async () => {
         const reduxStateBeforeMount = store.getState()
         expect(reduxStateBeforeMount.campuses).to.deep.equal([])
