@@ -1,12 +1,7 @@
 import { combineReducers } from 'redux'
-import { default as students } from './students'
-import { default as campuses } from './campuses'
 
-const appReducer = combineReducers({
-  students,
-  campuses,
-})
+// This reducer is just a stub. We should probably do something
+// with that combineReducers thing up there...
+const appReducer = () => {}
 
-export * from './students'
-export * from './campuses'
 export default appReducer
