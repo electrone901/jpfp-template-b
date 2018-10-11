@@ -39,6 +39,10 @@ import { AllCampuses } from '../app/components/AllCampuses'
 import { AllStudents } from '../app/components/AllStudents'
 import Root from '../app/components/root'
 
+// Sometimes, we want to wait for a short tinme for async events to finish.
+const waitFor = (wait) =>
+  new Promise((resolve) => setTimeout(resolve, wait))
+
 describe('Tier One: All Campuses and Students', () => {
   describe('Client-side', () => {
     describe('<AllCampuses /> component', () => {
@@ -476,7 +480,7 @@ describe('Tier One: All Campuses and Students', () => {
             </MemoryRouter>
           </Provider>
         )
-        await store.nextDispatch()
+        await waitFor(10) // wait for 10 milliseconds
         const reduxStateAfterMount = store.getState()
         expect(reduxStateAfterMount.campuses).to.deep.equal(campuses)
         expect(reduxStateAfterMount.students).to.deep.equal(students)
