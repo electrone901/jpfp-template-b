@@ -29,6 +29,7 @@ let testStore = createStore(rootReducer)
 const app = require('../server')
 const agent = require('supertest')(app)
 
+const { db } = require('../server/db')
 const {Campus, Student} = require('../server/db')
 
 const adapter = new Adapter()
@@ -286,8 +287,9 @@ describe('Tier One', () => {
       })
     })
     describe('Student', () => {
-      xit('has fields firstName, lastName, email, imageUrl, gpa', () => {
-        const student = Student.build({
+      afterEach(() => db.sync({ force: true }))
+      xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
+        const student = await Student.create({
           firstName: 'Sally',
           lastName: 'Ride',
           email: 'sallyride@nasa.gov',
@@ -298,7 +300,7 @@ describe('Tier One', () => {
         expect(student.lastName).to.equal('Ride')
         expect(student.imageUrl).to.equal('/images/sallyride.png')
         expect(student.email).to.equal('sallyride@nasa.gov')
-        expect(student.gpa).to.equal(3.8)
+        expect(parseFloat(student.gpa)).to.equal(3.8)
       })
       xit('requires firstName, lastName, email', async () => {
         const student = Student.build()
