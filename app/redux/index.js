@@ -1,15 +1,12 @@
-// `combineReducers` is not currently being used...but it should!
-// When you're ready to use it, un-comment the line below!
+import { combineReducers } from 'redux'
+import { default as students } from './students'
+import { default as campuses } from './campuses'
 
-// import {combineReducers} from 'redux'
+const appReducer = combineReducers({
+  students,
+  campuses,
+})
 
-const initialState = {}
-
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
-
-export default rootReducer
+export * from './students'
+export * from './campuses'
+export default appReducer

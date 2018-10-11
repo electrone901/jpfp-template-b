@@ -198,6 +198,8 @@ describe('Tier One: All Campuses and Students', () => {
     })
   })
   describe('Models', () => {
+    before(() => db.sync({ force: true }))
+    afterEach(() => db.sync({ force: true }))
     describe('Campus', () => {
       xit('has fields name, address, imageUrl, description', () => {
         const campus = Campus.build({
@@ -244,7 +246,6 @@ describe('Tier One: All Campuses and Students', () => {
       })
     })
     describe('Student', () => {
-      afterEach(() => db.sync({ force: true }))
       xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
         const student = await Student.create({
           firstName: 'Sally',
@@ -360,7 +361,7 @@ describe('Tier One: All Campuses and Students', () => {
       })
     })
   })
-  describe('Integration', () => {
+  describe('Final Touches', () => {
     describe('Navigation', () => {
       /** In order to test react-router, we need to hijack the BrowserRouter
        *  in the root of our app. Sinon allows us to "stub" the BrowserRouter.
@@ -368,25 +369,25 @@ describe('Tier One: All Campuses and Students', () => {
        *  component that merely renders the children. After the tests are done,
        *  let's clean up after ourselves by restoring BrowserRouter.
        */
+      const campuses = [
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ]
+      const students = [
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ]
       beforeEach(() => {
         sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
           return (<div>{children}</div>)
         })
-        const campuses = [
-          { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-          { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
-        ];
-        const students = [
-          { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-          { id: 2, firstName: 'Sally', lastName: 'Ride' },
-        ];
         mockAxios.onGet('/api/campuses').replyOnce(200, campuses);
         mockAxios.onGet('/api/students').replyOnce(200, students);
       })
       afterEach(() => {
         rrd.BrowserRouter.restore()
       })
-      xit('renders <AllCampuses /> at /campuses', async () => {
+      xit('renders <AllCampuses /> at /campuses', () => {
         const wrapper = mount(
           <Provider store={store}>
             <MemoryRouter initialEntries={['/campuses']}>
@@ -394,7 +395,6 @@ describe('Tier One: All Campuses and Students', () => {
             </MemoryRouter>
           </Provider>
         )
-        await store.nextDispatch()
         expect(wrapper.find(AllCampuses)).to.have.length(1)
         expect(wrapper.find(AllStudents)).to.have.length(0)
       })
@@ -444,6 +444,47 @@ describe('Tier One: All Campuses and Students', () => {
         const students = await Student.findAll()
         const notEnrolled = students.filter(student => !student.campusId)
         expect(notEnrolled).to.have.lengthOf(1)
+      })
+    })
+    describe('React-Redux', () => {
+      const campuses = [
+        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
+        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+      ]
+      const students = [
+        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
+        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+      ]
+      beforeEach(() => {
+        sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
+          return (<div>{children}</div>)
+        })
+        mockAxios.onGet('/api/campuses').replyOnce(200, campuses);
+        mockAxios.onGet('/api/students').replyOnce(200, students);
+      })
+      afterEach(() => {
+        rrd.BrowserRouter.restore()
+      })
+      xit('redux store initializes campuses and students as empty arrays', () => {
+        const reduxState = store.getState()
+        expect(reduxState.students).to.be.deep.equal([])
+        expect(reduxState.campuses).to.be.deep.equal([])
+      })
+      xit('initializes campuses and students from the server when the app first loads', async () => {
+        const reduxStateBeforeMount = store.getState()
+        expect(reduxStateBeforeMount.campuses).to.deep.equal([])
+        expect(reduxStateBeforeMount.students).to.deep.equal([])
+        mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/']}>
+              <Root />
+            </MemoryRouter>
+          </Provider>
+        )
+        await store.nextDispatch()
+        const reduxStateAfterMount = store.getState()
+        expect(reduxStateAfterMount.campuses).to.deep.equal(campuses)
+        expect(reduxStateAfterMount.students).to.deep.equal(students)
       })
     })
   })
