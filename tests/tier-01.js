@@ -2,7 +2,7 @@ const { expect } = require('chai');
 import enzyme, { shallow, mount } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
@@ -484,6 +484,34 @@ describe('Tier One: All Campuses and Students', () => {
         const reduxStateAfterMount = store.getState()
         expect(reduxStateAfterMount.campuses).to.deep.equal(campuses)
         expect(reduxStateAfterMount.students).to.deep.equal(students)
+      })
+      xit('<AllCampuses /> is passed campuses from store as props', async () => {
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/campuses']}>
+              <Root />
+            </MemoryRouter>
+          </Provider>
+        )
+        await waitFor(10) // wait for 10 milliseconds
+        wrapper.update()
+        const { campuses: reduxCampuses } = store.getState()
+        const { campuses: componentCampuses } = wrapper.find(AllCampuses).props()
+        expect(componentCampuses).to.deep.equal(reduxCampuses)
+      })
+      xit('<AllStudents /> is passed students from store as props', async () => {
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/students']}>
+              <Root />
+            </MemoryRouter>
+          </Provider>
+        )
+        await waitFor(10) // wait for 10 milliseconds
+        wrapper.update()
+        const { students: reduxStudents } = store.getState()
+        const { students: componentStudents } = wrapper.find(AllStudents).props()
+        expect(componentStudents).to.deep.equal(reduxStudents)
       })
     })
   })
