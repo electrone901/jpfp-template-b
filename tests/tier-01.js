@@ -125,8 +125,8 @@ describe('Tier One: All Campuses and Students', () => {
           testStore = createStore(rootReducer)
         })
         xit('returns the initial state by default', () => {
-          expect(testStore.getState().campuses).to.be.an('array')
-          expect(testStore.getState().students).to.be.an('array')
+          expect(testStore.getState().campuses).to.deep.equal([])
+          expect(testStore.getState().students).to.deep.equal([])
         })
         xit('reduces on SET_CAMPUSES action', () => {
           const campuses = [
