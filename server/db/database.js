@@ -15,7 +15,7 @@ const dbName = process.env.NODE_ENV === 'test' ? `${pkg.name}-test` : pkg.name
 console.log(chalk.yellow(`Opening database connection to ${dbName}`))
 
 const db = new Sequelize(`postgres://localhost:5432/${dbName}`, {
-  logging: false, // so we don't see all the SQL queries getting made
+  logging: false,
   operatorsAliases: false,
 })
 
