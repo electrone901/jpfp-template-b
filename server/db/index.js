@@ -1,21 +1,16 @@
-'use strict'
+// The purpose of this module is to bring your Sequelize instance (`db`) together
+// with your models, for which you'll find some blank files in this directory:
 
 const db = require('./database')
 const Student = require('./student')
 const Campus = require('./campus')
 
-// The purpose of this module is to bring your Sequelize instance (`db`) together
-// with your models (which you should define in separate modules in this directory).
-// Example:
-//
-// const Puppy = require('./puppy')
-// const Owner = require('./owner')
-
-// After you've required all of your models into this module, you should establish
-// associations (https://sequelize-guides.netlify.com/association-types/) between them here as well!
+// This is a great place to establish assotiations between your models
+// (https://sequelize-guides.netlify.com/association-types/).
 // Example:
 //
 // Puppy.belongsTo(Owner)
+
 
 module.exports = {
   // Include your models in this exports object as well!
