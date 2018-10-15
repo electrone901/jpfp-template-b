@@ -10,8 +10,8 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 - [ ] Write a campuses sub-reducer to manage campuses in your Redux store
 - [ ] Write a students sub-reducer to manage students in your Redux store
-- [ ] Write a component to display a list of all campuses (just their names and images)
-- [ ] Write a component to display a list of all students (just their names)
+- [ ] Write a component to display a list of all campuses (at least their names and images)
+- [ ] Write a component to display a list of all students (at least their names)
 - [ ] Display the all-campuses component when the url matches `/campuses`
 - [ ] Display the all-students component when the url matches `/students`
 - [ ] Add a links to the navbar that can be used to navigate to the all-campuses view and the all-students view
@@ -34,7 +34,7 @@ The requirements below are broken into separate **tiers**, which model the way w
   - [ ] gpa - decimal between 0.0 and 4.0
 - [ ] Students may be associated with at most one campus. Likewise, campuses may be associated with many students
 
-Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get All Campuses and Students"` before moving on!
+Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get All Campuses and Students"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -64,7 +64,7 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 - [ ] Write a route to serve up a single campus (based on its id), _including that campuses' students_
 - [ ] Write a route to serve up a single student (based on their id), _including that student's campus_
 
-Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Campus and Student"` before moving on!
+Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -91,7 +91,7 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 - [ ] Write a route to add a new campus
 - [ ] Write a route to add a new student
 
-Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Campus and Student"` before moving on!
+Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -116,7 +116,7 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 - [ ] Write a route to remove a campus (based on its id)
 - [ ] Write a route to remove a student (based on their id)
 
-Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Campus and Student"` before moving on!
+Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
