@@ -6,7 +6,20 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 <details>
 
+#### Frontend
+
+- [ ] Write a campuses sub-reducer to manage campuses in your Redux store
+- [ ] Write a students sub-reducer to manage students in your Redux store
+- [ ] Write a component to display a list of all campuses (just their names and images)
+- [ ] Write a component to display a list of all students (just their names)
+- [ ] Display the all-campuses component when the url matches `/campuses`
+- [ ] Display the all-students component when the url matches `/students`
+- [ ] Add a links to the navbar that can be used to navigate to the all-campuses view and the all-students view
+
 #### Backend
+
+- [ ] Write a route to serve up all students
+- [ ] Write a route to serve up all campuses
 
 - [ ] Write a `campuses` model with the following information:
   - [ ] name - not empty or null
@@ -21,18 +34,6 @@ The requirements below are broken into separate **tiers**, which model the way w
   - [ ] gpa - decimal between 0.0 and 4.0
 - [ ] Students may be associated with at most one campus. Likewise, campuses may be associated with many students
 
-- [ ] Write a route to serve up all students
-- [ ] Write a route to serve up all campuses
-
-#### Frontend
-- [ ] Write a campuses sub-reducer to manage campuses in your Redux store
-- [ ] Write a students sub-reducer to manage students in your Redux store
-- [ ] Write a component to display a list of all campuses (just their names and images)
-- [ ] Write a component to display a list of all students (just their names)
-- [ ] Display the all-campuses component when the url matches `/campuses`
-- [ ] Display the all-students component when the url matches `/students`
-- [ ] Add a links to the navbar that can be used to navigate to the all-campuses view and the all-students view
-
 Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get All Campuses and Students"` before moving on!
 
 </details>
@@ -41,12 +42,8 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 
 <details>
 
-#### Backend
-
-- [ ] Write a route to serve up a single campus (based on its id), _including that campuses' students_
-- [ ] Write a route to serve up a single student (based on their id), _including that student's campus_
-
 #### Frontend
+
 - [ ] Write a component to display a single campus with the following information:
   - [ ] The campus's name, image, address and description
   - [ ] A list of the names of all students in that campus (or a helpful message if it doesn't have any students)
@@ -62,6 +59,11 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 - [ ] Clicking on the name of a student in the single-campus view should navigate to show that student in the single-student view
 - [ ] Clicking on the name of a campus in the single-student view should navigate to show that campus in the single-campus view
 
+#### Backend
+
+- [ ] Write a route to serve up a single campus (based on its id), _including that campuses' students_
+- [ ] Write a route to serve up a single student (based on their id), _including that student's campus_
+
 Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Campus and Student"` before moving on!
 
 </details>
@@ -69,11 +71,6 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 ### Tier 3: Adding a Campus and Adding a Student (12/57)
 
 <details>
-
-#### Backend
-
-- [ ] Write a route to add a new campus
-- [ ] Write a route to add a new student
 
 #### Frontend
 
@@ -89,6 +86,11 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
   - [ ] Make an AJAX request that causes the new student to be persisted in the database
   - [ ] Add the new student to the list of students without needing to refresh the page
 
+#### Backend
+
+- [ ] Write a route to add a new campus
+- [ ] Write a route to add a new student
+
 Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Campus and Student"` before moving on!
 
 </details>
@@ -96,11 +98,6 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 ### Tier 4: Removing a Campus and Removing a Student (10/57)
 
 <details>
-
-#### Backend
-
-- [ ] Write a route to remove a campus (based on its id)
-- [ ] Write a route to remove a student (based on their id)
 
 #### Frontend
 
@@ -113,6 +110,11 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 - [ ] Clicking the `X` button should:
   - [ ] Make an AJAX request that causes that student to be removed from database
   - [ ] Remove the student from the list of students without needing to refresh the page
+
+#### Backend
+
+- [ ] Write a route to remove a campus (based on its id)
+- [ ] Write a route to remove a student (based on their id)
 
 Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Campus and Student"` before moving on!
 
@@ -134,11 +136,6 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 <details>
 
-#### Backend
-
-- [ ] Write a route to update an existing campus
-- [ ] Write a route to update an existing student
-
 #### Frontend
 
 - [ ] Write a component to display a form updating _at least_ a campus's name and address
@@ -152,5 +149,10 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 - Submitting the form with a valid name/address should:
   - [ ] Make an AJAX request that causes that student to be updated in the database
   - [ ] Update the student in the current view without needing to refresh the page
+
+#### Backend
+
+- [ ] Write a route to update an existing campus
+- [ ] Write a route to update an existing student
 
 </details>
