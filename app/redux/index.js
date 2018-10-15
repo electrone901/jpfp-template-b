@@ -1,15 +1,7 @@
-// `combineReducers` is not currently being used...but it should!
-// When you're ready to use it, un-comment the line below!
+import { combineReducers } from 'redux'
 
-// import {combineReducers} from 'redux'
+// This reducer is just a stub. We should probably do something
+// with that combineReducers thing up there...
+const appReducer = () => {}
 
-const initialState = {}
-
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state
-  }
-}
-
-export default rootReducer
+export default appReducer
