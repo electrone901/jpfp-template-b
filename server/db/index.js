@@ -5,7 +5,7 @@ const db = require('./database')
 const Student = require('./student')
 const Campus = require('./campus')
 
-// This is a great place to establish assotiations between your models
+// This is a great place to establish associations between your models
 // (https://sequelize-guides.netlify.com/association-types/).
 // Example:
 //
