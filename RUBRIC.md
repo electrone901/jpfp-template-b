@@ -35,8 +35,8 @@
 
 | Criteria | Score | Comments |
 | ------------- |-------------| -----|
-| Commits are pushed regularly | -/2 | |
-| Commit messages are descriptive | -/2 | |
+| Commits are pushed to GitHub regularly | -/2 | |
+| Commit messages clearly describe the changes | -/2 | |
 
 ### Deductions
 
