@@ -50,7 +50,7 @@ _Comments from your instructor or fellow will go here_
 
 ## Evaluation
 
-- Requirements score (57 points total, weighted at 60% of total grade)
+- Requirements score (68 points total, weighted at 60% of total grade)
 - Rubric score (24 points total, weighted at 40% of total grade)
 - Extra credit (15 points total, for an additional 15% max)
 
@@ -63,7 +63,7 @@ _Comments from your instructor or fellow will go here_
 
 ```javascript
 const getTotal = (rawRequirementScore, rawRubricScore, rawExtraCredit, deductions) => {
-  const totalRequirementScore = ((rawRequirementScore/57) * 100) * 0.6
+  const totalRequirementScore = ((rawRequirementScore/68) * 100) * 0.6
   const totalRubricScore = ((rawRubricScore/24) * 100) * 0.4
   const totalExtraCredit = ((rawExtraCredit/15) * 100) * 0.15
 

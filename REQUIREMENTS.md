@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Campuses and Students (21/57)
+### Tier 1: All Campuses and Students (32/68)
 
 <details>
 
@@ -34,11 +34,27 @@ The requirements below are broken into separate **tiers**, which model the way w
   - [ ] gpa - decimal between 0.0 and 4.0
 - [ ] Students may be associated with at most one campus. Likewise, campuses may be associated with many students
 
+#### Seed
+- [ ] Running the seed file creates campuses and students for demonstration purposes
+
+#### Testing
+
+- [ ] React (AllCampuses): renders "No Campuses" if passed an empty array of campuses
+- [ ] React (AllStudents): renders "No Students" if passed an empty array of students
+- [ ] Redux (campuses): returns the initial state by default
+- [ ] Redux (students): returns the initial state by default
+- [ ] Express: GET /api/students responds with all students
+- [ ] Sequelize (Campus): requires name and address
+- [ ] Sequelize (Student): email must be a valid email
+- [ ] Navigation: navbar to navigate to home, campuses, students
+- [ ] Seed file: creates exactly one campus that has no students
+- [ ] Seed file: creates exactly one student that is not enrolled in a campus
+
 Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get All Campuses and Students"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 2: Single Student and Single Campus (14/57)
+### Tier 2: Single Student and Single Campus (14/68)
 
 <details>
 
@@ -68,7 +84,7 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 </details>
 
-### Tier 3: Adding a Campus and Adding a Student (12/57)
+### Tier 3: Adding a Campus and Adding a Student (12/68)
 
 <details>
 
@@ -95,7 +111,7 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 </details>
 
-### Tier 4: Removing a Campus and Removing a Student (10/57)
+### Tier 4: Removing a Campus and Removing a Student (10/68)
 
 <details>
 
