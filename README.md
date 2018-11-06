@@ -14,8 +14,6 @@
 
 ### The Premise
 
-You are the CTO of the Margaret Hamilton Interplanetary Academy of JavaScript. Create a RESTful web platform that allows you to manage your students and campuses. Before getting started, please carefully review the expectations as outlined below.
-
 You run StackBot Inc., a business staffed entirely by robots. Each robot may be assigned to several projects at a time. Create a RESTful web platform that allows you to manage your robots and projects. Before getting started, please carefully review the expectations as outlined below.
 
 ### The tools
