@@ -2,137 +2,138 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Campuses and Students (32/68)
+### Tier 1: all projects and robots (33/69)
 
 <details>
 
 #### Frontend
 
-- [ ] Write a campuses sub-reducer to manage campuses in your Redux store
-- [ ] Write a students sub-reducer to manage students in your Redux store
-- [ ] Write a component to display a list of all campuses (at least their names and images)
-- [ ] Write a component to display a list of all students (at least their names)
-- [ ] Display the all-campuses component when the url matches `/campuses`
-- [ ] Display the all-students component when the url matches `/students`
-- [ ] Add a links to the navbar that can be used to navigate to the all-campuses view and the all-students view
+- [ ] Write a projects sub-reducer to manage projects in your Redux store
+- [ ] Write a robots sub-reducer to manage robots in your Redux store
+- [ ] Write a component to display a list of all projects (at least their titles and deadlines)
+- [ ] Write a component to display a list of all robots (at least their names and imageUrls)
+- [ ] Display the AllProjects component when the url matches `/projects`
+- [ ] Display the AllRobots component when the url matches `/robots`
+- [ ] Add links to the navbar that can be used to navigate to the AllProjects view and the AllRobots view
 
 #### Backend
 
-- [ ] Write a route to serve up all students
-- [ ] Write a route to serve up all campuses
+- [ ] Write a route to serve up all robots
+- [ ] Write a route to serve up all projects
 
-- [ ] Write a `campuses` model with the following information:
-  - [ ] name - not empty or null
-  - [ ] imageUrl - with a default value
-  - [ ] address - not empty or null
+- [ ] Write a `projects` model with the following information:
+  - [ ] title - not empty or null
+  - [ ] deadline - a date
+  - [ ] priority - an integer between 1 and 10
+  - [ ] completed - boolean value, defaults to false
   - [ ] description - extremely large text
-- [ ] Write a `students` model with the following information:
-  - [ ] firstName - not empty or null
-  - [ ] lastName - not empty or null
-  - [ ] email - not empty or null; must be a valid email
+- [ ] Write a `robots` model with the following information:
+  - [ ] name - not empty or null
+  - [ ] birthdate - a date
+  - [ ] fuelType - can be one of gas, diesel, or electric
+  - [ ] fuelLevel - can be a decimal value between 0 and 100
   - [ ] imageUrl - with a default value
-  - [ ] gpa - decimal between 0.0 and 4.0
-- [ ] Students may be associated with at most one campus. Likewise, campuses may be associated with many students
+- [ ] Robots may be associated with many projects. Likewise, projects may be associated with many robots.
 
 #### Seed
-- [ ] Running the seed file creates campuses and students for demonstration purposes
+- [ ] Running the seed file creates projects and robots for demonstration purposes
 
 #### Testing
 
-- [ ] React (AllCampuses): renders "No Campuses" if passed an empty array of campuses
-- [ ] React (AllStudents): renders "No Students" if passed an empty array of students
-- [ ] Redux (campuses): returns the initial state by default
-- [ ] Redux (students): returns the initial state by default
-- [ ] Express: GET /api/students responds with all students
-- [ ] Sequelize (Campus): requires name and address
-- [ ] Sequelize (Student): email must be a valid email
-- [ ] Navigation: navbar to navigate to home, campuses, students
-- [ ] Seed file: creates exactly one campus that has no students
-- [ ] Seed file: creates exactly one student that is not enrolled in a campus
+- [ ] React (AllProjects): renders "No Projects" if passed an empty array of projects
+- [ ] React (AllRobots): renders "No Robots" if passed an empty array of robots
+- [ ] Redux (projects): returns the initial state by default
+- [ ] Redux (robots): returns the initial state by default
+- [ ] Express: GET /api/robots responds with all robots
+- [ ] Sequelize (Project): requires name and address
+- [ ] Sequelize (Robot): email must be a valid email
+- [ ] Navigation: navbar to navigate to home, projects, robots
+- [ ] Seed file: creates exactly one project that has no robots
+- [ ] Seed file: creates exactly one robot that has no projects
 
-Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get All Campuses and Students"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all projects and robots"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 2: Single Student and Single Campus (14/68)
+### Tier 2: Single Robot and Single Project (14/69)
 
 <details>
 
 #### Frontend
 
-- [ ] Write a component to display a single campus with the following information:
-  - [ ] The campus's name, image, address and description
-  - [ ] A list of the names of all students in that campus (or a helpful message if it doesn't have any students)
-- [ ] Display the appropriate campus's info when the url matches `/campuses/:campusId`
-- [ ] Clicking on a campus from the all-campuses view should navigate to show that campus in the single-campus view
+- [ ] Write a component to display a single project with the following information:
+  - [ ] The project's title, deadline, priority, description
+  - [ ] A list of the names of all robots in that project (or a helpful message if it doesn't have any robots)
+- [ ] Display the appropriate project's info when the url matches `/projects/:projectId`
+- [ ] Clicking on a project from the AllProjects view should navigate to show that project in the single-project view
 
-- [ ] Write a component to display a single student with the following information:
-  - [ ] The student's full name, email, image, and gpa
-  - [ ] The name of their campus (or a helpful message if they don't have one)
-- [ ] Display the appropriate student when the url matches `/students/:studentId`
-- [ ] Clicking on a student from the all-students view should navigate to show that student in the single-student view
+- [ ] Write a component to display a single robot with the following information:
+  - [ ] The robot's full name, email, image, and gpa
+  - [ ] The name of their project (or a helpful message if they don't have one)
+- [ ] Display the appropriate robot when the url matches `/robots/:robotId`
+- [ ] Clicking on a robot from the AllRobots view should navigate to show that robot in the single-robot view
 
-- [ ] Clicking on the name of a student in the single-campus view should navigate to show that student in the single-student view
-- [ ] Clicking on the name of a campus in the single-student view should navigate to show that campus in the single-campus view
+- [ ] Clicking on the name of a robot in the single-project view should navigate to show that robot in the single-robot view
+- [ ] Clicking on the name of a project in the single-robot view should navigate to show that project in the single-project view
 
 #### Backend
 
-- [ ] Write a route to serve up a single campus (based on its id), _including that campuses' students_
-- [ ] Write a route to serve up a single student (based on their id), _including that student's campus_
+- [ ] Write a route to serve up a single project (based on its id), _including that projects' robots_
+- [ ] Write a route to serve up a single robot (based on their id), _including that robot's projects_
 
-Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 3: Adding a Campus and Adding a Student (12/68)
+### Tier 3: Adding a Project and Adding a Robot (12/69)
 
 <details>
 
 #### Frontend
 
-- [ ] Write a component to display a form for adding a new campus that contains inputs for _at least_ the name and address.
-- [ ] Display this component EITHER as part of the all-campuses view, or as its own view
-- [ ] Submitting the form with a valid name/address should:
-  - [ ] Make an AJAX request that causes the new campus to be persisted in the database
-  - [ ] Add the new campus to the list of campuses without needing to refresh the page
+- [ ] Write a component to display a form for adding a new project that contains inputs for title, deadline, priority, description.
+- [ ] Display this component EITHER as part of the AllProjects view, or as its own view (your choice)
+- [ ] Submitting the form with valid data should:
+  - [ ] Make an AJAX request that causes the new project to be saved to the database
+  - [ ] Add the new project to the list of projects without needing to refresh the page
 
-- [ ] Write a component to display a form for adding a new student that contains inputs for _at least_ first name, last name and email
-- [ ] Display this component EITHER as part of the all-students view, or as its own view
+- [ ] Write a component to display a form for adding a new robot that contains inputs for _at least_ first name, last name and email
+- [ ] Display this component EITHER as part of the AllRobots view, or as its own view
 - [ ] Submitting the form with a valid first name/last name/email should:
-  - [ ] Make an AJAX request that causes the new student to be persisted in the database
-  - [ ] Add the new student to the list of students without needing to refresh the page
+  - [ ] Make an AJAX request that causes the new robot to be persisted in the database
+  - [ ] Add the new robot to the list of robots without needing to refresh the page
 
 #### Backend
 
-- [ ] Write a route to add a new campus
-- [ ] Write a route to add a new student
+- [ ] Write a route to add a new project
+- [ ] Write a route to add a new robot
 
-Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 4: Removing a Campus and Removing a Student (10/68)
+### Tier 4: Removing a Project and Removing a Robot (10/69)
 
 <details>
 
 #### Frontend
 
-- [ ] In the all-campuses view, include an `X` button next to each campus
+- [ ] In the AllProjects view, include an `X` button next to each project
 - [ ] Clicking the `X` button should:
-  - [ ] Make an AJAX request that causes that campus to be removed from database
-  - [ ] Remove the campus from the list of campuses without needing to refresh the page
+  - [ ] Make an AJAX request that causes that project to be removed from database
+  - [ ] Remove the project from the list of projects without needing to refresh the page
 
-- [ ] In the all-students view, include an `X` button next to each student
+- [ ] In the AllRobots view, include an `X` button next to each robot
 - [ ] Clicking the `X` button should:
-  - [ ] Make an AJAX request that causes that student to be removed from database
-  - [ ] Remove the student from the list of students without needing to refresh the page
+  - [ ] Make an AJAX request that causes that robot to be removed from database
+  - [ ] Remove the robot from the list of robots without needing to refresh the page
 
 #### Backend
 
-- [ ] Write a route to remove a campus (based on its id)
-- [ ] Write a route to remove a student (based on their id)
+- [ ] Write a route to remove a project (based on its id)
+- [ ] Write a route to remove a robot (based on their id)
 
-Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Campus and Student"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -140,35 +141,35 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 <details>
 
-- [ ] If a user attempts to add a new student or campus without a required field, a helpful message should be displayed
-- [ ] If a user attempts to access a page that doesn't exist (ex. `/cafeteria`), a helpful "not found" message should be displayed
-- [ ] If a user attempts to view a student/campus that doesn't exist, a helpful message should be displayed
+- [ ] If a user attempts to add a new robot or project without a required field, a helpful message should be displayed
+- [ ] If a user attempts to access a page that doesn't exist (ex. `/potato`), a helpful "not found" message should be displayed
+- [ ] If a user attempts to view a robot/project that doesn't exist, a helpful message should be displayed
 - [ ] Whenever a component needs to wait for data to load from the server, a "loading" message should be displayed until the data is available
 - [ ] Overall, the app is spectacularly styled and visually stunning
 
 </details>
 
-### Bonus Tier 2: Updating a Campus and Updating a Student (10/15 EC)
+### Bonus Tier 2: Updating a Project and Updating a Robot (10/15 EC)
 
 <details>
 
 #### Frontend
 
-- [ ] Write a component to display a form updating _at least_ a campus's name and address
-- [ ] Display this component as part of the single-campus view
+- [ ] Write a component to display a form updating _at least_ a project's name and address
+- [ ] Display this component as part of the single-project view
 - Submitting the form with a valid name/address should:
-  - [ ] Make an AJAX request that causes that campus to be updated in the database
-  - [ ] Update the campus in the current view without needing to refresh the page
+  - [ ] Make an AJAX request that causes that project to be updated in the database
+  - [ ] Update the project in the current view without needing to refresh the page
 
-- [ ] Write a component to display a form updating _at least_ a student's first and last names, and email
-- [ ] Display this component as part of the single-student view
+- [ ] Write a component to display a form updating _at least_ a robot's first and last names, and email
+- [ ] Display this component as part of the single-robot view
 - Submitting the form with a valid name/address should:
-  - [ ] Make an AJAX request that causes that student to be updated in the database
-  - [ ] Update the student in the current view without needing to refresh the page
+  - [ ] Make an AJAX request that causes that robot to be updated in the database
+  - [ ] Update the robot in the current view without needing to refresh the page
 
 #### Backend
 
-- [ ] Write a route to update an existing campus
-- [ ] Write a route to update an existing student
+- [ ] Write a route to update an existing project
+- [ ] Write a route to update an existing robot
 
 </details>
