@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: all projects and robots (33/69)
+### Tier 1: All Projects and Robots (33/69)
 
 <details>
 
@@ -29,7 +29,6 @@ The requirements below are broken into separate **tiers**, which model the way w
   - [ ] description - extremely large text
 - [ ] Write a `robots` model with the following information:
   - [ ] name - not empty or null
-  - [ ] birthdate - a date
   - [ ] fuelType - can be one of gas, diesel, or electric
   - [ ] fuelLevel - can be a decimal value between 0 and 100
   - [ ] imageUrl - with a default value
