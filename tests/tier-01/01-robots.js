@@ -9,11 +9,11 @@ import thunkMiddleware from 'redux-thunk'
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
 const initialState = {
-  campuses: [],
+  robots: [],
 }
 
 import mockAxios from '../mock-axios'
-import { setCampuses, fetchCampuses } from '../../app/redux/campuses'
+import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import rootReducer from '../../app/redux'
 import { createStore } from 'redux'
@@ -22,18 +22,18 @@ const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
-const { Campus } = require('../../server/db')
+const { Robot } = require('../../server/db')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllCampuses } from '../../app/components/AllCampuses'
+import { AllRobots } from '../../app/components/AllRobots'
 
-describe('Tier One: Campuses', () => {
-  describe('<AllCampuses /> component', () => {
-    xit('renders the campuses passed in as props', () => {
+describe.only('Tier One: Robots', () => {
+  describe('<AllRobots /> component', () => {
+    xit('renders the robots passed in as props', () => {
       const wrapper = shallow(
-        <AllCampuses campuses={[
+        <AllRobots robots={[
           { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
           { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
         ]} />
@@ -47,7 +47,7 @@ describe('Tier One: Campuses', () => {
       ])
     })
 
-    xit('*** renders "No Campuses" if passed an empty array of campuses', () => {
+    xit('*** renders "No Robots" if passed an empty array of robots', () => {
       throw new Error('replace this error with your own test')
     })
   })
@@ -58,25 +58,25 @@ describe('Tier One: Campuses', () => {
       fakeStore = mockStore(initialState)
     })
 
-    describe('set campuses', () => {
-      const campuses = [
+    describe('set robots', () => {
+      const robots = [
         { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
         { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
       ]
 
-      xit('setCampuses action creator', () => {
-        expect(setCampuses(campuses)).to.deep.equal({
+      xit('setRobots action creator', () => {
+        expect(setRobots(robots)).to.deep.equal({
           type: 'SET_CAMPUSES',
-          campuses,
+          robots,
         })
       })
 
-      xit('fetchCampuses thunk creator', async () => {
-        mockAxios.onGet('/api/campuses').replyOnce(200, campuses)
-        await fakeStore.dispatch(fetchCampuses())
+      xit('fetchRobots thunk creator', async () => {
+        mockAxios.onGet('/api/robots').replyOnce(200, robots)
+        await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_CAMPUSES')
-        expect(actions[0].campuses).to.deep.equal(campuses)
+        expect(actions[0].robots).to.deep.equal(robots)
       })
     })
 
@@ -91,47 +91,47 @@ describe('Tier One: Campuses', () => {
       })
 
       xit('reduces on SET_CAMPUSES action', () => {
-        const campuses = [
+        const robots = [
           { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
           { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
         ]
-        const action = { type: 'SET_CAMPUSES', campuses }
+        const action = { type: 'SET_CAMPUSES', robots }
 
         const prevState = testStore.getState()
         testStore.dispatch(action)
         const newState = testStore.getState()
 
-        expect(newState.campuses).to.be.deep.equal(campuses);
-        expect(newState.campuses).to.not.be.equal(prevState.campuses);
+        expect(newState.robots).to.be.deep.equal(robots);
+        expect(newState.robots).to.not.be.equal(prevState.robots);
       })
     })
   })
 
   describe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
-    // By replacing the findAll methods on the Campus and Student models
+    // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-    const { findAll: campusFindAll } = Campus
+    const { findAll: robotFindAll } = Robot
     beforeEach(() => {
-      Campus.findAll = sinon.spy(() => [
+      Robot.findAll = sinon.spy(() => [
         { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
         { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
       ])
     })
     afterEach(() => {
-      Campus.findAll = campusFindAll
+      Robot.findAll = robotFindAll
     })
 
-    xit('GET /api/campuses responds with all campuses', async () => {
+    xit('GET /api/robots responds with all robots', async () => {
       const response = await agent
-        .get('/api/campuses')
+        .get('/api/robots')
         .expect(200)
       expect(response.body).to.deep.equal([
         { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
         { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
       ])
-      expect(Campus.findAll.calledOnce).to.be.equal(true)
+      expect(Robot.findAll.calledOnce).to.be.equal(true)
     })
   })
 
@@ -141,16 +141,16 @@ describe('Tier One: Campuses', () => {
 
 
     xit('has fields name, address, imageUrl, description', () => {
-      const campus = Campus.build({
+      const robot = Robot.build({
         name: 'Jupiter Jumpstart',
         address: '5.2 AU',
         imageUrl: '/images/jupiter.png',
         description: 'The best JavaScript Academy for toddlers in the solar system!',
       })
-      expect(campus.name).to.equal('Jupiter Jumpstart')
-      expect(campus.address).to.equal('5.2 AU')
-      expect(campus.imageUrl).to.equal('/images/jupiter.png')
-      expect(campus.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
+      expect(robot.name).to.equal('Jupiter Jumpstart')
+      expect(robot.address).to.equal('5.2 AU')
+      expect(robot.imageUrl).to.equal('/images/jupiter.png')
+      expect(robot.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
     })
 
     xit('*** requires name and address', async () => {
@@ -158,9 +158,9 @@ describe('Tier One: Campuses', () => {
     })
 
     xit('name and address cannot be empty', async () => {
-      const campus = Campus.build({ name: '', address: '' })
+      const robot = Robot.build({ name: '', address: '' })
       try {
-        await campus.validate()
+        await robot.validate()
         throw Error('validation should have failed with empty name and address')
       }
       catch (err) {
@@ -170,13 +170,13 @@ describe('Tier One: Campuses', () => {
     })
 
     xit('default imageUrl if left blank', async () => {
-      const campus = Campus.build({
+      const robot = Robot.build({
         name: 'Jupiter Jumpstart',
         address: '5.2 AU',
       })
-      await campus.validate()
-      expect(campus.imageUrl).to.be.a('string')
-      expect(campus.imageUrl.length).to.be.greaterThan(1)
+      await robot.validate()
+      expect(robot.imageUrl).to.be.a('string')
+      expect(robot.imageUrl.length).to.be.greaterThan(1)
     })
   })
 })

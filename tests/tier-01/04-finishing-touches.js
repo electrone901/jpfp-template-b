@@ -18,7 +18,7 @@ const seed = require('../../seed')
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllCampuses } from '../../app/components/AllCampuses'
+import { AllRobots } from '../../app/components/AllRobots'
 import { AllStudents } from '../../app/components/AllStudents'
 import Root from '../../app/components/root'
 
@@ -54,7 +54,7 @@ describe('Tier One: Final Touches', () => {
       rrd.BrowserRouter.restore()
     })
 
-    xit('renders <AllCampuses /> at /campuses', () => {
+    xit('renders <AllRobots /> at /campuses', () => {
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/campuses']}>
@@ -62,7 +62,7 @@ describe('Tier One: Final Touches', () => {
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.find(AllCampuses)).to.have.length(1)
+      expect(wrapper.find(AllRobots)).to.have.length(1)
       expect(wrapper.find(AllStudents)).to.have.length(0)
     })
 
@@ -74,7 +74,7 @@ describe('Tier One: Final Touches', () => {
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.find(AllCampuses)).to.have.length(0)
+      expect(wrapper.find(AllRobots)).to.have.length(0)
       expect(wrapper.find(AllStudents)).to.have.length(1)
     })
 
@@ -142,7 +142,7 @@ describe('Tier One: Final Touches', () => {
       expect(reduxStateAfterMount.students).to.deep.equal(students)
     })
 
-    xit('<AllCampuses /> is passed campuses from store as props', async () => {
+    xit('<AllRobots /> is passed campuses from store as props', async () => {
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/campuses']}>
@@ -153,7 +153,7 @@ describe('Tier One: Final Touches', () => {
       await waitFor(10) // wait for 10 milliseconds
       wrapper.update()
       const { campuses: reduxCampuses } = store.getState()
-      const { campuses: componentCampuses } = wrapper.find(AllCampuses).props()
+      const { campuses: componentCampuses } = wrapper.find(AllRobots).props()
       expect(componentCampuses).to.deep.equal(reduxCampuses)
     })
 
