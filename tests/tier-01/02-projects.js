@@ -9,11 +9,11 @@ import thunkMiddleware from 'redux-thunk'
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
 const initialState = {
-  students: [],
+  projects: [],
 }
 
 import mockAxios from '../mock-axios'
-import { setStudents, fetchStudents } from '../../app/redux/students'
+import { setProjects, fetchProjects } from '../../app/redux/projects'
 
 import rootReducer from '../../app/redux'
 import { createStore } from 'redux'
@@ -22,17 +22,17 @@ const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
-const { Student } = require('../../server/db')
+const { Project } = require('../../server/db')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllStudents } from '../../app/components/AllStudents'
+import { AllProjects } from '../../app/components/AllProjects'
 
-describe('Tier One: Students', () => {
-  describe('<AllStudents /> component', () => {
-    xit('renders the students passed in as props', () => {
-      const wrapper = shallow(<AllStudents students={[
+describe('Tier One: Projects', () => {
+  describe('<AllProjects /> component', () => {
+    xit('renders the projects passed in as props', () => {
+      const wrapper = shallow(<AllProjects projects={[
         { id: 1, firstName: 'Mae', lastName: 'Jemison' },
         { id: 2, firstName: 'Sally', lastName: 'Ride' },
       ]} />)
@@ -40,7 +40,7 @@ describe('Tier One: Students', () => {
       expect(wrapper.text()).to.include('Sally Ride')
     })
 
-    xit('*** renders "No Students" if passed an empty array of students', () => {
+    xit('*** renders "No Projects" if passed an empty array of projects', () => {
       throw new Error('replace this error with your own test')
     })
   })
@@ -51,25 +51,25 @@ describe('Tier One: Students', () => {
       fakeStore = mockStore(initialState)
     })
 
-    describe('set students', () => {
-      const students = [
+    describe('set projects', () => {
+      const projects = [
         { id: 1, firstName: 'Mae', lastName: 'Jemison' },
         { id: 2, firstName: 'Sally', lastName: 'Ride' },
       ]
 
-      xit('setStudents action creator', () => {
-        expect(setStudents(students)).to.deep.equal({
+      xit('setProjects action creator', () => {
+        expect(setProjects(projects)).to.deep.equal({
           type: 'SET_STUDENTS',
-          students,
+          projects,
         })
       })
 
-      xit('fetchStudents thunk creator', async () => {
-        mockAxios.onGet('/api/students').replyOnce(200, students)
-        await fakeStore.dispatch(fetchStudents())
+      xit('fetchProjects thunk creator', async () => {
+        mockAxios.onGet('/api/projects').replyOnce(200, projects)
+        await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_STUDENTS')
-        expect(actions[0].students).to.deep.equal(students)
+        expect(actions[0].projects).to.deep.equal(projects)
       })
     })
 
@@ -84,39 +84,39 @@ describe('Tier One: Students', () => {
       })
 
       xit('reduces on SET_STUDENTS action', () => {
-        const students = [
+        const projects = [
           { id: 1, firstName: 'Mae', lastName: 'Jemison' },
           { id: 2, firstName: 'Sally', lastName: 'Ride' },
         ]
-        const action = { type: 'SET_STUDENTS', students }
+        const action = { type: 'SET_STUDENTS', projects }
 
         const prevState = testStore.getState()
         testStore.dispatch(action)
         const newState = testStore.getState()
 
-        expect(newState.students).to.be.deep.equal(students);
-        expect(newState.students).to.not.be.equal(prevState.students);
+        expect(newState.projects).to.be.deep.equal(projects);
+        expect(newState.projects).to.not.be.equal(prevState.projects);
       })
     })
   })
 
   describe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
-    // By replacing the findAll methods on the Campus and Student models
+    // By replacing the findAll methods on the Project and Robot models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-    const { findAll: studentFindAll } = Student
+    const { findAll: projectFindAll } = Project
     beforeEach(() => {
-      Student.findAll = sinon.spy(() => [
+      Project.findAll = sinon.spy(() => [
         { id: 1, firstName: 'Mae', lastName: 'Jemison' },
         { id: 2, firstName: 'Sally', lastName: 'Ride' },
       ])
     })
     afterEach(() => {
-      Student.findAll = studentFindAll
+      Project.findAll = projectFindAll
     })
 
-    xit('*** GET /api/students responds with all students', async () => {
+    xit('*** GET /api/projects responds with all projects', async () => {
       throw new Error('replace this error with your own test')
     })
   })
@@ -126,24 +126,24 @@ describe('Tier One: Students', () => {
     afterEach(() => db.sync({ force: true }))
 
     xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
-      const student = await Student.create({
+      const project = await Project.create({
         firstName: 'Sally',
         lastName: 'Ride',
         email: 'sallyride@nasa.gov',
         imageUrl: '/images/sallyride.png',
         gpa: 3.8,
       })
-      expect(student.firstName).to.equal('Sally')
-      expect(student.lastName).to.equal('Ride')
-      expect(student.imageUrl).to.equal('/images/sallyride.png')
-      expect(student.email).to.equal('sallyride@nasa.gov')
-      expect(parseFloat(student.gpa)).to.equal(3.8)
+      expect(project.firstName).to.equal('Sally')
+      expect(project.lastName).to.equal('Ride')
+      expect(project.imageUrl).to.equal('/images/sallyride.png')
+      expect(project.email).to.equal('sallyride@nasa.gov')
+      expect(parseFloat(project.gpa)).to.equal(3.8)
     })
 
     xit('requires firstName, lastName, email', async () => {
-      const student = Student.build()
+      const project = Project.build()
       try {
-        await student.validate()
+        await project.validate()
         throw Error('validation should have failed without firstName, lastName, email')
       }
       catch (err) {
@@ -154,9 +154,9 @@ describe('Tier One: Students', () => {
     })
 
     xit('firstName, lastName, email cannot be empty', async () => {
-      const student = Student.build({ firstName: '', lastName: '', email: '' })
+      const project = Project.build({ firstName: '', lastName: '', email: '' })
       try {
-        await student.validate()
+        await project.validate()
         throw Error('validation should have failed with empty name and address')
       }
       catch (err) {
@@ -171,13 +171,13 @@ describe('Tier One: Students', () => {
     })
 
     xit('gpa must be a float between 0.0 and 4.0', async () => {
-      const student = {
+      const project = {
         firstName: 'Sally',
         lastName: 'Ride',
         email: 'sallyride@nasa.gov',
         gpa: 4.1,
       }
-      const overachiever = Student.build(student)
+      const overachiever = Project.build(project)
       try {
         await overachiever.save()
         throw Error('validation should have failed with too high gpa')
@@ -185,8 +185,8 @@ describe('Tier One: Students', () => {
       catch (err) {
         expect(err.message).to.contain('Validation max on gpa')
       }
-      student.gpa = -1
-      const underachiever = Student.build(student)
+      project.gpa = -1
+      const underachiever = Project.build(project)
       try {
         await underachiever.validate()
         throw Error('validation should have failed with too low gpa')
@@ -197,9 +197,9 @@ describe('Tier One: Students', () => {
     })
 
     xit('default imageUrl if left blank', () => {
-      const student = Student.build({ firstName: '', lastName: '', email: '' })
-      expect(student.imageUrl).to.be.a('string')
-      expect(student.imageUrl.length).to.be.greaterThan(1)
+      const project = Project.build({ firstName: '', lastName: '', email: '' })
+      expect(project.imageUrl).to.be.a('string')
+      expect(project.imageUrl.length).to.be.greaterThan(1)
     })
   })
 })

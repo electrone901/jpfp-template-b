@@ -1,39 +1,39 @@
 const { expect } = require('chai');
 const { db } = require('../../server/db')
-const { Campus, Student } = require('../../server/db')
+const { Robot, Project } = require('../../server/db')
 
-describe('Tier One: Student > Campus Association', () => {
+describe('Tier One: Project > Robot Association', () => {
   before(() => db.sync({ force: true }))
   afterEach(() => db.sync({ force: true }))
 
-  let student1, student2, campus
+  let project1, project2, robot
   beforeEach(async () => {
-    campus = await Campus.create({
+    robot = await Robot.create({
       name: 'Jupiter Jumpstart',
       address: '5.2 AU',
     })
-    student1 = await Student.create({
+    project1 = await Project.create({
       firstName: 'Sally',
       lastName: 'Ride',
       email: 'sallyride@nasa.gov',
-      campusId: campus.id,
+      robotId: robot.id,
     })
-    student2 = await Student.create({
+    project2 = await Project.create({
       firstName: 'Mae',
       lastName: 'Jemison',
       email: 'maejemison@nasa.gov',
-      campusId: campus.id,
+      robotId: robot.id,
     })
   })
   afterEach(() => db.sync({ force: true }))
 
-  xit('a student may be assigned to at most one campus', async () => {
-    const sallysCampus = await student1.getCampus()
-    expect(sallysCampus.name).to.equal(campus.name)
+  xit('a project may be assigned to at most one robot', async () => {
+    const sallysRobot = await project1.getRobot()
+    expect(sallysRobot.name).to.equal(robot.name)
   })
 
-  xit('a campus may have many enrolled students', async () => {
-    const result = await campus.hasStudents([student1, student2])
+  xit('a robot may have many enrolled projects', async () => {
+    const result = await robot.hasProjects([project1, project2])
     expect(result).to.be.equal(true)
   })
 })
