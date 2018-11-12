@@ -12,14 +12,14 @@ import mockAxios from '../mock-axios'
 
 import store from '../../app/store'
 
-const { Campus, Student } = require('../../server/db')
+const { Robot, Project } = require('../../server/db')
 const seed = require('../../seed')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
-import { AllStudents } from '../../app/components/AllStudents'
+import { AllProjects } from '../../app/components/AllProjects'
 import Root from '../../app/components/root'
 
 // Sometimes, we want to wait for a short tinme for async events to finish.
@@ -63,10 +63,10 @@ describe('Tier One: Final Touches', () => {
         </Provider>
       )
       expect(wrapper.find(AllRobots)).to.have.length(1)
-      expect(wrapper.find(AllStudents)).to.have.length(0)
+      expect(wrapper.find(AllProjects)).to.have.length(0)
     })
 
-    xit('renders <AllStudents /> at /students', () => {
+    xit('renders <AllProjects /> at /students', () => {
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/students']}>
@@ -75,7 +75,7 @@ describe('Tier One: Final Touches', () => {
         </Provider>
       )
       expect(wrapper.find(AllRobots)).to.have.length(0)
-      expect(wrapper.find(AllStudents)).to.have.length(1)
+      expect(wrapper.find(AllProjects)).to.have.length(1)
     })
 
     xit('*** navbar to navigate to home, campuses, students', () => {
@@ -87,12 +87,12 @@ describe('Tier One: Final Touches', () => {
     beforeEach(seed)
 
     xit('populates the database with at least three campuses', async () => {
-      const campuses = await Campus.findAll()
+      const campuses = await Robot.findAll()
       expect(campuses).to.have.lengthOf.at.least(3)
     })
 
     xit('populates the database with at least four students', async () => {
-      const students = await Student.findAll()
+      const students = await Project.findAll()
       expect(students).to.have.lengthOf.at.least(4)
     })
 
@@ -152,12 +152,12 @@ describe('Tier One: Final Touches', () => {
       )
       await waitFor(10) // wait for 10 milliseconds
       wrapper.update()
-      const { campuses: reduxCampuses } = store.getState()
-      const { campuses: componentCampuses } = wrapper.find(AllRobots).props()
-      expect(componentCampuses).to.deep.equal(reduxCampuses)
+      const { campuses: reduxRobotes } = store.getState()
+      const { campuses: componentRobotes } = wrapper.find(AllRobots).props()
+      expect(componentRobotes).to.deep.equal(reduxRobotes)
     })
 
-    xit('<AllStudents /> is passed students from store as props', async () => {
+    xit('<AllProjects /> is passed students from store as props', async () => {
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/students']}>
@@ -167,9 +167,9 @@ describe('Tier One: Final Touches', () => {
       )
       await waitFor(10) // wait for 10 milliseconds
       wrapper.update()
-      const { students: reduxStudents } = store.getState()
-      const { students: componentStudents } = wrapper.find(AllStudents).props()
-      expect(componentStudents).to.deep.equal(reduxStudents)
+      const { students: reduxProjects } = store.getState()
+      const { students: componentProjects } = wrapper.find(AllProjects).props()
+      expect(componentProjects).to.deep.equal(reduxProjects)
     })
   })
 })

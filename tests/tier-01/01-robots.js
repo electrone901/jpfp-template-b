@@ -29,7 +29,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   describe('<AllRobots /> component', () => {
     xit('renders the robots passed in as props', () => {
       const wrapper = shallow(
