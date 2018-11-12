@@ -1,7 +1,18 @@
-import React from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-export const AllRobots = () => {
-  return <div />
+export const AllRobots = ({ robots = [] }) => {
+  if (!robots.length) return <h1>You got no robots! 🤖 😢 </h1>
+  return (
+    <ul>
+      {robots.map(robot => (
+        <Link to="#" key={robot.id}>
+          {robot.name}
+          <img src={robot.imageUrl} />
+        </Link>
+      ))}
+    </ul>
+  )
 }
 
 // Currently, we're just exporting the component as-is. When we're ready to

@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
 class Root extends React.Component {
   componentDidMount() {
@@ -10,10 +11,10 @@ class Root extends React.Component {
         <nav>
           Welcome!
         </nav>
-        <main>
+        <BrowserRouter>
           <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
           <p>This seems like a nice place to get started with some Routes!</p>
-        </main>
+        </BrowserRouter>
       </div>
     )
   }
