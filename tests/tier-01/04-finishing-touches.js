@@ -6,7 +6,7 @@ import Adapter from 'enzyme-adapter-react-16.3'
 import { Provider } from 'react-redux'
 
 import * as rrd from 'react-router-dom'
-const { MemoryRouter, Link } = rrd
+const { MemoryRouter } = rrd
 
 import mockAxios from '../mock-axios'
 
@@ -22,7 +22,7 @@ import { AllRobots } from '../../app/components/AllRobots'
 import { AllProjects } from '../../app/components/AllProjects'
 import Root from '../../app/components/root'
 
-// Sometimes, we want to wait for a short tinme for async events to finish.
+// Sometimes, we want to wait for a short time for async events to finish.
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
@@ -35,11 +35,11 @@ describe('Tier One: Final Touches', () => {
      *  component that merely renders the children. After the tests are done,
      *  we'll clean up after ourselves by restoring BrowserRouter.
      */
-    const campuses = [
+    const robots = [
       { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
       { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
     ]
-    const students = [
+    const projects = [
       { id: 1, firstName: 'Mae', lastName: 'Jemison' },
       { id: 2, firstName: 'Sally', lastName: 'Ride' },
     ]
@@ -47,17 +47,17 @@ describe('Tier One: Final Touches', () => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
         return (<div>{children}</div>)
       })
-      mockAxios.onGet('/api/campuses').replyOnce(200, campuses);
-      mockAxios.onGet('/api/students').replyOnce(200, students);
+      mockAxios.onGet('/api/robots').replyOnce(200, robots);
+      mockAxios.onGet('/api/projects').replyOnce(200, projects);
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
     })
 
-    xit('renders <AllRobots /> at /campuses', () => {
+    xit('renders <AllRobots /> at /robots', () => {
       const wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={['/campuses']}>
+          <MemoryRouter initialEntries={['/robots']}>
             <Root />
           </MemoryRouter>
         </Provider>
@@ -66,10 +66,10 @@ describe('Tier One: Final Touches', () => {
       expect(wrapper.find(AllProjects)).to.have.length(0)
     })
 
-    xit('renders <AllProjects /> at /students', () => {
+    xit('renders <AllProjects /> at /projects', () => {
       const wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={['/students']}>
+          <MemoryRouter initialEntries={['/projects']}>
             <Root />
           </MemoryRouter>
         </Provider>
@@ -78,7 +78,7 @@ describe('Tier One: Final Touches', () => {
       expect(wrapper.find(AllProjects)).to.have.length(1)
     })
 
-    xit('*** navbar to navigate to home, campuses, students', () => {
+    xit('*** navbar to navigate to home, robots, projects', () => {
       throw new Error('replace this error with your own test')
     })
   })
@@ -86,17 +86,17 @@ describe('Tier One: Final Touches', () => {
   describe('Seed file', () => {
     beforeEach(seed)
 
-    xit('populates the database with at least three campuses', async () => {
-      const campuses = await Robot.findAll()
-      expect(campuses).to.have.lengthOf.at.least(3)
+    xit('populates the database with at least three robots', async () => {
+      const robots = await Robot.findAll()
+      expect(robots).to.have.lengthOf.at.least(3)
     })
 
-    xit('populates the database with at least four students', async () => {
-      const students = await Project.findAll()
-      expect(students).to.have.lengthOf.at.least(4)
+    xit('populates the database with at least four projects', async () => {
+      const projects = await Project.findAll()
+      expect(projects).to.have.lengthOf.at.least(4)
     })
 
-    xit('*** creates exactly one campus that has no students', async () => {
+    xit('*** creates exactly one campus that has no projects', async () => {
       throw new Error('replace this error with your own test')
     })
 
@@ -106,11 +106,11 @@ describe('Tier One: Final Touches', () => {
   })
 
   describe('React-Redux', () => {
-    const campuses = [
+    const robots = [
       { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
       { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
     ]
-    const students = [
+    const projects = [
       { id: 1, firstName: 'Mae', lastName: 'Jemison' },
       { id: 2, firstName: 'Sally', lastName: 'Ride' },
     ]
@@ -118,17 +118,17 @@ describe('Tier One: Final Touches', () => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => {
         return (<div>{children}</div>)
       })
-      mockAxios.onGet('/api/campuses').replyOnce(200, campuses);
-      mockAxios.onGet('/api/students').replyOnce(200, students);
+      mockAxios.onGet('/api/robots').replyOnce(200, robots);
+      mockAxios.onGet('/api/projects').replyOnce(200, projects);
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
     })
 
-    xit('initializes campuses and students from the server when the app first loads', async () => {
+    xit('initializes robots and projects from the server when the app first loads', async () => {
       const reduxStateBeforeMount = store.getState()
-      expect(reduxStateBeforeMount.campuses).to.deep.equal([])
-      expect(reduxStateBeforeMount.students).to.deep.equal([])
+      expect(reduxStateBeforeMount.robots).to.deep.equal([])
+      expect(reduxStateBeforeMount.projects).to.deep.equal([])
       mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/']}>
@@ -138,37 +138,37 @@ describe('Tier One: Final Touches', () => {
       )
       await waitFor(10) // wait for 10 milliseconds
       const reduxStateAfterMount = store.getState()
-      expect(reduxStateAfterMount.campuses).to.deep.equal(campuses)
-      expect(reduxStateAfterMount.students).to.deep.equal(students)
+      expect(reduxStateAfterMount.robots).to.deep.equal(robots)
+      expect(reduxStateAfterMount.projects).to.deep.equal(projects)
     })
 
-    xit('<AllRobots /> is passed campuses from store as props', async () => {
+    xit('<AllRobots /> is passed robots from store as props', async () => {
       const wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={['/campuses']}>
+          <MemoryRouter initialEntries={['/robots']}>
             <Root />
           </MemoryRouter>
         </Provider>
       )
       await waitFor(10) // wait for 10 milliseconds
       wrapper.update()
-      const { campuses: reduxRobotes } = store.getState()
-      const { campuses: componentRobotes } = wrapper.find(AllRobots).props()
+      const { robots: reduxRobotes } = store.getState()
+      const { robots: componentRobotes } = wrapper.find(AllRobots).props()
       expect(componentRobotes).to.deep.equal(reduxRobotes)
     })
 
-    xit('<AllProjects /> is passed students from store as props', async () => {
+    xit('<AllProjects /> is passed projects from store as props', async () => {
       const wrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={['/students']}>
+          <MemoryRouter initialEntries={['/projects']}>
             <Root />
           </MemoryRouter>
         </Provider>
       )
       await waitFor(10) // wait for 10 milliseconds
       wrapper.update()
-      const { students: reduxProjects } = store.getState()
-      const { students: componentProjects } = wrapper.find(AllProjects).props()
+      const { projects: reduxProjects } = store.getState()
+      const { projects: componentProjects } = wrapper.find(AllProjects).props()
       expect(componentProjects).to.deep.equal(reduxProjects)
     })
   })
