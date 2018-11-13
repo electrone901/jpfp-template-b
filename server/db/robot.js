@@ -11,7 +11,12 @@ const Robot = db.define('robot', {
     type: Sequelize.STRING,
   },
   fuelType: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM('electric', 'gas', 'diesel'),
+    defaultValue: 'electric',
+    // type: Sequelize.STRING,
+    // validate: {
+    //   isIn: [['gas', 'diesel', 'electric']], // This also works
+    // }
   },
   fuelLevel: {
     type: Sequelize.FLOAT,

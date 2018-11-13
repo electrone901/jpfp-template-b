@@ -7,7 +7,7 @@ router.get('/', async (req, res, next) => {
     const robots = await Robot.findAll()
     res.json(robots)
   } catch (error) {
-    // res.sendStatus(500)
+    // res.sendStatus(500) // this also works I guess
     next(error)
   }
 })

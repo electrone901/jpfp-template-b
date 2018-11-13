@@ -23,7 +23,7 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 - [ ] Write a `robots` model with the following information:
   - [ ] name - not empty or null
-  - [ ] fuelType - can be one of gas, diesel, or electric
+  - [ ] fuelType - can be one of gas, diesel, or electric (electric by default)
   - [ ] fuelLevel - can be a decimal value between 0 and 100
   - [ ] imageUrl - with a default value
 - [ ] Write a `projects` model with the following information:

@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -126,15 +126,17 @@ describe.only('Tier One: Robots', () => {
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-    const { findAll: robotFindAll } = Robot
+    // For more information on fakes, read the docs:
+    // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
+    const fakeFindAll = sinon.fake.resolves([
+      { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+      { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+    ])
     beforeEach(() => {
-      Robot.findAll = sinon.spy(() => Promise.resolve([
-        { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-        { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-      ]))
+      sinon.replace(Robot, 'findAll', fakeFindAll)
     })
     afterEach(() => {
-      Robot.findAll = robotFindAll
+      sinon.restore()
     })
 
     it('GET /api/robots responds with all robots', async () => {
@@ -150,9 +152,11 @@ describe.only('Tier One: Robots', () => {
     })
 
     it('GET /api/robots responds with error 500 when database throws error', async () => {
-      Robot.findAll = sinon.spy(() => Promise.reject(
+      sinon.restore()
+      const fakeFindAllWithError = sinon.fake.rejects(
         Error('Ooopsies, the database is on fire!')
-      ))
+      )
+      sinon.replace(Robot, 'findAll', fakeFindAllWithError)
       await agent
         .get('/api/robots')
         .timeout({ deadline: 50 })
@@ -185,30 +189,46 @@ describe.only('Tier One: Robots', () => {
     })
 
     it('*** name cannot be null or an empty string', async () => {
-      let nullNameRobot, emptyNameRobot;
       try {
         robot.name = null
-        nullNameRobot = await Robot.create(robot)
+        const nullNameRobot = await Robot.create(robot)
         if (nullNameRobot) throw Error('Validation should have failed with null name')
       } catch (err) {
-        expect(err.message).to.not.have.string('Validation should have failed');
+        expect(err.message).to.not.have.string('Validation should have failed')
       }
       try {
         robot.name = ''
-        emptyNameRobot = await Robot.create(robot)
+        const emptyNameRobot = await Robot.create(robot)
         if (emptyNameRobot) throw Error('Validation should have failed with empty name')
       } catch (err) {
-        expect(err.message).to.not.have.string('Validation should have failed');
+        expect(err.message).to.not.have.string('Validation should have failed')
       }
     })
 
-    xit('default imageUrl if left blank', async () => {
-      const robot = await Robot.create({
-        name: 'Jupiter Jumpstart',
-        address: '5.2 AU',
-      })
-      expect(robot.imageUrl).to.be.a('string')
-      expect(robot.imageUrl.length).to.be.greaterThan(1)
+    it('fuelType can only be gas, diesel, or electric (defaults to electric)', async () => {
+      robot.fuelType = 'the power of love'
+      try {
+        const badFuelRobot = await Robot.create(robot)
+        if (badFuelRobot) throw Error('Validation should have failed with invalid fuelType')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      delete robot.fuelType
+      const defaultFuelRobot = await Robot.create(robot)
+      expect(defaultFuelRobot.fuelType).to.equal('electric')
+    })
+
+    it('fuelLevel must be between 0 and 100 (defaults to 100)', async () => {
+      robot.fuelLevel = -10
+      try {
+        const negativeFuelRobot = await Robot.create(robot)
+        if (negativeFuelRobot) throw Error('Validation should have failed with invalid fuelLevel')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      delete robot.fuelType
+      const defaultFuelRobot = await Robot.create(robot)
+      expect(defaultFuelRobot.fuelType).to.equal('electric')
     })
   })
 })
