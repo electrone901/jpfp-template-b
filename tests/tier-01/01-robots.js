@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
