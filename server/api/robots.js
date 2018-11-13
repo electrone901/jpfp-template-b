@@ -4,6 +4,7 @@ const Robot = require('../db/robot')
 // ASYNC AWAIT SOLUTION
 router.get('/', async (req, res, next) => {
   try {
+    console.log('Robot.findAll', Robot.findAll)
     const robots = await Robot.findAll()
     res.json(robots)
   } catch (error) {

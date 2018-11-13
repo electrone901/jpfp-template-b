@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe('Tier One: Robots', () => {
+describe.only('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -39,7 +39,7 @@ describe('Tier One: Robots', () => {
 
   describe('<AllRobots /> component', () => {
 
-    xit('renders the robots passed in as props', () => {
+    it('renders the robots passed in as props', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
@@ -59,8 +59,15 @@ describe('Tier One: Robots', () => {
       ])
     })
 
-    xit('*** renders "No Robots" if passed an empty array of robots', () => {
-      throw new Error('replace this error with your own test')
+    it('*** renders "No Robots" if passed an empty array of robots', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllRobots robots={[]} />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.text().toLowerCase()).to.include('no robots')
     })
   })
 
@@ -71,14 +78,14 @@ describe('Tier One: Robots', () => {
         { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
       ]
 
-      xit('setRobots action creator', () => {
+      it('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
           type: 'SET_ROBOTS',
           robots,
         })
       })
 
-      xit('fetchRobots thunk creator', async () => {
+      it('fetchRobots thunk creator', async () => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
@@ -93,11 +100,11 @@ describe('Tier One: Robots', () => {
         testStore = createStore(appReducer)
       })
 
-      xit('*** returns the initial state by default', () => {
-        throw new Error('replace this error with your own test')
+      it('*** returns the initial state by default', () => {
+        expect(testStore.getState()).to.deep.equal(initialState)
       })
 
-      xit('reduces on SET_ROBOTS action', () => {
+      it('reduces on SET_ROBOTS action', () => {
         const robots = [
           { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
           { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
@@ -114,25 +121,26 @@ describe('Tier One: Robots', () => {
     })
   })
 
-  describe('Express API', () => {
+  describe.only('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
     // For more information on fakes, read the docs:
     // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
+    if (!Robot.findAll) Robot.findAll = function() {}
     const fakeFindAll = sinon.fake.resolves([
       { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
       { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
     ])
     beforeEach(() => {
-      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAll)
+      sinon.replace(Robot, 'findAll', fakeFindAll)
     })
     afterEach(() => {
       sinon.restore()
     })
 
-    xit('GET /api/robots responds with all robots', async () => {
+    it('GET /api/robots responds with all robots', async () => {
       const response = await agent
         .get('/api/robots')
         .timeout({ deadline: 50 })
@@ -144,12 +152,12 @@ describe('Tier One: Robots', () => {
       expect(Robot.findAll.calledOnce).to.be.equal(true)
     })
 
-    xit('GET /api/robots responds with error 500 when database throws error', async () => {
+    it('GET /api/robots responds with error 500 when database throws error', async () => {
       sinon.restore()
       const fakeFindAllWithError = sinon.fake.rejects(
         Error('Ooopsies, the database is on fire!')
       )
-      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAllWithError)
+      sinon.replace(Robot, 'findAll', fakeFindAllWithError)
       await agent
         .get('/api/robots')
         .timeout({ deadline: 50 })
@@ -171,7 +179,7 @@ describe('Tier One: Robots', () => {
     })
     afterEach(() => db.sync({ force: true }))
 
-    xit('has fields name, imageUrl, fuelType, fuelLevel', async () => {
+    it('has fields name, imageUrl, fuelType, fuelLevel', async () => {
       robot.notARealAttribute = 'does not compute'
       const savedRobot = await Robot.create(robot)
       expect(savedRobot.name).to.equal('R2-D2')
@@ -181,11 +189,24 @@ describe('Tier One: Robots', () => {
       expect(savedRobot.notARealAttribute).to.equal(undefined)
     })
 
-    xit('*** name cannot be null or an empty string', () => {
-      throw new Error('replace this error with your own test')
+    it('*** name cannot be null or an empty string', async () => {
+      try {
+        robot.name = null
+        const nullNameRobot = await Robot.create(robot)
+        if (nullNameRobot) throw Error('Validation should have failed with null name')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      try {
+        robot.name = ''
+        const emptyNameRobot = await Robot.create(robot)
+        if (emptyNameRobot) throw Error('Validation should have failed with empty name')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
     })
 
-    xit('fuelType can only be gas, diesel, or electric (defaults to electric)', async () => {
+    it('fuelType can only be gas, diesel, or electric (defaults to electric)', async () => {
       robot.fuelType = 'the power of love'
       try {
         const badFuelRobot = await Robot.create(robot)
@@ -198,7 +219,7 @@ describe('Tier One: Robots', () => {
       expect(defaultFuelRobot.fuelType).to.equal('electric')
     })
 
-    xit('fuelLevel must be between 0 and 100 (defaults to 100)', async () => {
+    it('fuelLevel must be between 0 and 100 (defaults to 100)', async () => {
       robot.fuelLevel = -10
       try {
         const negativeFuelRobot = await Robot.create(robot)
