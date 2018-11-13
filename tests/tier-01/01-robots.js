@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe('Tier One: Robots', () => {
+describe.only('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -222,13 +222,20 @@ describe('Tier One: Robots', () => {
       robot.fuelLevel = -10
       try {
         const negativeFuelRobot = await Robot.create(robot)
-        if (negativeFuelRobot) throw Error('Validation should have failed with invalid fuelLevel')
+        if (negativeFuelRobot) throw Error('Validation should have failed with fuelLevel < 0')
       } catch (err) {
         expect(err.message).to.not.have.string('Validation should have failed')
       }
-      delete robot.fuelType
-      const defaultFuelRobot = await Robot.create(robot)
-      expect(defaultFuelRobot.fuelType).to.equal('electric')
+      robot.fuelLevel = 9001
+      try {
+        const tooMuchFuelRobot = await Robot.create(robot)
+        if (tooMuchFuelRobot) throw Error('Validation should have failed with fuelLevel > 100')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      delete robot.fuelLevel
+      const defaultFuelLevelRobot = await Robot.create(robot)
+      expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
   })
 })
