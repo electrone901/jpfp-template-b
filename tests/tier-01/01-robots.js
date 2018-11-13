@@ -121,6 +121,7 @@ describe('Tier One: Robots', () => {
     // our Sequelize models haven't been implemented yet.
     // For more information on fakes, read the docs:
     // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
+    if (!Robot.findAll) Robot.findAll = function() {}
     const fakeFindAll = sinon.fake.resolves([
       { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
       { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
