@@ -162,37 +162,44 @@ describe.only('Tier One: Robots', () => {
   })
 
   describe('Sequelize Model', () => {
+    let robot;
     before(() => db.sync({ force: true }))
-    afterEach(() => db.sync({ force: true }))
-
-    it('has fields name, imageUrl, fuelType, fuelLevel', async () => {
-      const robot = await Robot.create({
+    beforeEach(() => {
+      robot = {
         name: 'R2-D2',
         imageUrl: '/images/r2d2.png',
         fuelType: 'electric',
         fuelLevel: 88.34,
-      })
-      expect(robot.name).to.equal('R2-D2')
-      expect(robot.imageUrl).to.equal('/images/r2d2.png')
-      expect(robot.fuelType).to.equal('electric')
-      expect(robot.fuelLevel).to.equal(88.34)
+      }
+    })
+    afterEach(() => db.sync({ force: true }))
+
+    it('has fields name, imageUrl, fuelType, fuelLevel', async () => {
+      robot.notARealAttribute = 'does not compute'
+      const savedRobot = await Robot.create(robot)
+      expect(savedRobot.name).to.equal('R2-D2')
+      expect(savedRobot.imageUrl).to.equal('/images/r2d2.png')
+      expect(savedRobot.fuelType).to.equal('electric')
+      expect(savedRobot.fuelLevel).to.equal(88.34)
+      expect(savedRobot.notARealAttribute).to.equal(undefined)
     })
 
-    it('*** name cannot be null or empty', async () => {
-      try { await Robot.create({}) }
-      catch (error) { expect(error.message).to.equal('') }
-      //   await Promise.all([
-      //     Robot.create({}),
-      //     Robot.create({name: ''}),
-      //   ])
-      //   // await Robot.create()
-      //   // await Robot.create({ name: '' })
-      //   throw Error('Not the error we were expecting')
-      // } catch (err) {
-      //   console.log('ERR', err.message)
-      //   // expect(err.message)
-      //   //   .to.not.equal('Not the error we were expecting')
-      // }
+    it('*** name cannot be null or an empty string', async () => {
+      let nullNameRobot, emptyNameRobot;
+      try {
+        robot.name = null
+        nullNameRobot = await Robot.create(robot)
+        if (nullNameRobot) throw Error('Validation should have failed with null name')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed');
+      }
+      try {
+        robot.name = ''
+        emptyNameRobot = await Robot.create(robot)
+        if (emptyNameRobot) throw Error('Validation should have failed with empty name')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed');
+      }
     })
 
     xit('default imageUrl if left blank', async () => {

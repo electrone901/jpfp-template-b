@@ -5,7 +5,7 @@ const Robot = db.define('robot', {
   name: {
     allowNull: false,
     type: Sequelize.STRING,
-    // validate: { notEmpty: true },
+    validate: { notEmpty: true },
   },
   imageUrl: {
     type: Sequelize.STRING,
