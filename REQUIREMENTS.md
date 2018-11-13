@@ -10,10 +10,10 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 - [ ] Write a component to display a list of all robots (at least their names and imageUrls)
 - [ ] Write a component to display a list of all projects (at least their titles and deadlines)
-- [ ] Write a projects sub-reducer to manage projects in your Redux store
 - [ ] Write a robots sub-reducer to manage robots in your Redux store
-- [ ] Display the AllProjects component when the url matches `/projects`
+- [ ] Write a projects sub-reducer to manage projects in your Redux store
 - [ ] Display the AllRobots component when the url matches `/robots`
+- [ ] Display the AllProjects component when the url matches `/projects`
 - [ ] Add links to the navbar that can be used to navigate to the AllProjects view and the AllRobots view
 
 #### Backend
@@ -23,8 +23,8 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 - [ ] Write a `robots` model with the following information:
   - [ ] name - not empty or null
-  - [ ] fuelType - can be one of gas, diesel, or electric (electric by default)
-  - [ ] fuelLevel - can be a decimal value between 0 and 100
+  - [ ] fuelType - can be one of gas, diesel, or electric (defaults to electric)
+  - [ ] fuelLevel - can be a decimal value between 0 and 100 (defaults to 100)
   - [ ] imageUrl - with a default value
 - [ ] Write a `projects` model with the following information:
   - [ ] title - not empty or null
