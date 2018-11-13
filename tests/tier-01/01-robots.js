@@ -1,10 +1,12 @@
 const { expect } = require('chai');
-import enzyme, { shallow } from 'enzyme'
+import enzyme, { mount } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -15,7 +17,7 @@ const initialState = {
 import mockAxios from '../mock-axios'
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
-import rootReducer from '../../app/redux'
+import appReducer from '../../app/redux'
 import { createStore } from 'redux'
 
 const app = require('../../server')
@@ -29,21 +31,31 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe('Tier One: Robots', () => {
+describe.only('Tier One: Robots', () => {
+  let fakeStore
+  beforeEach(() => {
+    fakeStore = mockStore(initialState)
+  })
+
   describe('<AllRobots /> component', () => {
+
     xit('renders the robots passed in as props', () => {
-      const wrapper = shallow(
-        <AllRobots robots={[
-          { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-          { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
-        ]} />
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllRobots robots={[
+              { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+              { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+            ]} />
+          </MemoryRouter>
+        </Provider>
       )
-      expect(wrapper.text()).to.include('Mars Academy')
-      expect(wrapper.text()).to.include('Jupiter Jumpstart')
+      expect(wrapper.text()).to.include('R2-D2')
+      expect(wrapper.text()).to.include('WALL-E')
       const images = wrapper.find('img').map(node => node.get(0).props.src)
       expect(images).to.include.members([
-        '/images/mars.png',
-        '/images/jupiter.jpeg',
+        '/images/r2d2.png',
+        '/images/walle.jpeg',
       ])
     })
 
@@ -53,20 +65,15 @@ describe('Tier One: Robots', () => {
   })
 
   describe('Redux', () => {
-    let fakeStore
-    beforeEach(() => {
-      fakeStore = mockStore(initialState)
-    })
-
-    describe('set robots', () => {
+    describe('set/fetch robots', () => {
       const robots = [
-        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
+        { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+        { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
       ]
 
       xit('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
-          type: 'SET_CAMPUSES',
+          type: 'SET_ROBOTS',
           robots,
         })
       })
@@ -75,27 +82,27 @@ describe('Tier One: Robots', () => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
-        expect(actions[0].type).to.equal('SET_CAMPUSES')
+        expect(actions[0].type).to.equal('SET_ROBOTS')
         expect(actions[0].robots).to.deep.equal(robots)
       })
     })
 
-    describe('reducer', () => {
+    describe('robots reducer', () => {
       let testStore
       beforeEach(() => {
-        testStore = createStore(rootReducer)
+        testStore = createStore(appReducer)
       })
 
       xit('*** returns the initial state by default', () => {
         throw new Error('replace this error with your own test')
       })
 
-      xit('reduces on SET_CAMPUSES action', () => {
+      xit('reduces on SET_ROBOTS action', () => {
         const robots = [
-          { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-          { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' }
+          { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+          { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
         ]
-        const action = { type: 'SET_CAMPUSES', robots }
+        const action = { type: 'SET_ROBOTS', robots }
 
         const prevState = testStore.getState()
         testStore.dispatch(action)
@@ -112,71 +119,103 @@ describe('Tier One: Robots', () => {
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-    const { findAll: robotFindAll } = Robot
+    // For more information on fakes, read the docs:
+    // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
+    const fakeFindAll = sinon.fake.resolves([
+      { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+      { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+    ])
     beforeEach(() => {
-      Robot.findAll = sinon.spy(() => [
-        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
-      ])
+      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAll)
     })
     afterEach(() => {
-      Robot.findAll = robotFindAll
+      sinon.restore()
     })
 
     xit('GET /api/robots responds with all robots', async () => {
       const response = await agent
         .get('/api/robots')
+        .timeout({ deadline: 50 })
         .expect(200)
       expect(response.body).to.deep.equal([
-        { id: 1, name: 'Mars Academy', imageUrl: '/images/mars.png' },
-        { id: 2, name: 'Jupiter Jumpstart', imageUrl: '/images/jupiter.jpeg' },
+        { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+        { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
       ])
+      expect(Robot.findAll.calledOnce).to.be.equal(true)
+    })
+
+    xit('GET /api/robots responds with error 500 when database throws error', async () => {
+      sinon.restore()
+      const fakeFindAllWithError = sinon.fake.rejects(
+        Error('Ooopsies, the database is on fire!')
+      )
+      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAllWithError)
+      await agent
+        .get('/api/robots')
+        .timeout({ deadline: 50 })
+        .expect(500)
       expect(Robot.findAll.calledOnce).to.be.equal(true)
     })
   })
 
   describe('Sequelize Model', () => {
+    let robot;
     before(() => db.sync({ force: true }))
+    beforeEach(() => {
+      robot = {
+        name: 'R2-D2',
+        imageUrl: '/images/r2d2.png',
+        fuelType: 'electric',
+        fuelLevel: 88.34,
+      }
+    })
     afterEach(() => db.sync({ force: true }))
 
-
-    xit('has fields name, address, imageUrl, description', () => {
-      const robot = Robot.build({
-        name: 'Jupiter Jumpstart',
-        address: '5.2 AU',
-        imageUrl: '/images/jupiter.png',
-        description: 'The best JavaScript Academy for toddlers in the solar system!',
-      })
-      expect(robot.name).to.equal('Jupiter Jumpstart')
-      expect(robot.address).to.equal('5.2 AU')
-      expect(robot.imageUrl).to.equal('/images/jupiter.png')
-      expect(robot.description).to.equal('The best JavaScript Academy for toddlers in the solar system!')
+    xit('has fields name, imageUrl, fuelType, fuelLevel', async () => {
+      robot.notARealAttribute = 'does not compute'
+      const savedRobot = await Robot.create(robot)
+      expect(savedRobot.name).to.equal('R2-D2')
+      expect(savedRobot.imageUrl).to.equal('/images/r2d2.png')
+      expect(savedRobot.fuelType).to.equal('electric')
+      expect(savedRobot.fuelLevel).to.equal(88.34)
+      expect(savedRobot.notARealAttribute).to.equal(undefined)
     })
 
-    xit('*** requires name and address', async () => {
+    xit('*** name cannot be null or an empty string', () => {
       throw new Error('replace this error with your own test')
     })
 
-    xit('name and address cannot be empty', async () => {
-      const robot = Robot.build({ name: '', address: '' })
+    xit('fuelType can only be gas, diesel, or electric (defaults to electric)', async () => {
+      robot.fuelType = 'the power of love'
       try {
-        await robot.validate()
-        throw Error('validation should have failed with empty name and address')
+        const badFuelRobot = await Robot.create(robot)
+        if (badFuelRobot) throw Error('Validation should have failed with invalid fuelType')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
       }
-      catch (err) {
-        expect(err.message).to.contain('Validation notEmpty on name')
-        expect(err.message).to.contain('Validation notEmpty on address')
-      }
+      delete robot.fuelType
+      const defaultFuelRobot = await Robot.create(robot)
+      expect(defaultFuelRobot.fuelType).to.equal('electric')
     })
 
-    xit('default imageUrl if left blank', async () => {
-      const robot = Robot.build({
-        name: 'Jupiter Jumpstart',
-        address: '5.2 AU',
-      })
-      await robot.validate()
-      expect(robot.imageUrl).to.be.a('string')
-      expect(robot.imageUrl.length).to.be.greaterThan(1)
+    xit('fuelLevel must be between 0 and 100 (defaults to 100)', async () => {
+      robot.fuelLevel = -10
+      try {
+        const negativeFuelRobot = await Robot.create(robot)
+        if (negativeFuelRobot) throw Error('Validation should have failed with fuelLevel < 0')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      robot.fuelLevel = 9001
+      try {
+        const tooMuchFuelRobot = await Robot.create(robot)
+        if (tooMuchFuelRobot) throw Error('Validation should have failed with fuelLevel > 100')
+      } catch (err) {
+        expect(err.message).to.not.have.string('Validation should have failed')
+      }
+      delete robot.fuelLevel
+      const defaultFuelLevelRobot = await Robot.create(robot)
+      expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
   })
 })
