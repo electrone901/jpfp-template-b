@@ -33,7 +33,7 @@ enzyme.configure({ adapter })
 import { AllRobots } from '../../app/components/AllRobots'
 import Root from '../../app/components/root'
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -94,8 +94,8 @@ describe.only('Tier One: Robots', () => {
       expect(wrapper.find(AllRobots)).to.have.length(1)
     })
 
-    it('*** navbar has a link to the /robots', () => {
-
+    xit('*** navbar has a link to the /robots', () => {
+      throw new Error('replace this error with your own test')
     })
 
   })

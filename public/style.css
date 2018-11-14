@@ -31,10 +31,19 @@ nav a {
   padding: 10px;
   margin: 5px;
   text-decoration: none;
+  border-radius: 15px;
 }
 
 .right-navbar {
   display: flex;
+}
+
+.active {
+  color: #c0c0c0;
+  background-color: #08415C;
+  border-color: #c0c0c0;
+  border-style: solid;
+  border-width: thin;
 }
 
 main {
