@@ -6,7 +6,8 @@ import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { MemoryRouter } from 'react-router-dom'
+import * as rrd from 'react-router-dom'
+const { MemoryRouter } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -30,8 +31,9 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
+import Root from '../../app/components/root'
 
-describe('Tier One: Robots', () => {
+describe.only('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -69,6 +71,33 @@ describe('Tier One: Robots', () => {
       )
       expect(wrapper.text().toLowerCase()).to.include('no robots')
     })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    it('renders <AllRobots /> at path /robots', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/robots']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllRobots)).to.have.length(1)
+    })
+
+    it('*** navbar has a link to the /robots', () => {
+
+    })
+
   })
 
   describe('Redux', () => {

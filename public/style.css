@@ -21,8 +21,20 @@ nav {
   background-color: #333333;
   color: #c0c0c0;
   display: flex;
+  justify-content: space-between;
   height: 80px;
+  padding: 20px;
+}
+
+nav a {
+  background-color: #c0c0c0;
   padding: 10px;
+  margin: 5px;
+  text-decoration: none;
+}
+
+.right-navbar {
+  display: flex;
 }
 
 main {
