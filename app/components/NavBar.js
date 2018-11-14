@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom'
 const NavBar = () => {
   return (
     <nav>
-      <NavLink exact active="selected" to="/">Home</NavLink>
+      <NavLink exact to="/">Home</NavLink>
       <div className="right-navbar">
-        <NavLink active="selected" to="/robots">Robots</NavLink>
-        <NavLink active="selected" to="/projects">Projects</NavLink>
+        <NavLink to="/robots">Robots</NavLink>
+        <NavLink to="/projects">Projects</NavLink>
       </div>
     </nav>
   )
