@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 class Root extends React.Component {
   componentDidMount() {
@@ -7,15 +7,15 @@ class Root extends React.Component {
   }
   render() {
     return (
-      <div>
-        <nav>
-          Welcome!
-        </nav>
-        <BrowserRouter>
-          <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
+      <Router>
+        <div>
+          <nav>
+            Welcome!
+          </nav>
+          <h1>Welcome to StackBot Project Management: your robot employees are awaiting assignments!</h1>
           <p>This seems like a nice place to get started with some Routes!</p>
-        </BrowserRouter>
-      </div>
+        </div>
+      </Router>
     )
   }
 }

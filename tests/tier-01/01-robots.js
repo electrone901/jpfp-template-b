@@ -31,7 +31,7 @@ enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -121,7 +121,7 @@ describe.only('Tier One: Robots', () => {
     })
   })
 
-  describe.only('Express API', () => {
+  describe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
