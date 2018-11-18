@@ -95,7 +95,7 @@ describe.only('Tier One: Robots', () => {
       expect(wrapper.find(AllRobots)).to.have.length(1)
     })
 
-    it('*** navbar has a link to the /robots', () => {
+    it('*** navbar has links to "/robots" and "/" (homepage)', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
@@ -103,7 +103,8 @@ describe.only('Tier One: Robots', () => {
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.find(Link)).to.have.atLeast.length(1)
+      const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
+      expect(navLinks).to.include.members(['/', '/robots'])
     })
 
   })
