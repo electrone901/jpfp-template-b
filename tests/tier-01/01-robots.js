@@ -7,7 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 import * as rrd from 'react-router-dom'
-const { MemoryRouter } = rrd
+const { MemoryRouter, Link } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -31,9 +31,10 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import { AllRobots } from '../../app/components/AllRobots'
+import NavBar from '../../app/components/NavBar' // TODO: delete this
 import Root from '../../app/components/root'
 
-describe('Tier One: Robots', () => {
+describe.only('Tier One: Robots', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
@@ -94,8 +95,15 @@ describe('Tier One: Robots', () => {
       expect(wrapper.find(AllRobots)).to.have.length(1)
     })
 
-    xit('*** navbar has a link to the /robots', () => {
-      throw new Error('replace this error with your own test')
+    it('*** navbar has a link to the /robots', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <NavBar />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(Link)).to.have.atLeast.length(1)
     })
 
   })
