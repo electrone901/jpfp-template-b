@@ -1,11 +1,32 @@
 const { green, red } = require('chalk')
-const { db } = require('./server/db')
+const { db, Robot } = require('./server/db')
+
+
+const seedRobots = [
+  {
+    name: 'R2-D2',
+    imageUrl: '/images/r2d2.png',
+    fuelType: 'electric',
+    fuelLevel: 88.34,
+  },
+  {
+    name: 'WALL-E',
+    imageUrl: '/images/walle.jpeg',
+    fuelType: 'gas',
+  },
+  {
+    name: 'HAL-9000',
+    imageUrl: '/images/hal9000.svg',
+    fuelLevel: 0,
+  },
+]
 
 const seed = async () => {
   try {
     await db.sync({ force: true })
 
     // seed your database here!
+    await Promise.all(seedRobots.map(robot => Robot.create(robot)))
 
   } catch (err) {
    console.log(red(err))

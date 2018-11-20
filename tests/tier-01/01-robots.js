@@ -26,6 +26,7 @@ const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
 const { Robot } = require('../../server/db')
+const seed = require('../../seed')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
@@ -285,6 +286,10 @@ describe.only('Tier One: Robots', () => {
     })
   })
   describe('Seed File', () => {
-    it('seeds the database.....TODO', () => {})
+    beforeEach(seed)
+    it('populates the database with at least three robots', async () => {
+      const robots = await Robot.findAll()
+      expect(robots).to.have.lengthOf.at.least(3)
+    })
   })
 })
