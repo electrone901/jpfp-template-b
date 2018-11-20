@@ -158,6 +158,11 @@ describe.only('Tier One: Robots', () => {
         expect(newState.robots).to.not.be.equal(prevState.robots);
       })
     })
+
+    describe('react-redux', () => {
+      it('reduxes the react...... TODO', () => {})
+    })
+
   })
 
   describe('Express API', () => {
