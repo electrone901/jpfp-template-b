@@ -1,11 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 import AllRobots from './AllRobots'
 import NavBar from './NavBar'
+import { fetchRobots } from '../redux/robots'
 
 class Root extends React.Component {
   componentDidMount() {
     // Huh, I wonder what this mysterious componentDidMount is doing here... 🤔
+    this.props.fetchInitial()
   }
   render() {
     return (
@@ -21,4 +24,9 @@ class Root extends React.Component {
   }
 }
 
-export default Root
+const mapDispatch = dispatch => ({
+  fetchInitial: () => {
+    dispatch(fetchRobots())
+  }
+})
+export default connect(null, mapDispatch)(Root)

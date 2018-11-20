@@ -1,7 +1,6 @@
 const { green, red } = require('chalk')
 const { db, Robot } = require('./server/db')
 
-
 const seedRobots = [
   {
     name: 'R2-D2',

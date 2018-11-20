@@ -20,6 +20,7 @@ import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
 import { createStore } from 'redux'
+import store from '../../app/store'
 
 const app = require('../../server')
 const agent = require('supertest')(app)
@@ -35,8 +36,16 @@ import { AllRobots } from '../../app/components/AllRobots'
 import NavBar from '../../app/components/NavBar' // TODO: delete this
 import Root from '../../app/components/root'
 
+// Sometimes, we want to wait for a short time for async events to finish.
+const waitFor = (wait) =>
+  new Promise((resolve) => setTimeout(resolve, wait))
+
 describe.only('Tier One: Robots', () => {
   let fakeStore
+  const robots = [
+    { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+    { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+  ]
   beforeEach(() => {
     fakeStore = mockStore(initialState)
   })
@@ -80,6 +89,7 @@ describe.only('Tier One: Robots', () => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
       ))
+      mockAxios.onGet('/api/robots').replyOnce(200, robots)
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
@@ -113,11 +123,6 @@ describe.only('Tier One: Robots', () => {
 
   describe('Redux', () => {
     describe('set/fetch robots', () => {
-      const robots = [
-        { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-        { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-      ]
-
       it('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
           type: 'SET_ROBOTS',
@@ -145,10 +150,6 @@ describe.only('Tier One: Robots', () => {
       })
 
       it('reduces on SET_ROBOTS action', () => {
-        const robots = [
-          { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-          { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-        ]
         const action = { type: 'SET_ROBOTS', robots }
 
         const prevState = testStore.getState()
@@ -161,7 +162,23 @@ describe.only('Tier One: Robots', () => {
     })
 
     describe('react-redux', () => {
-      it('reduxes the react...... TODO', () => {})
+      beforeEach(() => {
+        mockAxios.onGet('/api/robots').replyOnce(200, robots)
+      })
+      it('initializes robots from the server when the app first loads', async () => {
+        const reduxStateBeforeMount = store.getState()
+        expect(reduxStateBeforeMount.robots).to.deep.equal([])
+        mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/']}>
+              <Root />
+            </MemoryRouter>
+          </Provider>
+        )
+        await waitFor(10) // wait for 10 milliseconds
+        const reduxStateAfterMount = store.getState()
+        expect(reduxStateAfterMount.robots).to.deep.equal(robots)
+      })
     })
 
   })
