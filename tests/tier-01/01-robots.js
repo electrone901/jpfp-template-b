@@ -96,6 +96,7 @@ describe.only('Tier One: Robots', () => {
     })
 
     it('*** navbar has links to "/robots" and "/" (homepage)', () => {
+      // throw new Error('replace this error with your own test')
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
@@ -228,6 +229,7 @@ describe.only('Tier One: Robots', () => {
     })
 
     it('*** name cannot be null or an empty string', async () => {
+      // throw new Error('replace this error with your own test')
       try {
         robot.name = null
         const nullNameRobot = await Robot.create(robot)
@@ -276,5 +278,8 @@ describe.only('Tier One: Robots', () => {
       const defaultFuelLevelRobot = await Robot.create(robot)
       expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
+  })
+  describe('Seed File', () => {
+    it('seeds the database.....TODO', () => {})
   })
 })
