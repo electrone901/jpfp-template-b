@@ -32,7 +32,7 @@ const seed = require('../../seed')
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllRobots } from '../../app/components/AllRobots'
+import ConnectedAllRobots, { AllRobots } from '../../app/components/AllRobots'
 import NavBar from '../../app/components/NavBar' // TODO: delete this
 import Root from '../../app/components/root'
 
@@ -165,6 +165,7 @@ describe.only('Tier One: Robots', () => {
       beforeEach(() => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
       })
+
       it('initializes robots from the server when the app first loads', async () => {
         const reduxStateBeforeMount = store.getState()
         expect(reduxStateBeforeMount.robots).to.deep.equal([])
@@ -179,7 +180,24 @@ describe.only('Tier One: Robots', () => {
         const reduxStateAfterMount = store.getState()
         expect(reduxStateAfterMount.robots).to.deep.equal(robots)
       })
+
+      it('<AllRobots /> is passed robots from store as props', async () => {
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/robots']}>
+              <ConnectedAllRobots />
+            </MemoryRouter>
+          </Provider>
+        )
+        store.dispatch(fetchRobots()) // fetch the robots
+        await waitFor(10) // wait for 10 milliseconds
+        wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+        const { robots: reduxRobotes } = store.getState()
+        const { robots: componentRobots } = wrapper.find(AllRobots).props()
+        expect(componentRobots).to.deep.equal(reduxRobotes)
+      })
     })
+
 
   })
 
@@ -205,7 +223,7 @@ describe.only('Tier One: Robots', () => {
     it('GET /api/robots responds with all robots', async () => {
       const response = await agent
         .get('/api/robots')
-        .timeout({ deadline: 50 })
+        .timeout({ deadline: 20 })
         .expect(200)
       expect(response.body).to.deep.equal([
         { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
@@ -222,7 +240,7 @@ describe.only('Tier One: Robots', () => {
       sinon.replace(Robot, 'findAll', fakeFindAllWithError)
       await agent
         .get('/api/robots')
-        .timeout({ deadline: 50 })
+        .timeout({ deadline: 20 })
         .expect(500)
       expect(Robot.findAll.calledOnce).to.be.equal(true)
     })
