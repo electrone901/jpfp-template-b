@@ -139,7 +139,10 @@ describe.only('Tier One: Robots', () => {
       })
     })
 
-    xdescribe('robots reducer', () => {
+    describe('robots reducer', () => {
+      // Pay attention to where the store is being created, namely
+      // app/redux/index.js. Once you've created your reducer, ensure that
+      // it's actually being used by the redux store.
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)

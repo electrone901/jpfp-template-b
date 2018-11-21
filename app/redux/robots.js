@@ -16,3 +16,12 @@ export const fetchRobots = () => {
     dispatch(setRobots(data))
   }
 }
+
+export const robotReducer = (state = [], action) => {
+  switch (action.type) {
+    case SET_ROBOTS:
+      return action.robots
+    default:
+      return state
+  }
+}
