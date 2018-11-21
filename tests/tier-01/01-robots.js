@@ -248,7 +248,7 @@ describe.only('Tier One: Robots', () => {
     })
   })
 
-  xdescribe('Sequelize Model', () => {
+  describe('Sequelize Model', () => {
     let robot;
     before(() => db.sync({ force: true }))
     beforeEach(() => {
