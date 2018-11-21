@@ -121,8 +121,8 @@ describe.only('Tier One: Robots', () => {
 
   })
 
-  xdescribe('Redux', () => {
-    xdescribe('set/fetch robots', () => {
+  describe('Redux', () => {
+    describe('set/fetch robots', () => {
       it('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
           type: 'SET_ROBOTS',
