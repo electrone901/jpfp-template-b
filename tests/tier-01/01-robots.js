@@ -315,5 +315,9 @@ describe.only('Tier One: Robots', () => {
       const seedRobots = await Robot.findAll()
       expect(seedRobots).to.have.lengthOf.at.least(3)
     })
+    // If you've finished this part, remember to run the seed file from the
+    // command line, to populate your actual database (rather than just the
+    // test database). Fire it up with npm run start-dev and see what it looks
+    // like in the browser!
   })
 })
