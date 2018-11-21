@@ -1,10 +1,12 @@
 const { expect } = require('chai');
-import enzyme, { shallow } from 'enzyme'
+import enzyme, { mount } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -15,7 +17,7 @@ const initialState = {
 import mockAxios from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
-import rootReducer from '../../app/redux'
+import appReducer from '../../app/redux'
 import { createStore } from 'redux'
 
 const app = require('../../server')
@@ -30,14 +32,38 @@ enzyme.configure({ adapter })
 import { AllProjects } from '../../app/components/AllProjects'
 
 describe('Tier One: Projects', () => {
+  let fakeStore
+  beforeEach(() => {
+    fakeStore = mockStore(initialState)
+  })
+
   describe('<AllProjects /> component', () => {
     xit('renders the projects passed in as props', () => {
-      const wrapper = shallow(<AllProjects projects={[
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
-      ]} />)
-      expect(wrapper.text()).to.include('Mae Jemison')
-      expect(wrapper.text()).to.include('Sally Ride')
+      const projects = [
+        {
+          id: 1,
+          title: 'Title - Test Project 1',
+          priority: 9,
+          completed: true,
+          description: 'description of test project 1'
+        },
+        {
+          id: 2,
+          title: 'Title - Test Project 2',
+          priority: 4,
+          completed: false,
+          description: 'description of test project 2'
+        }
+      ]
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllProjects projects={projects} />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.text()).to.include('Title - Test Project 1')
+      expect(wrapper.text()).to.include('Title - Test Project 2')
     })
 
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
@@ -53,13 +79,25 @@ describe('Tier One: Projects', () => {
 
     describe('set projects', () => {
       const projects = [
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+        {
+          id: 1,
+          title: 'Title - Test Project 1',
+          priority: 9,
+          completed: true,
+          description: 'description of test project 1'
+        },
+        {
+          id: 2,
+          title: 'Title - Test Project 2',
+          priority: 4,
+          completed: false,
+          description: 'description of test project 2'
+        }
       ]
 
       xit('setProjects action creator', () => {
         expect(setProjects(projects)).to.deep.equal({
-          type: 'SET_STUDENTS',
+          type: 'SET_PROJECTS',
           projects,
         })
       })
@@ -68,7 +106,7 @@ describe('Tier One: Projects', () => {
         mockAxios.onGet('/api/projects').replyOnce(200, projects)
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
-        expect(actions[0].type).to.equal('SET_STUDENTS')
+        expect(actions[0].type).to.equal('SET_PROJECTS')
         expect(actions[0].projects).to.deep.equal(projects)
       })
     })
@@ -85,8 +123,20 @@ describe('Tier One: Projects', () => {
 
       xit('reduces on SET_STUDENTS action', () => {
         const projects = [
-          { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-          { id: 2, firstName: 'Sally', lastName: 'Ride' },
+          {
+            id: 1,
+            title: 'Title - Test Project 1',
+            priority: 9,
+            completed: true,
+            description: 'description of test project 1'
+          },
+          {
+            id: 2,
+            title: 'Title - Test Project 2',
+            priority: 4,
+            completed: false,
+            description: 'description of test project 2'
+          }
         ]
         const action = { type: 'SET_STUDENTS', projects }
 
