@@ -84,7 +84,7 @@ describe.only('Tier One: Robots', () => {
     })
   })
 
-  xdescribe('Navigation', () => {
+  describe('Navigation', () => {
     beforeEach(() => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
@@ -107,16 +107,16 @@ describe.only('Tier One: Robots', () => {
     })
 
     it('*** navbar has links to "/robots" and "/" (homepage)', () => {
-      throw new Error('replace this error with your own test')
-      // const wrapper = mount(
-      //   <Provider store={fakeStore}>
-      //     <MemoryRouter>
-      //       <NavBar />
-      //     </MemoryRouter>
-      //   </Provider>
-      // )
-      // const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
-      // expect(navLinks).to.include.members(['/', '/robots'])
+      // throw new Error('replace this error with your own test')
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
+      expect(navLinks).to.include.members(['/', '/robots'])
     })
 
   })
