@@ -322,8 +322,9 @@ describe.only('Tier One: Robots', () => {
       expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
   })
-  xdescribe('Seed File', () => {
+  describe('Seed File', () => {
     beforeEach(seed)
+
     it('populates the database with at least three robots', async () => {
       const seedRobots = await Robot.findAll()
       expect(seedRobots).to.have.lengthOf.at.least(3)
