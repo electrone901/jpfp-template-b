@@ -140,6 +140,9 @@ describe.only('Tier One: Robots', () => {
     })
 
     describe('robots reducer', () => {
+      // Pay attention to where the store is being created, namely
+      // app/redux/index.js. Once you've created your reducer, ensure that
+      // it's actually being used by the redux store.
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)
@@ -322,9 +325,14 @@ describe.only('Tier One: Robots', () => {
   })
   describe('Seed File', () => {
     beforeEach(seed)
+
     it('populates the database with at least three robots', async () => {
-      const robots = await Robot.findAll()
-      expect(robots).to.have.lengthOf.at.least(3)
+      const seedRobots = await Robot.findAll()
+      expect(seedRobots).to.have.lengthOf.at.least(3)
     })
+    // If you've finished this part, remember to run the seed file from the
+    // command line, to populate your actual database (rather than just the
+    // test database). Fire it up with npm run start-dev and see what it looks
+    // like in the browser!
   })
 })
