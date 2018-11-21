@@ -33,7 +33,6 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import ConnectedAllRobots, { AllRobots } from '../../app/components/AllRobots'
-// import NavBar from '../../app/components/NavBar' // TODO: delete this
 import Root from '../../app/components/root'
 
 // Sometimes, we want to wait for a short time for async events to finish.
@@ -73,14 +72,7 @@ describe.only('Tier One: Robots', () => {
     })
 
     xit('*** renders "No Robots" if passed an empty array of robots', () => {
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <MemoryRouter>
-            <AllRobots robots={[]} />
-          </MemoryRouter>
-        </Provider>
-      )
-      expect(wrapper.text().toLowerCase()).to.include('no robots')
+      throw new Error('replace this error with your own test')
     })
   })
 
@@ -107,16 +99,7 @@ describe.only('Tier One: Robots', () => {
     })
 
     xit('*** navbar has links to "/robots" and "/" (homepage)', () => {
-      // throw new Error('replace this error with your own test')
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <MemoryRouter>
-            <Root />
-          </MemoryRouter>
-        </Provider>
-      )
-      const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
-      expect(navLinks).to.include.members(['/', '/robots'])
+      throw new Error('replace this error with your own test')
     })
 
   })
@@ -149,7 +132,7 @@ describe.only('Tier One: Robots', () => {
       })
 
       xit('*** returns the initial state by default', () => {
-        expect(testStore.getState()).to.deep.equal(initialState)
+        throw new Error('replace this error with your own test')
       })
 
       xit('reduces on SET_ROBOTS action', () => {
