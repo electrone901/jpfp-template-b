@@ -12,7 +12,7 @@ let middleware = [
 if (process.browser) {
   // We'd like the redux logger to only log messages when it's running in the
   // browser, and not when we run the tests from within Mocha.
-  middleware = [...middleware, createLogger({ collapsed: true })]
+  middleware = [ ...middleware, createLogger({ collapsed: true }) ]
 }
 
 /** We wrap the entire redux store in a root reducer with a special
@@ -33,5 +33,8 @@ const rootReducer = (state, action) => {
 
 export default createStore(
   rootReducer,
-  applyMiddleware(...middleware)
+  // 👇 This uses the Redux DevTools extension, assuming you have it installed in your browser.
+  // 👇 See: https://github.com/zalmoxisus/redux-devtools-extension
+  process.browser && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : undefined,
+  applyMiddleware(...middleware),
 )

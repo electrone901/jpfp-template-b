@@ -12,6 +12,7 @@ export const setRobots = (robots) => ({
 export const fetchRobots = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/robots')
+    // setTimeout(() => dispatch(setRobots(data)), 2000)
     dispatch(setRobots(data))
   } catch (err) {
     console.error(err)
