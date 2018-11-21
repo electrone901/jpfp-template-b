@@ -5,14 +5,19 @@ import { connect } from 'react-redux'
 export const AllRobots = ({ robots = [] }) => {
   if (!robots.length) return <h1>You got no robots! 🤖 😢 </h1>
   return (
-    <ul>
+    <div>
+      <h1>Here are all your robots:</h1>
+      <div className="allRobotsContainer">
       {robots.map(robot => (
-        <Link to="#" key={robot.id}>
-          {robot.name}
-          <img src={robot.imageUrl} />
+        <Link className="allRobotsItem" key={robot.id} to="#">
+          <div>
+              <p>{robot.name}</p>
+              <img src={robot.imageUrl} />
+          </div>
         </Link>
       ))}
-    </ul>
+      </div>
+    </div>
   )
 }
 

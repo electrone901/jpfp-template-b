@@ -8,6 +8,10 @@
   font-family: arial, sans-serif;
 }
 
+h1 {
+  text-align: center;
+}
+
 body {
   background: linear-gradient(#ffffff, #c0c0c0);
   height: 100vh;
@@ -44,6 +48,28 @@ nav a {
   border-color: #c0c0c0;
   border-style: solid;
   border-width: thin;
+}
+
+.allRobotsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.allRobotsItem {
+  flex-grow: 1;
+  width: 30%;
+  max-width: 30%;
+  border: 1px solid;
+  border-radius: 15px;
+  margin: 10px;
+  text-align: center;
+
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.allRobotsItem:hover {
+  background-color: #AC9FBB;
 }
 
 main {
