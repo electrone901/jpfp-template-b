@@ -164,7 +164,7 @@ describe.only('Tier One: Robots', () => {
       })
     })
 
-    xdescribe('react-redux', () => {
+    describe('react-redux', () => {
       beforeEach(() => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
       })
@@ -200,7 +200,6 @@ describe.only('Tier One: Robots', () => {
         expect(componentRobots).to.deep.equal(reduxRobotes)
       })
     })
-
 
   })
 

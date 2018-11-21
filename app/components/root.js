@@ -1,10 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import AllRobots from './AllRobots'
+import store from '../store'
+import { fetchRobots } from '../redux/robots'
 
 class Root extends React.Component {
   componentDidMount() {
     // Huh, I wonder what this mysterious componentDidMount is doing here... 🤔
+    store.dispatch(fetchRobots())
   }
   render() {
     return (
