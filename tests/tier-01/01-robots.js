@@ -84,7 +84,7 @@ describe.only('Tier One: Robots', () => {
     })
   })
 
-  describe('Navigation', () => {
+  xdescribe('Navigation', () => {
     beforeEach(() => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
@@ -121,8 +121,8 @@ describe.only('Tier One: Robots', () => {
 
   })
 
-  describe('Redux', () => {
-    describe('set/fetch robots', () => {
+  xdescribe('Redux', () => {
+    xdescribe('set/fetch robots', () => {
       it('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
           type: 'SET_ROBOTS',
@@ -139,7 +139,7 @@ describe.only('Tier One: Robots', () => {
       })
     })
 
-    describe('robots reducer', () => {
+    xdescribe('robots reducer', () => {
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)
@@ -161,7 +161,7 @@ describe.only('Tier One: Robots', () => {
       })
     })
 
-    describe('react-redux', () => {
+    xdescribe('react-redux', () => {
       beforeEach(() => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
       })
@@ -201,7 +201,7 @@ describe.only('Tier One: Robots', () => {
 
   })
 
-  describe('Express API', () => {
+  xdescribe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
@@ -246,7 +246,7 @@ describe.only('Tier One: Robots', () => {
     })
   })
 
-  describe('Sequelize Model', () => {
+  xdescribe('Sequelize Model', () => {
     let robot;
     before(() => db.sync({ force: true }))
     beforeEach(() => {
@@ -320,7 +320,7 @@ describe.only('Tier One: Robots', () => {
       expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
   })
-  describe('Seed File', () => {
+  xdescribe('Seed File', () => {
     beforeEach(seed)
     it('populates the database with at least three robots', async () => {
       const seedRobots = await Robot.findAll()

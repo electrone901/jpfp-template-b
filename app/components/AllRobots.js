@@ -1,7 +1,17 @@
 import React from 'react';
 
-export const AllRobots = () => {
-  return <div />
+export const AllRobots = ({ robots = [] }) => {
+  if (!robots.length) return (<h1>You got no robots</h1>)
+  return (
+    <div>
+      {robots.map(robot => (
+        <div key={robot.id}>
+          <p>{robot.name}</p>
+          <img src={robot.imageUrl} />
+        </div>
+      ))}
+    </div>
+  )
 }
 
 // Currently, we're just exporting the component as-is. When we're ready to
