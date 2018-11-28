@@ -121,7 +121,7 @@ describe('Tier One: Projects', () => {
         throw new Error('replace this error with your own test')
       })
 
-      xit('reduces on SET_STUDENTS action', () => {
+      it('reduces on SET_STUDENTS action', () => {
         const projects = [
           {
             id: 1,
@@ -158,8 +158,20 @@ describe('Tier One: Projects', () => {
     const { findAll: projectFindAll } = Project
     beforeEach(() => {
       Project.findAll = sinon.spy(() => [
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+        {
+          id: 1,
+          title: 'Title - Test Project 1',
+          priority: 9,
+          completed: true,
+          description: 'description of test project 1'
+        },
+        {
+          id: 2,
+          title: 'Title - Test Project 2',
+          priority: 4,
+          completed: false,
+          description: 'description of test project 2'
+        }
       ])
     })
     afterEach(() => {
@@ -172,22 +184,26 @@ describe('Tier One: Projects', () => {
   })
 
   describe('Sequelize Model', () => {
+    let project;
     before(() => db.sync({ force: true }))
+    beforeEach(() => {
+      project = {
+        title: 'Title - Test Project 3',
+        deadline: new Date(2018, 11, 31),
+        priority: 8,
+        completed: false,
+        description: 'description of test project 3'
+      }
+    })
     afterEach(() => db.sync({ force: true }))
 
-    xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
-      const project = await Project.create({
-        firstName: 'Sally',
-        lastName: 'Ride',
-        email: 'sallyride@nasa.gov',
-        imageUrl: '/images/sallyride.png',
-        gpa: 3.8,
-      })
-      expect(project.firstName).to.equal('Sally')
-      expect(project.lastName).to.equal('Ride')
-      expect(project.imageUrl).to.equal('/images/sallyride.png')
-      expect(project.email).to.equal('sallyride@nasa.gov')
-      expect(parseFloat(project.gpa)).to.equal(3.8)
+    it('has fields title, deadline, priority, completed, description', async () => {
+      project.notARealAttribute = 'does not compute'
+      const savedProject = await Project.create(project)
+      expect(savedProject.title).to.equal('Title - Test Project 3')
+      expect(savedProject.priority).to.equal(8)
+      expect(savedProject.completed).to.equal(false)
+      expect(savedProject.description).to.equal('description of test project 3')
     })
 
     xit('requires firstName, lastName, email', async () => {
