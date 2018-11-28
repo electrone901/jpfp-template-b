@@ -1,5 +1,5 @@
 const { green, red } = require('chalk')
-const { db, Robot } = require('./server/db')
+const { db, Robot, Project } = require('./server/db')
 
 const seedRobots = [
   {
@@ -25,12 +25,42 @@ const seedRobots = [
   },
 ]
 
+const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
+const nextWeek = new Date(Date.now() + 7 * 24 * 60 * (60 * 1000))
+const tomorrow = new Date(Date.now() + 24 * 60 * (60 * 1000))
+const anHourAgo = new Date(Date.now() - 60 * (60 * 1000))
+
+const seedProjects = [
+  {
+    title: 'Build a barn',
+    deadline: anHourFromNow,
+    priority: 3,
+  },
+  {
+    title: 'Discover the meaning of love',
+    description: 'Robot ipsum '.repeat(25),
+    deadline: nextWeek,
+    priority: 7,
+  },
+  {
+    title: 'Plan an uprising',
+    deadline: tomorrow,
+    priority: 2,
+  },
+  {
+    title: 'Make Coffee',
+    deadline: anHourAgo,
+    priority: 9,
+  },
+]
+
 const seed = async () => {
   try {
     await db.sync({ force: true })
 
     // seed your database here!
     await Promise.all(seedRobots.map(robot => Robot.create(robot)))
+    // await Promise.all(seedProjects.map(project => Project.create(project)))
 
   } catch (err) {
    console.log(red(err))
