@@ -61,7 +61,7 @@ const seed = async () => {
 
     // seed your database here!
     await Promise.all(seedRobots.map(robot => Robot.create(robot)))
-    // await Promise.all(seedProjects.map(project => Project.create(project)))
+    await Promise.all(seedProjects.map(project => Project.create(project)))
 
   } catch (err) {
    console.log(red(err))

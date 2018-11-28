@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Projects and Robots (33/69)
+### Tier 1: All Projects and Robots (30/66)
 
 <details>
 
@@ -14,7 +14,7 @@ The requirements below are broken into separate **tiers**, which model the way w
 - [ ] Write a projects sub-reducer to manage projects in your Redux store
 - [ ] Display the AllRobots component when the url matches `/robots`
 - [ ] Display the AllProjects component when the url matches `/projects`
-- [ ] Add links to the navbar that can be used to navigate to the AllProjects view and the AllRobots view
+- [ ] Add links to the navbar that can be used to navigate to the all-projects view and the all-robots view
 
 #### Backend
 
@@ -39,38 +39,36 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 #### Testing
 
-- [ ] React (AllProjects): renders "No Projects" if passed an empty array of projects
 - [ ] React (AllRobots): renders "No Robots" if passed an empty array of robots
-- [ ] Redux (projects): returns the initial state by default
+- [ ] React (AllProjects): renders "No Projects" if passed an empty array of projects
 - [ ] Redux (robots): returns the initial state by default
-- [ ] Express: GET /api/robots responds with all robots
-- [ ] Sequelize (Project): requires name and address
-- [ ] Sequelize (Robot): email must be a valid email
-- [ ] Navigation: navbar to navigate to home, projects, robots
-- [ ] Seed file: creates exactly one project that has no robots
-- [ ] Seed file: creates exactly one robot that has no projects
+- [ ] Redux (projects): returns the initial state by default
+- [ ] Sequelize (Robot): name must not be null or empty
+- [ ] Sequelize (Project): title must not be null or empty
+- [ ] Navigation: navbar to navigate to home, robots
+- [ ] Navigation: navbar to navigate to projects
 
 Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all projects and robots"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 2: Single Robot and Single Project (14/69)
+### Tier 2: Single Robot and Single Project (14/66)
 
 <details>
 
 #### Frontend
 
+- [ ] Write a component to display a single robot with the following information:
+  - [ ] The robot's name, image, fuelType, fuelLevel
+  - [ ] The names of all their assigned projects (or a helpful message if they don't have any)
+- [ ] Display the appropriate robot when the url matches `/robots/:robotId`
+- [ ] Clicking on a robot from the all-robots view should navigate to show that robot in the single-robot view
+
 - [ ] Write a component to display a single project with the following information:
   - [ ] The project's title, deadline, priority, description
   - [ ] A list of the names of all robots in that project (or a helpful message if it doesn't have any robots)
 - [ ] Display the appropriate project's info when the url matches `/projects/:projectId`
-- [ ] Clicking on a project from the AllProjects view should navigate to show that project in the single-project view
-
-- [ ] Write a component to display a single robot with the following information:
-  - [ ] The robot's full name, email, image, and gpa
-  - [ ] The name of their project (or a helpful message if they don't have one)
-- [ ] Display the appropriate robot when the url matches `/robots/:robotId`
-- [ ] Clicking on a robot from the AllRobots view should navigate to show that robot in the single-robot view
+- [ ] Clicking on a project from the all-projects view should navigate to show that project in the single-project view
 
 - [ ] Clicking on the name of a robot in the single-project view should navigate to show that robot in the single-robot view
 - [ ] Clicking on the name of a project in the single-robot view should navigate to show that project in the single-project view
@@ -84,23 +82,23 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 </details>
 
-### Tier 3: Adding a Project and Adding a Robot (12/69)
+### Tier 3: Adding a Project and Adding a Robot (12/66)
 
 <details>
 
 #### Frontend
 
+- [ ] Write a component to display a form for adding a new robot that contains inputs for _at least_ name and fuelType
+- [ ] Display this component EITHER as part of the all-robots view, or as its own view
+- [ ] Submitting the form with valid data should:
+  - [ ] Make an AJAX request that causes the new robot to be persisted in the database
+  - [ ] Add the new robot to the list of robots without needing to refresh the page
+
 - [ ] Write a component to display a form for adding a new project that contains inputs for title, deadline, priority, description.
-- [ ] Display this component EITHER as part of the AllProjects view, or as its own view (your choice)
+- [ ] Display this component EITHER as part of the all-projects view, or as its own view (your choice)
 - [ ] Submitting the form with valid data should:
   - [ ] Make an AJAX request that causes the new project to be saved to the database
   - [ ] Add the new project to the list of projects without needing to refresh the page
-
-- [ ] Write a component to display a form for adding a new robot that contains inputs for _at least_ first name, last name and email
-- [ ] Display this component EITHER as part of the AllRobots view, or as its own view
-- [ ] Submitting the form with a valid first name/last name/email should:
-  - [ ] Make an AJAX request that causes the new robot to be persisted in the database
-  - [ ] Add the new robot to the list of robots without needing to refresh the page
 
 #### Backend
 
@@ -111,26 +109,26 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 </details>
 
-### Tier 4: Removing a Project and Removing a Robot (10/69)
+### Tier 4: Removing a Project and Removing a Robot (10/66)
 
 <details>
 
 #### Frontend
 
-- [ ] In the AllProjects view, include an `X` button next to each project
-- [ ] Clicking the `X` button should:
-  - [ ] Make an AJAX request that causes that project to be removed from database
-  - [ ] Remove the project from the list of projects without needing to refresh the page
-
-- [ ] In the AllRobots view, include an `X` button next to each robot
+- [ ] In the all-robots view, include an `X` button next to each robot
 - [ ] Clicking the `X` button should:
   - [ ] Make an AJAX request that causes that robot to be removed from database
   - [ ] Remove the robot from the list of robots without needing to refresh the page
 
+- [ ] In the all-projects view, include an `X` button next to each project
+- [ ] Clicking the `X` button should:
+  - [ ] Make an AJAX request that causes that project to be removed from database
+  - [ ] Remove the project from the list of projects without needing to refresh the page
+
 #### Backend
 
 - [ ] Write a route to remove a project (based on its id)
-- [ ] Write a route to remove a robot (based on their id)
+- [ ] Write a route to remove a robot (based on its id)
 
 Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
@@ -154,17 +152,19 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 #### Frontend
 
-- [ ] Write a component to display a form updating _at least_ a project's name and address
-- [ ] Display this component as part of the single-project view
-- Submitting the form with a valid name/address should:
-  - [ ] Make an AJAX request that causes that project to be updated in the database
-  - [ ] Update the project in the current view without needing to refresh the page
-
-- [ ] Write a component to display a form updating _at least_ a robot's first and last names, and email
+- [ ] Write a component to display a form updating _at least_ a robot's name and fuelLevel
 - [ ] Display this component as part of the single-robot view
-- Submitting the form with a valid name/address should:
+- [ ] Submitting the form with a valid data should:
   - [ ] Make an AJAX request that causes that robot to be updated in the database
   - [ ] Update the robot in the current view without needing to refresh the page
+- [ ] In the single-robot view, display
+
+- [ ] Write a component to display a form updating _at least_ a project's title and completion status
+- [ ] Display this component as part of the single-project view
+- [ ] Submitting the form with valid data should:
+  - [ ] Make an AJAX request that causes that project to be updated in the database
+  - [ ] Update the project in the current view without needing to refresh the page
+- [ ] Display a `Complete` button. Clicking on it should complete the project in the database, and the current view should update without needing to be refreshed.
 
 #### Backend
 
