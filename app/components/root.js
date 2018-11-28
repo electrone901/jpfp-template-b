@@ -1,9 +1,10 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AllRobots from './AllRobots'
 import NavBar from './NavBar'
 import { fetchRobots } from '../redux/robots'
+import { fetchProjects } from '../redux/projects'
 
 class Root extends React.Component {
   componentDidMount() {
@@ -15,9 +16,12 @@ class Root extends React.Component {
       <Router>
         <div>
           <NavBar />
-          <Route path="/robots" component={AllRobots} />
-          <h1>Welcome to StackBot Project Management: your robot employees are awaiting assignments!</h1>
-          <p>This seems like a nice place to get started with some Routes!</p>
+          <Switch>
+            <Route path="/robots" component={AllRobots} />
+            <Route render={() => (
+              <h1>Welcome to StackBot Project Management: your robot employees are awaiting assignments!</h1>
+            )} />
+          </Switch>
         </div>
       </Router>
     )
@@ -27,6 +31,7 @@ class Root extends React.Component {
 const mapDispatch = dispatch => ({
   fetchInitial: () => {
     dispatch(fetchRobots())
+    dispatch(fetchProjects())
   }
 })
 export default connect(null, mapDispatch)(Root)

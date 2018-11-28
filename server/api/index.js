@@ -20,6 +20,7 @@ const router = require('express').Router()
 // error-handling endware!
 
 router.use('/robots', require('./robots'))
+router.use('/projects', require('./projects'))
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!')

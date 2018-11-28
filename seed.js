@@ -4,23 +4,23 @@ const { db, Robot } = require('./server/db')
 const seedRobots = [
   {
     name: 'R2-D2',
-    imageUrl: 'https://robohash.org/r2d2.png?size=100x100',
+    imageUrl: 'images/r2d2.png',
     fuelType: 'electric',
     fuelLevel: 88.34,
   },
-  // {
-  //   name: 'C-3PO',
-  //   imageUrl: 'https://robohash.org/c3po.png?size=100x100',
-  //   fuelLevel: 13.7,
-  // },
+  {
+    name: 'C-3PO',
+    imageUrl: 'images/c3po.png',
+    fuelLevel: 13.7,
+  },
   {
     name: 'WALL-E',
-    imageUrl: 'https://robohash.org/walle.png?size=100x100',
+    imageUrl: 'images/walle.png',
     fuelType: 'gas',
   },
   {
     name: 'HAL-9000',
-    imageUrl: 'https://robohash.org/hal-9000.png?size=100x100',
+    imageUrl: 'images/hal-9000.png',
     fuelLevel: 0,
   },
 ]

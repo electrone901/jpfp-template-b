@@ -16,6 +16,7 @@ const initialState = {
 }
 
 import mockAxios from '../mock-axios'
+import axios from 'axios' // TODO delete this
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
@@ -33,7 +34,7 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import ConnectedAllRobots, { AllRobots } from '../../app/components/AllRobots'
-import NavBar from '../../app/components/NavBar' // TODO: delete this
+import NavBar from '../../app/components/NavBar'
 import Root from '../../app/components/root'
 
 // Sometimes, we want to wait for a short time for async events to finish.
@@ -90,6 +91,7 @@ describe.only('Tier One: Robots', () => {
         <div>{children}</div>
       ))
       mockAxios.onGet('/api/robots').replyOnce(200, robots)
+      // mockAxios.onGet('/api/projects').replyOnce(200, [])
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
@@ -149,7 +151,7 @@ describe.only('Tier One: Robots', () => {
       })
 
       it('*** returns the initial state by default', () => {
-        expect(testStore.getState()).to.deep.equal(initialState)
+        expect(testStore.getState().robots).to.deep.equal(initialState.robots)
       })
 
       it('reduces on SET_ROBOTS action', () => {
@@ -167,9 +169,10 @@ describe.only('Tier One: Robots', () => {
     describe('react-redux', () => {
       beforeEach(() => {
         mockAxios.onGet('/api/robots').replyOnce(200, robots)
+        mockAxios.onGet('/api/projects').replyOnce(200, [])
       })
 
-      it('initializes robots from the server when the app first loads', async () => {
+      it.only('initializes robots from the server when the app first loads', async () => {
         const reduxStateBeforeMount = store.getState()
         expect(reduxStateBeforeMount.robots).to.deep.equal([])
         mount(
@@ -179,6 +182,8 @@ describe.only('Tier One: Robots', () => {
             </MemoryRouter>
           </Provider>
         )
+        // console.log('JOHN: ', await axios.get('/projects/1'))
+        // console.log('JOHN: ', await axios.post('/projects/1', { greeting: 'hello' }))
         await waitFor(10) // wait for 10 milliseconds
         const reduxStateAfterMount = store.getState()
         expect(reduxStateAfterMount.robots).to.deep.equal(robots)
