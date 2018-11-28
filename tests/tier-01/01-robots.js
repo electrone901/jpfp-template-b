@@ -7,7 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 import * as rrd from 'react-router-dom'
-const { MemoryRouter, Link } = rrd
+const { MemoryRouter } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -15,7 +15,6 @@ const initialState = {
   robots: [],
 }
 
-import mockAxios from '../mock-axios'
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
@@ -81,7 +80,6 @@ describe('Tier One: Robots', () => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
       ))
-      mockAxios.onGet('/api/robots').replyOnce(200, robots)
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
@@ -114,7 +112,9 @@ describe('Tier One: Robots', () => {
       })
 
       xit('fetchRobots thunk creator', async () => {
-        mockAxios.onGet('/api/robots').replyOnce(200, robots)
+        // Curiously, we can pass this test even though we haven't created any
+        // API routes yet. Go check out tests/mock-axios.js to see how we can
+        // send dummy data when our tests fetch data from the server.
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_ROBOTS')
@@ -148,9 +148,6 @@ describe('Tier One: Robots', () => {
     })
 
     describe('react-redux', () => {
-      beforeEach(() => {
-        mockAxios.onGet('/api/robots').replyOnce(200, robots)
-      })
 
       xit('initializes robots from the server when the app first loads', async () => {
         const reduxStateBeforeMount = store.getState()
@@ -299,7 +296,7 @@ describe('Tier One: Robots', () => {
       expect(seedRobots).to.have.lengthOf.at.least(3)
     })
     // If you've finished this part, remember to run the seed file from the
-    // command line, to populate your actual database (rather than just the
+    // command line to populate your actual database (rather than just the
     // test database). Fire it up with npm run start-dev and see what it looks
     // like in the browser!
   })
