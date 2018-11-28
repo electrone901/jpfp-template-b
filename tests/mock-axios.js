@@ -4,10 +4,11 @@ const mock = new MockAdapter(axios)
 const app = require('../server')
 const agent = require('supertest')(app)
 
+const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
 const mockProjects = [
-  { id: 1, title: 'Project One', completed: false },
-  { id: 2, title: 'Project Two', completed: true },
-  { id: 3, title: 'Project Three', completed: true },
+  { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
+  { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
+  { id: 3, title: 'Open the pod bay doors', priority: 10 },
 ]
 
 const mockRobots = [
