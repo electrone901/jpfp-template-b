@@ -15,7 +15,6 @@ const initialState = {
   robots: [],
 }
 
-import mockAxios from '../mock-axios'
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
@@ -130,6 +129,9 @@ describe.only('Tier One: Robots', () => {
       })
 
       it('fetchRobots thunk creator', async () => {
+        // Curiously, we can pass this test even though we haven't created any
+        // API routes yet. Go check out tests/mock-axios.js to see how we can
+        // send dummy data when our tests fetch data from the server.
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_ROBOTS')
@@ -325,7 +327,7 @@ describe.only('Tier One: Robots', () => {
       expect(seedRobots).to.have.lengthOf.at.least(3)
     })
     // If you've finished this part, remember to run the seed file from the
-    // command line, to populate your actual database (rather than just the
+    // command line to populate your actual database (rather than just the
     // test database). Fire it up with npm run start-dev and see what it looks
     // like in the browser!
   })
