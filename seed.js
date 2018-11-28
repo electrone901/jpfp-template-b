@@ -25,10 +25,11 @@ const seedRobots = [
   },
 ]
 
-const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-const nextWeek = new Date(Date.now() + 7 * 24 * 60 * (60 * 1000))
-const tomorrow = new Date(Date.now() + 24 * 60 * (60 * 1000))
-const anHourAgo = new Date(Date.now() - 60 * (60 * 1000))
+const HOUR = 60 * (60 * 1000)
+const anHourFromNow = new Date(Date.now() + HOUR)
+const nextWeek = new Date(Date.now() + 7 * 24 * HOUR)
+const tomorrow = new Date(Date.now() + 24 * HOUR)
+const anHourAgo = new Date(Date.now() - HOUR)
 
 const seedProjects = [
   {
