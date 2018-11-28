@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Projects and Robots (30/66)
+### Tier 1: All Robots and Projects (30/66)
 
 <details>
 
@@ -48,7 +48,7 @@ The requirements below are broken into separate **tiers**, which model the way w
 - [ ] Navigation: navbar to navigate to home, robots
 - [ ] Navigation: navbar to navigate to projects
 
-Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all projects and robots"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all robots and projects"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -75,14 +75,14 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 
 #### Backend
 
-- [ ] Write a route to serve up a single project (based on its id), _including that projects' robots_
 - [ ] Write a route to serve up a single robot (based on their id), _including that robot's projects_
+- [ ] Write a route to serve up a single project (based on its id), _including that projects' robots_
 
 Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 3: Adding a Project and Adding a Robot (12/66)
+### Tier 3: Adding a Robot and Adding a Project (12/66)
 
 <details>
 
@@ -102,14 +102,14 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 #### Backend
 
-- [ ] Write a route to add a new project
 - [ ] Write a route to add a new robot
+- [ ] Write a route to add a new project
 
-Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your third vertical slice! Make sure to `commit -m "Feature: Add Robot and Project"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 4: Removing a Project and Removing a Robot (10/66)
+### Tier 4: Removing a Robot and Removing a Project (10/66)
 
 <details>
 
@@ -127,10 +127,10 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 #### Backend
 
-- [ ] Write a route to remove a project (based on its id)
 - [ ] Write a route to remove a robot (based on its id)
+- [ ] Write a route to remove a project (based on its id)
 
-Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
+Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Robot and Project"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
@@ -146,7 +146,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 </details>
 
-### Bonus Tier 2: Updating a Project and Updating a Robot (10/15 EC)
+### Bonus Tier 2: Updating a Robot and Updating a Project (15/20 EC)
 
 <details>
 
@@ -157,14 +157,15 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 - [ ] Submitting the form with a valid data should:
   - [ ] Make an AJAX request that causes that robot to be updated in the database
   - [ ] Update the robot in the current view without needing to refresh the page
-- [ ] In the single-robot view, display
+- [ ] In the single-robot view, display an `Unassign` button next to each of its projects, which unassigns it from that project (in the database as well as this view)
 
 - [ ] Write a component to display a form updating _at least_ a project's title and completion status
 - [ ] Display this component as part of the single-project view
 - [ ] Submitting the form with valid data should:
   - [ ] Make an AJAX request that causes that project to be updated in the database
   - [ ] Update the project in the current view without needing to refresh the page
-- [ ] Display a `Complete` button. Clicking on it should complete the project in the database, and the current view should update without needing to be refreshed.
+- [ ] In the single-project view, display an `Unassign` button next to each robot assigned to it, which unassigns that robot (in the database as well as this view)
+- [ ] In the single-project view, display a `Complete` button, which marks the project as completed (in the database as well as this view)
 
 #### Backend
 
