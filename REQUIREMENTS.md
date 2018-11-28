@@ -154,7 +154,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 - [ ] Write a component to display a form updating _at least_ a robot's name and fuelLevel
 - [ ] Display this component as part of the single-robot view
-- [ ] Submitting the form with a valid data should:
+- [ ] Submitting the form with valid data should:
   - [ ] Make an AJAX request that causes that robot to be updated in the database
   - [ ] Update the robot in the current view without needing to refresh the page
 - [ ] In the single-robot view, display an `Unassign` button next to each of its projects, which unassigns it from that project (in the database as well as this view)
