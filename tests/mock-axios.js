@@ -1,7 +1,5 @@
-import MockAdapter from 'axios-mock-adapter';
-// const fetch = require('node-fetch')
-import axios from 'axios';
-// const normalAxios = axios.create()
+import MockAdapter from 'axios-mock-adapter'
+import axios from 'axios'
 const mock = new MockAdapter(axios)
 const app = require('../server')
 const agent = require('supertest')(app)
@@ -12,40 +10,38 @@ const mockProjects = [
   { id: 3, title: 'Project Three', completed: true },
 ]
 
+const mockRobots = [
+  { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+  { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+]
+
 beforeEach(() => {
-  mock.onGet('/api/robots').reply(200, [
-    { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-    { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-  ])
+  // Mock GET /api/robots => all robots
+  mock.onGet('/api/robots').reply(200, mockRobots)
+  // Mock GET /api/projects => all projects
+  mock.onGet('/api/projects').reply(200, mockProjects)
+  // Mock GET /api/robots/:id => single robot with matching id
+  mock.onGet(/\/api\/robots\/\d+/).reply(config => {
+    const urlArr = config.url.split('/')
+    const id = Number(urlArr.slice(-1)[0])
+    const robot = mockRobots.find(rob => rob.id === id)
+    return robot ? [200, robot] : [404]
+  })
+  // Mock GET /api/projects/:id => single project with matching id
+  mock.onGet(/\/api\/projects\/\d+/).reply(config => {
+    const urlArr = config.url.split('/')
+    const id = Number(urlArr.slice(-1)[0])
+    const project = mockProjects.find(proj => proj.id === id)
+    return project ? [200, project] : [404]
+  })
+  // If something in the tests doesn't match one of the above routes,
+  // use a supertest agent to use the actual API
   mock.onAny().reply(async (req) => {
-    console.log('req >>>> ', req)
     const response = await agent[req.method](req.url, req.data)
-    console.log('response >>>>>> ', response.body)
     return [response.status, response.body]
   })
-  // mock.onGet('/api/projects').replyOnce(200, mockProjects)
-  // mock.onGet('/api/projects/1').replyOnce(200, mockProjects[0])
-  // mock.onGet('/api/projects/2').replyOnce(200, mockProjects[1])
-  // mock.onGet('/api/projects/3').replyOnce(200, mockProjects[2])
-  // mock.onGet('/users', { params: { searchText: 'John' } }).reply(200, {
-  //   users: [
-  //     { id: 1, name: 'John Smith' }
-  //   ]
-  // })
-  // .onAny()
-  // .passThrough()
-  // mock.onAny().passThrough() // what does passThrough really do? Can you change the PORT it goes to?
-  // mock.onAny().reply(async (request) => {
-  //   console.log('REQUEST >>>>>>', request)
-  //   const response = await fetch('http://localhost:1337' + request.url, {
-  //     method: request.method,
-  //     body: request.data,
-  //   })
-  //   return response.json()
-  //   // return normalAxios.get(`http://localhost:1337/api/projects`)
-  // })
 })
 
-afterEach(() => mock.reset());
+afterEach(() => mock.reset())
 
-export default mock;
+export default mock

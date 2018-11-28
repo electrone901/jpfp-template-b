@@ -167,12 +167,8 @@ describe.only('Tier One: Robots', () => {
     })
 
     describe('react-redux', () => {
-      beforeEach(() => {
-        mockAxios.onGet('/api/robots').replyOnce(200, robots)
-        mockAxios.onGet('/api/projects').replyOnce(200, [])
-      })
 
-      it.only('initializes robots from the server when the app first loads', async () => {
+      it('initializes robots from the server when the app first loads', async () => {
         const reduxStateBeforeMount = store.getState()
         expect(reduxStateBeforeMount.robots).to.deep.equal([])
         mount(
@@ -182,8 +178,6 @@ describe.only('Tier One: Robots', () => {
             </MemoryRouter>
           </Provider>
         )
-        // console.log('JOHN: ', await axios.get('/projects/1'))
-        // console.log('JOHN: ', await axios.post('/projects/1', { greeting: 'hello' }))
         await waitFor(10) // wait for 10 milliseconds
         const reduxStateAfterMount = store.getState()
         expect(reduxStateAfterMount.robots).to.deep.equal(robots)
@@ -205,7 +199,6 @@ describe.only('Tier One: Robots', () => {
         expect(componentRobots).to.deep.equal(reduxRobotes)
       })
     })
-
 
   })
 
