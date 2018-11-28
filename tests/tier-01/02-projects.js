@@ -111,7 +111,7 @@ describe('Tier One: Projects', () => {
       })
     })
 
-    describe.only('reducer', () => {
+    describe('reducer', () => {
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)
@@ -121,7 +121,7 @@ describe('Tier One: Projects', () => {
         throw new Error('replace this error with your own test')
       })
 
-      it('reduces on SET_STUDENTS action', () => {
+      xit('reduces on SET_STUDENTS action', () => {
         const projects = [
           {
             id: 1,
@@ -184,20 +184,19 @@ describe('Tier One: Projects', () => {
   })
 
   describe('Sequelize Model', () => {
-    let project;
+    // clear database before the 'describe' block
     before(() => db.sync({ force: true }))
-    beforeEach(() => {
-      project = {
+    // clear the database after each 'it' block
+    afterEach(() => db.sync({ force: true }))
+
+    it('has fields title, deadline, priority, completed, description', async () => {
+      const project = {
         title: 'Title - Test Project 3',
         deadline: new Date(2018, 11, 31),
         priority: 8,
         completed: false,
         description: 'description of test project 3'
       }
-    })
-    afterEach(() => db.sync({ force: true }))
-
-    xit('has fields title, deadline, priority, completed, description', async () => {
       project.notARealAttribute = 'does not compute'
       const savedProject = await Project.create(project)
       expect(savedProject.title).to.equal('Title - Test Project 3')
@@ -206,66 +205,63 @@ describe('Tier One: Projects', () => {
       expect(savedProject.description).to.equal('description of test project 3')
     })
 
-    xit('requires firstName, lastName, email', async () => {
+    xit('requires title', async () => {
       const project = Project.build()
       try {
         await project.validate()
-        throw Error('validation should have failed without firstName, lastName, email')
+        throw Error('validation should have failed without title')
       }
       catch (err) {
-        expect(err.message).to.contain('firstName cannot be null')
-        expect(err.message).to.contain('lastName cannot be null')
-        expect(err.message).to.contain('email cannot be null')
+        expect(err.message).to.contain('title cannot be null')
       }
     })
 
-    xit('firstName, lastName, email cannot be empty', async () => {
-      const project = Project.build({ firstName: '', lastName: '', email: '' })
+    xit('title cannot be empty', async () => {
+      const project = Project.build({ title: '', priority: 8})
       try {
         await project.validate()
-        throw Error('validation should have failed with empty name and address')
+        throw Error('validation should have failed with empty title')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation notEmpty on firstName')
-        expect(err.message).to.contain('Validation notEmpty on lastName')
-        expect(err.message).to.contain('Validation notEmpty on email')
+        expect(err.message).to.contain('Validation notEmpty on title')
       }
     })
 
-    xit('*** email must be a valid email', async () => {
+    xit('*** deadline must be a valid date', async () => {
       throw new Error('replace this error with your own test')
     })
 
-    xit('gpa must be a float between 0.0 and 4.0', async () => {
+    xit('priority must be an integer between 1 and 10', async () => {
       const project = {
-        firstName: 'Sally',
-        lastName: 'Ride',
-        email: 'sallyride@nasa.gov',
-        gpa: 4.1,
+        title: 'Title - Test Project 3',
+        deadline: new Date(2018, 11, 31),
+        priority: 15,
+        completed: false,
+        description: 'description of test project 3'
       }
-      const overachiever = Project.build(project)
+      const highPriority = Project.build(project)
       try {
-        await overachiever.save()
-        throw Error('validation should have failed with too high gpa')
+        await highPriority.validate()
+        throw Error('validation should have failed with too high priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation max on gpa')
+        expect(err.message).to.contain('Validation max on priority')
       }
-      project.gpa = -1
-      const underachiever = Project.build(project)
+      project.priority = 0
+      const lowPriority = Project.build(project)
       try {
-        await underachiever.validate()
-        throw Error('validation should have failed with too low gpa')
+        await lowPriority.validate()
+        throw Error('validation should have failed with too low priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation min on gpa')
+        expect(err.message).to.contain('Validation min on priority')
       }
     })
 
-    xit('default imageUrl if left blank', () => {
-      const project = Project.build({ firstName: '', lastName: '', email: '' })
-      expect(project.imageUrl).to.be.a('string')
-      expect(project.imageUrl.length).to.be.greaterThan(1)
+    xit('default completed to false if left blank', () => {
+      const project = Project.build({ title: 'practice guitar', priority: 5})
+      expect(project.completed).to.be.a('boolean')
+      expect(project.completed).to.equal(false)
     })
   })
 })

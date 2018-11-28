@@ -2,10 +2,25 @@ const Sequelize = require('sequelize')
 const db = require('./database')
 
 const Project = db.define('project', {
-  title: Sequelize.STRING,
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
+  },
   deadline: Sequelize.DATE,
-  priority: Sequelize.INTEGER,
-  completed: Sequelize.BOOLEAN,
+  priority: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 1,
+      max: 10
+    }
+  },
+  completed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   description: Sequelize.TEXT
 })
 
