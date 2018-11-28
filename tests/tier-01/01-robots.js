@@ -16,7 +16,6 @@ const initialState = {
 }
 
 import mockAxios from '../mock-axios'
-import axios from 'axios' // TODO delete this
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
@@ -90,8 +89,6 @@ describe.only('Tier One: Robots', () => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
       ))
-      mockAxios.onGet('/api/robots').replyOnce(200, robots)
-      // mockAxios.onGet('/api/projects').replyOnce(200, [])
     })
     afterEach(() => {
       rrd.BrowserRouter.restore()
@@ -133,7 +130,6 @@ describe.only('Tier One: Robots', () => {
       })
 
       it('fetchRobots thunk creator', async () => {
-        mockAxios.onGet('/api/robots').replyOnce(200, robots)
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_ROBOTS')
