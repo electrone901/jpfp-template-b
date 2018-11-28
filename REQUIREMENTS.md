@@ -134,7 +134,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 </details>
 
-### Bonus Tier 1: Finishing Touches (5/15 EC)
+### Bonus Tier 1: Finishing Touches (5/20 EC)
 
 <details>
 
