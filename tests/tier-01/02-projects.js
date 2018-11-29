@@ -39,20 +39,21 @@ describe('Tier One: Projects', () => {
 
   describe('<AllProjects /> component', () => {
     xit('renders the projects passed in as props', () => {
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       const projects = [
         {
           id: 1,
-          title: 'Title - Test Project 1',
+          title: 'build barn',
+          deadline: anHourFromNow,
           priority: 9,
-          completed: true,
-          description: 'description of test project 1'
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
         },
         {
           id: 2,
-          title: 'Title - Test Project 2',
+          title: 'make pizza',
           priority: 4,
-          completed: false,
-          description: 'description of test project 2'
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
         }
       ]
       const wrapper = mount(
@@ -62,8 +63,8 @@ describe('Tier One: Projects', () => {
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.text()).to.include('Title - Test Project 1')
-      expect(wrapper.text()).to.include('Title - Test Project 2')
+      expect(wrapper.text()).to.include('build barn')
+      expect(wrapper.text()).to.include('make pizza')
     })
 
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
@@ -78,20 +79,21 @@ describe('Tier One: Projects', () => {
     })
 
     describe('set projects', () => {
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       const projects = [
         {
           id: 1,
-          title: 'Title - Test Project 1',
+          title: 'build barn',
+          deadline: anHourFromNow,
           priority: 9,
-          completed: true,
-          description: 'description of test project 1'
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
         },
         {
           id: 2,
-          title: 'Title - Test Project 2',
+          title: 'make pizza',
           priority: 4,
-          completed: false,
-          description: 'description of test project 2'
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
         }
       ]
 
@@ -122,20 +124,21 @@ describe('Tier One: Projects', () => {
       })
 
       xit('reduces on SET_STUDENTS action', () => {
+        const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
         const projects = [
           {
             id: 1,
-            title: 'Title - Test Project 1',
+            title: 'build barn',
+            deadline: anHourFromNow,
             priority: 9,
-            completed: true,
-            description: 'description of test project 1'
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
           },
           {
             id: 2,
-            title: 'Title - Test Project 2',
+            title: 'make pizza',
             priority: 4,
-            completed: false,
-            description: 'description of test project 2'
+            completed: true,
+            description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
           }
         ]
         const action = { type: 'SET_STUDENTS', projects }
@@ -157,20 +160,21 @@ describe('Tier One: Projects', () => {
     // our Sequelize models haven't been implemented yet.
     const { findAll: projectFindAll } = Project
     beforeEach(() => {
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       Project.findAll = sinon.spy(() => [
         {
           id: 1,
-          title: 'Title - Test Project 1',
+          title: 'build barn',
+          deadline: anHourFromNow,
           priority: 9,
-          completed: true,
-          description: 'description of test project 1'
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
         },
         {
           id: 2,
-          title: 'Title - Test Project 2',
+          title: 'make pizza',
           priority: 4,
-          completed: false,
-          description: 'description of test project 2'
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
         }
       ])
     })
@@ -191,18 +195,17 @@ describe('Tier One: Projects', () => {
 
     xit('has fields title, deadline, priority, completed, description', async () => {
       const project = {
-        title: 'Title - Test Project 3',
-        deadline: new Date(2018, 11, 31),
-        priority: 8,
+        title: 'build barn',
+        priority: 9,
         completed: false,
-        description: 'description of test project 3'
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
       }
       project.notARealAttribute = 'does not compute'
       const savedProject = await Project.create(project)
-      expect(savedProject.title).to.equal('Title - Test Project 3')
-      expect(savedProject.priority).to.equal(8)
+      expect(savedProject.title).to.equal('build barn')
+      expect(savedProject.priority).to.equal(9)
       expect(savedProject.completed).to.equal(false)
-      expect(savedProject.description).to.equal('description of test project 3')
+      expect(savedProject.description).to.equal('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
     })
 
     xit('requires title', async () => {
@@ -233,11 +236,11 @@ describe('Tier One: Projects', () => {
 
     xit('priority must be an integer between 1 and 10', async () => {
       const project = {
-        title: 'Title - Test Project 3',
+        title: 'make pizza',
         deadline: new Date(2018, 11, 31),
         priority: 15,
         completed: false,
-        description: 'description of test project 3'
+        description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
       }
       const highPriority = Project.build(project)
       try {
@@ -259,7 +262,7 @@ describe('Tier One: Projects', () => {
     })
 
     xit('default completed to false if left blank', () => {
-      const project = Project.build({ title: 'practice guitar', priority: 5})
+      const project = Project.build({ title: 'clean room', priority: 5})
       expect(project.completed).to.be.a('boolean')
       expect(project.completed).to.equal(false)
     })
