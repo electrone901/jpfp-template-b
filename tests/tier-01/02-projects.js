@@ -6,7 +6,8 @@ import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { MemoryRouter } from 'react-router-dom'
+import * as rrd from 'react-router-dom'
+const { MemoryRouter } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -19,17 +20,24 @@ import { setProjects, fetchProjects } from '../../app/redux/projects'
 
 import appReducer from '../../app/redux'
 import { createStore } from 'redux'
+import store from '../../app/store'
 
 const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
 const { Project } = require('../../server/db')
+const seed = require('../../seed')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllProjects } from '../../app/components/AllProjects'
+import ConnectedAllProjects, { AllProjects } from '../../app/components/AllProjects'
+import Root from '../../app/components/root'
+
+// Sometimes, we want to wait for a short time for async events to finish.
+const waitFor = (wait) =>
+  new Promise((resolve) => setTimeout(resolve, wait))
 
 describe('Tier One: Projects', () => {
   let fakeStore
@@ -69,6 +77,28 @@ describe('Tier One: Projects', () => {
 
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
       throw new Error('replace this error with your own test')
+    })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({children}) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    xit('renders <AllProjects /> at path /projects', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['./projects']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllProjects).to.have.length(1))
     })
   })
 
