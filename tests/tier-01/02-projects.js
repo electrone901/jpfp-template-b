@@ -80,28 +80,6 @@ describe('Tier One: Projects', () => {
     })
   })
 
-  describe('Navigation', () => {
-    beforeEach(() => {
-      sinon.stub(rrd, 'BrowserRouter').callsFake(({children}) => (
-        <div>{children}</div>
-      ))
-    })
-    afterEach(() => {
-      rrd.BrowserRouter.restore()
-    })
-
-    xit('renders <AllProjects /> at path /projects', () => {
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <MemoryRouter initialEntries={['./projects']}>
-            <Root />
-          </MemoryRouter>
-        </Provider>
-      )
-      expect(wrapper.find(AllProjects).to.have.length(1))
-    })
-  })
-
   describe('Redux', () => {
     let fakeStore
     beforeEach(() => {
@@ -134,8 +112,8 @@ describe('Tier One: Projects', () => {
         })
       })
 
-      xit('fetchProjects thunk creator', async () => {
-        mockAxios.onGet('/api/projects').replyOnce(200, projects)
+      it('fetchProjects thunk creator', async () => {
+        // mockAxios.onGet('/api/projects').replyOnce(200, projects)
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_PROJECTS')
