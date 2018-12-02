@@ -4,7 +4,7 @@ const mock = new MockAdapter(axios)
 const app = require('../server')
 const agent = require('supertest')(app)
 
-const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000)).toString()
+export const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000)).toString()
 export const mockProjects = [
   { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
   { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
@@ -15,6 +15,7 @@ export const mockProjects = [
 export const mockRobots = [
   { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
   { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+  { id: 3, name: 'HAL-9000', imageUrl: '/images/hal-9000.png' },
 ]
 
 beforeEach(() => {

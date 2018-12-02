@@ -15,7 +15,7 @@ const initialState = {
   projects: [],
 }
 
-import mockAxios, { mockProjects } from '../mock-axios'
+import mockAxios, { mockProjects, anHourFromNow } from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
 import appReducer from '../../app/redux'
@@ -41,6 +41,12 @@ const waitFor = (wait) =>
 
 describe.only('Tier One: Projects', () => {
   let fakeStore
+  const projects = [
+    { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
+    { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
+    { id: 3, title: 'Open the pod bay doors', priority: 10 },
+    { id: 4, title: 'Make pizza', priority: 4, completed: true, description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem' },
+  ]
   beforeEach(() => {
     fakeStore = mockStore(initialState)
   })
@@ -139,6 +145,40 @@ describe.only('Tier One: Projects', () => {
 
         expect(newState.projects).to.be.deep.equal(mockProjects);
         expect(newState.projects).to.not.be.equal(prevState.projects);
+      })
+    })
+
+    describe('react-redux', () => {
+
+      it('initializes projects from the server when the app first loads', async () => {
+        const reduxStateBeforeMount = store.getState()
+        expect(reduxStateBeforeMount.projects).to.deep.equal([])
+        mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/']}>
+              <Root />
+            </MemoryRouter>
+          </Provider>
+        )
+        await waitFor(10) // wait for 10 milliseconds
+        const reduxStateAfterMount = store.getState()
+        expect(reduxStateAfterMount.projects).to.deep.equal(projects)
+      })
+
+      it('<AllProjects /> is passed projects from store as props', async () => {
+        const wrapper = mount(
+          <Provider store={store}>
+            <MemoryRouter initialEntries={['/projects']}>
+              <ConnectedAllProjects />
+            </MemoryRouter>
+          </Provider>
+        )
+        store.dispatch(fetchProjects()) // fetch the projects
+        await waitFor(10) // wait for 10 milliseconds
+        wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+        const { projects: reduxProjects } = store.getState()
+        const { projects: componentProjects } = wrapper.find(AllProjects).props()
+        expect(componentProjects).to.deep.equal(reduxProjects)
       })
     })
   })
@@ -268,7 +308,7 @@ describe.only('Tier One: Projects', () => {
   describe('Seed File', () => {
     beforeEach(seed)
 
-    it('populates the database with at least three robots', async () => {
+    it('populates the database with at least three projects', async () => {
       const seedProjects = await Project.findAll()
       expect(seedProjects).to.have.lengthOf.at.least(3)
     })
