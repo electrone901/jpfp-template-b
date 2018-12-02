@@ -9,16 +9,17 @@ export const setRobots = (robots) => ({
   robots,
 })
 
+// THUNK CREATORS
 export const fetchRobots = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/robots')
-    // setTimeout(() => dispatch(setRobots(data)), 2000)
     dispatch(setRobots(data))
   } catch (err) {
     console.error(err)
   }
 }
 
+// REDUCER
 export default function reducer(state = [], action) {
   switch (action.type) {
     case SET_ROBOTS:
