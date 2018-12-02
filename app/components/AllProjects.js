@@ -7,12 +7,14 @@ export const AllProjects = ({ projects = [] }) => {
   return (
     <div>
       <h1>Here are all your projects:</h1>
-      <div className="allRobotsContainer">
+      <div className="allProjectsContainer">
       {projects.map(project => (
         <Link className="allRobotsItem" key={project.id} to="#">
           <div>
-              <p>{project.title}</p>
-              <p>{project.description}</p>
+              <p>Title: {project.title}</p>
+              <p>Priority Rating: {project.priority}</p>
+              <p>Completed: {project.completed ? 'Yes' : 'No'}</p>
+              <p>Description: {project.description}</p>
           </div>
         </Link>
       ))}

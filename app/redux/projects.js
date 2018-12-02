@@ -9,18 +9,17 @@ export const setProjects = (projects) => ({
   projects,
 })
 
+// THUNK CREATORS
 export const fetchProjects = () => async dispatch => {
   try {
-    // console.log('fetch Projects >>>>>>>>  ')
     const { data } = await axios.get('/api/projects')
-    // console.log('DATA >>>>>>>>  ', data)
-    // setTimeout(() => dispatch(setProjects(data)), 2000)
     dispatch(setProjects(data))
   } catch (err) {
     console.error(err)
   }
 }
 
+// REDUCER
 export default function reducer(state = [], action) {
   switch (action.type) {
     case SET_PROJECTS:

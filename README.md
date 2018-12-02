@@ -6,9 +6,10 @@
 2. `npm install`
 3. Read the rest of this `README.md` carefully - it contains the requirements for the project and the grading rubric that will be used to assess it
 4. Check out the mock-view in the `wireframes` folder to get an idea of what the project _could_ look like
-5. Start the build process and your application with: `npm run start-dev`. If you're using Windows, you may need to execute `npm run start-server` and `npm run build-watch` separately (in their own terminal tabs).
+5. Start the build process and your application with: `npm run start-dev`; if you're using Windows, you may need to execute `npm run start-server` and `npm run build-watch` separately (in their own terminal tabs)
 6. If you navigate to the URL you should see some UI already :) [We already have some connection code to get you started]
 7. Check out the starting seed file in `seed.js` - you can run it by executing `npm run seed`
+8. Create `senior-enrichment` and `senior-enrichment-test` databases
 
 ## Details
 

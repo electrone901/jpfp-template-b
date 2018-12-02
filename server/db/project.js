@@ -3,13 +3,25 @@ const db = require('./database')
 
 const Project = db.define('project', {
   title: {
-    allowNull: false,
     type: Sequelize.STRING,
-    validate: { notEmpty: true },
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
-  description: {
-    type: Sequelize.TEXT,
+  deadline: Sequelize.DATE,
+  priority: {
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 1,
+      max: 10
+    }
   },
+  completed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  description: Sequelize.TEXT
 })
 
 module.exports = Project

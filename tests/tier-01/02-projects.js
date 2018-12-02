@@ -1,10 +1,13 @@
 const { expect } = require('chai');
-import enzyme, { shallow } from 'enzyme'
+import enzyme, { mount } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
 import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
+import { Provider } from 'react-redux'
+import * as rrd from 'react-router-dom'
+const { MemoryRouter } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -15,29 +18,61 @@ const initialState = {
 import mockAxios from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
-import rootReducer from '../../app/redux'
+import appReducer from '../../app/redux'
 import { createStore } from 'redux'
+import store from '../../app/store'
 
 const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
 const { Project } = require('../../server/db')
+const seed = require('../../seed')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllProjects } from '../../app/components/AllProjects'
+import ConnectedAllProjects, { AllProjects } from '../../app/components/AllProjects'
+import Root from '../../app/components/root'
+
+// Sometimes, we want to wait for a short time for async events to finish.
+const waitFor = (wait) =>
+  new Promise((resolve) => setTimeout(resolve, wait))
 
 describe('Tier One: Projects', () => {
+  let fakeStore
+  beforeEach(() => {
+    fakeStore = mockStore(initialState)
+  })
+
   describe('<AllProjects /> component', () => {
     xit('renders the projects passed in as props', () => {
-      const wrapper = shallow(<AllProjects projects={[
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
-      ]} />)
-      expect(wrapper.text()).to.include('Mae Jemison')
-      expect(wrapper.text()).to.include('Sally Ride')
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
+      const projects = [
+        {
+          id: 1,
+          title: 'build barn',
+          deadline: anHourFromNow,
+          priority: 9,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        },
+        {
+          id: 2,
+          title: 'make pizza',
+          priority: 4,
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+        }
+      ]
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllProjects projects={projects} />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.text()).to.include('build barn')
+      expect(wrapper.text()).to.include('make pizza')
     })
 
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
@@ -52,23 +87,36 @@ describe('Tier One: Projects', () => {
     })
 
     describe('set projects', () => {
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       const projects = [
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+        {
+          id: 1,
+          title: 'build barn',
+          deadline: anHourFromNow,
+          priority: 9,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        },
+        {
+          id: 2,
+          title: 'make pizza',
+          priority: 4,
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+        }
       ]
 
       xit('setProjects action creator', () => {
         expect(setProjects(projects)).to.deep.equal({
-          type: 'SET_STUDENTS',
+          type: 'SET_PROJECTS',
           projects,
         })
       })
 
-      xit('fetchProjects thunk creator', async () => {
-        mockAxios.onGet('/api/projects').replyOnce(200, projects)
+      it('fetchProjects thunk creator', async () => {
+        // mockAxios.onGet('/api/projects').replyOnce(200, projects)
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
-        expect(actions[0].type).to.equal('SET_STUDENTS')
+        expect(actions[0].type).to.equal('SET_PROJECTS')
         expect(actions[0].projects).to.deep.equal(projects)
       })
     })
@@ -76,7 +124,7 @@ describe('Tier One: Projects', () => {
     describe('reducer', () => {
       let testStore
       beforeEach(() => {
-        testStore = createStore(rootReducer)
+        testStore = createStore(appReducer)
       })
 
       xit('*** returns the initial state by default', () => {
@@ -84,9 +132,22 @@ describe('Tier One: Projects', () => {
       })
 
       xit('reduces on SET_STUDENTS action', () => {
+        const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
         const projects = [
-          { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-          { id: 2, firstName: 'Sally', lastName: 'Ride' },
+          {
+            id: 1,
+            title: 'build barn',
+            deadline: anHourFromNow,
+            priority: 9,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+          },
+          {
+            id: 2,
+            title: 'make pizza',
+            priority: 4,
+            completed: true,
+            description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+          }
         ]
         const action = { type: 'SET_STUDENTS', projects }
 
@@ -107,9 +168,22 @@ describe('Tier One: Projects', () => {
     // our Sequelize models haven't been implemented yet.
     const { findAll: projectFindAll } = Project
     beforeEach(() => {
+      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       Project.findAll = sinon.spy(() => [
-        { id: 1, firstName: 'Mae', lastName: 'Jemison' },
-        { id: 2, firstName: 'Sally', lastName: 'Ride' },
+        {
+          id: 1,
+          title: 'build barn',
+          deadline: anHourFromNow,
+          priority: 9,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        },
+        {
+          id: 2,
+          title: 'make pizza',
+          priority: 4,
+          completed: true,
+          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+        }
       ])
     })
     afterEach(() => {
@@ -122,84 +196,83 @@ describe('Tier One: Projects', () => {
   })
 
   describe('Sequelize Model', () => {
+    // clear database before the 'describe' block
     before(() => db.sync({ force: true }))
+    // clear the database after each 'it' block
     afterEach(() => db.sync({ force: true }))
 
-    xit('has fields firstName, lastName, email, imageUrl, gpa', async () => {
-      const project = await Project.create({
-        firstName: 'Sally',
-        lastName: 'Ride',
-        email: 'sallyride@nasa.gov',
-        imageUrl: '/images/sallyride.png',
-        gpa: 3.8,
-      })
-      expect(project.firstName).to.equal('Sally')
-      expect(project.lastName).to.equal('Ride')
-      expect(project.imageUrl).to.equal('/images/sallyride.png')
-      expect(project.email).to.equal('sallyride@nasa.gov')
-      expect(parseFloat(project.gpa)).to.equal(3.8)
+    xit('has fields title, deadline, priority, completed, description', async () => {
+      const project = {
+        title: 'build barn',
+        priority: 9,
+        completed: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      }
+      project.notARealAttribute = 'does not compute'
+      const savedProject = await Project.create(project)
+      expect(savedProject.title).to.equal('build barn')
+      expect(savedProject.priority).to.equal(9)
+      expect(savedProject.completed).to.equal(false)
+      expect(savedProject.description).to.equal('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
     })
 
-    xit('requires firstName, lastName, email', async () => {
+    xit('requires title', async () => {
       const project = Project.build()
       try {
         await project.validate()
-        throw Error('validation should have failed without firstName, lastName, email')
+        throw Error('validation should have failed without title')
       }
       catch (err) {
-        expect(err.message).to.contain('firstName cannot be null')
-        expect(err.message).to.contain('lastName cannot be null')
-        expect(err.message).to.contain('email cannot be null')
+        expect(err.message).to.contain('title cannot be null')
       }
     })
 
-    xit('firstName, lastName, email cannot be empty', async () => {
-      const project = Project.build({ firstName: '', lastName: '', email: '' })
+    xit('title cannot be empty', async () => {
+      const project = Project.build({ title: '', priority: 8})
       try {
         await project.validate()
-        throw Error('validation should have failed with empty name and address')
+        throw Error('validation should have failed with empty title')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation notEmpty on firstName')
-        expect(err.message).to.contain('Validation notEmpty on lastName')
-        expect(err.message).to.contain('Validation notEmpty on email')
+        expect(err.message).to.contain('Validation notEmpty on title')
       }
     })
 
-    xit('*** email must be a valid email', async () => {
+    xit('*** deadline must be a valid date', async () => {
       throw new Error('replace this error with your own test')
     })
 
-    xit('gpa must be a float between 0.0 and 4.0', async () => {
+    xit('priority must be an integer between 1 and 10', async () => {
       const project = {
-        firstName: 'Sally',
-        lastName: 'Ride',
-        email: 'sallyride@nasa.gov',
-        gpa: 4.1,
+        title: 'make pizza',
+        deadline: new Date(2018, 11, 31),
+        priority: 15,
+        completed: false,
+        description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
       }
-      const overachiever = Project.build(project)
+      const highPriority = Project.build(project)
       try {
-        await overachiever.save()
-        throw Error('validation should have failed with too high gpa')
+        await highPriority.validate()
+        throw Error('validation should have failed with too high priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation max on gpa')
+        expect(err.message).to.contain('Validation max on priority')
       }
-      project.gpa = -1
-      const underachiever = Project.build(project)
+      project.priority = 0
+      const lowPriority = Project.build(project)
       try {
-        await underachiever.validate()
-        throw Error('validation should have failed with too low gpa')
+        await lowPriority.validate()
+        throw Error('validation should have failed with too low priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation min on gpa')
+        expect(err.message).to.contain('Validation min on priority')
       }
     })
 
-    xit('default imageUrl if left blank', () => {
-      const project = Project.build({ firstName: '', lastName: '', email: '' })
-      expect(project.imageUrl).to.be.a('string')
-      expect(project.imageUrl.length).to.be.greaterThan(1)
+    xit('default completed to false if left blank', () => {
+      const project = Project.build({ title: 'clean room', priority: 5})
+      expect(project.completed).to.be.a('boolean')
+      expect(project.completed).to.equal(false)
     })
   })
 })
