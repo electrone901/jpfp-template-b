@@ -265,4 +265,49 @@ describe.only('Tier One: Projects', () => {
       expect(project.completed).to.equal(false)
     })
   })
+  describe('Seed File', () => {
+    beforeEach(seed)
+
+    it('populates the database with at least three robots', async () => {
+      const seedProjects = await Project.findAll()
+      expect(seedProjects).to.have.lengthOf.at.least(3)
+    })
+    // If you've finished this part, remember to run the seed file from the
+    // command line to populate your actual database (rather than just the
+    // test database). Fire it up with npm run start-dev and see what it looks
+    // like in the browser!
+  })
 })
+
+
+/*
+
+Tier One: Robots
+  <AllRobots /> component
+    ✓ renders the robots passed in as props
+    ✓ *** renders "No Robots" if passed an empty array of robots
+  Navigation
+    ✓ renders <AllRobots /> at path /robots
+    ✓ *** navbar has links to "/robots" and "/" (homepage)
+  Redux
+    set/fetch robots
+      ✓ setRobots action creator
+      ✓ fetchRobots thunk creator
+    robots reducer
+      ✓ *** returns the initial state by default
+      ✓ reduces on SET_ROBOTS action
+    react-redux
+      ✓ initializes robots from the server when the app first loads
+      ✓ <AllRobots /> is passed robots from store as props
+  Express API
+    ✓ GET /api/robots responds with all robots
+    ✓ GET /api/robots responds with error 500 when database throws error
+  Sequelize Model
+    ✓ has fields name, imageUrl, fuelType, fuelLevel
+    ✓ *** name cannot be null or an empty string
+    ✓ fuelType can only be gas, diesel, or electric (defaults to electric)
+    ✓ fuelLevel must be between 0 and 100 (defaults to 100)
+  Seed File
+    ✓ populates the database with at least three robots
+
+*/
