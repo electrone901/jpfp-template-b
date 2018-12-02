@@ -15,7 +15,7 @@ const initialState = {
   projects: [],
 }
 
-import mockAxios from '../mock-axios'
+import mockAxios, { mockProjects } from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
 import appReducer from '../../app/redux'
@@ -39,40 +39,23 @@ import Root from '../../app/components/root'
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
-describe('Tier One: Projects', () => {
+describe.only('Tier One: Projects', () => {
   let fakeStore
   beforeEach(() => {
     fakeStore = mockStore(initialState)
   })
 
   describe('<AllProjects /> component', () => {
-    xit('renders the projects passed in as props', () => {
-      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-      const projects = [
-        {
-          id: 1,
-          title: 'build barn',
-          deadline: anHourFromNow,
-          priority: 9,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-        },
-        {
-          id: 2,
-          title: 'make pizza',
-          priority: 4,
-          completed: true,
-          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-        }
-      ]
+    it('renders the projects passed in as props', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
-            <AllProjects projects={projects} />
+            <AllProjects projects={mockProjects} />
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.text()).to.include('build barn')
-      expect(wrapper.text()).to.include('make pizza')
+      expect(wrapper.text()).to.include('Build barn')
+      expect(wrapper.text()).to.include('Make pizza')
     })
 
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
@@ -81,43 +64,42 @@ describe('Tier One: Projects', () => {
   })
 
   describe('Redux', () => {
-    let fakeStore
     beforeEach(() => {
       fakeStore = mockStore(initialState)
     })
 
     describe('set projects', () => {
-      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-      const projects = [
-        {
-          id: 1,
-          title: 'build barn',
-          deadline: anHourFromNow,
-          priority: 9,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-        },
-        {
-          id: 2,
-          title: 'make pizza',
-          priority: 4,
-          completed: true,
-          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-        }
-      ]
+      // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
+      // TODO: Use the same mock data from mock-axios
+      // const projects = [
+      //   {
+      //     id: 1,
+      //     title: 'build barn',
+      //     deadline: anHourFromNow,
+      //     priority: 9,
+      //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      //   },
+      //   {
+      //     id: 2,
+      //     title: 'make pizza',
+      //     priority: 4,
+      //     completed: true,
+      //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+      //   }
+      // ]
 
-      xit('setProjects action creator', () => {
-        expect(setProjects(projects)).to.deep.equal({
+      it('setProjects action creator', () => {
+        expect(setProjects(mockProjects)).to.deep.equal({
           type: 'SET_PROJECTS',
-          projects,
+          projects: mockProjects,
         })
       })
 
       it('fetchProjects thunk creator', async () => {
-        // mockAxios.onGet('/api/projects').replyOnce(200, projects)
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_PROJECTS')
-        expect(actions[0].projects).to.deep.equal(projects)
+        expect(actions[0].projects).to.deep.equal(mockProjects)
       })
     })
 
@@ -131,31 +113,31 @@ describe('Tier One: Projects', () => {
         throw new Error('replace this error with your own test')
       })
 
-      xit('reduces on SET_STUDENTS action', () => {
-        const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-        const projects = [
-          {
-            id: 1,
-            title: 'build barn',
-            deadline: anHourFromNow,
-            priority: 9,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-          },
-          {
-            id: 2,
-            title: 'make pizza',
-            priority: 4,
-            completed: true,
-            description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-          }
-        ]
-        const action = { type: 'SET_STUDENTS', projects }
+      it('reduces on SET_STUDENTS action', () => {
+        // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
+        // const projects = [
+        //   {
+        //     id: 1,
+        //     title: 'build barn',
+        //     deadline: anHourFromNow,
+        //     priority: 9,
+        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+        //   },
+        //   {
+        //     id: 2,
+        //     title: 'make pizza',
+        //     priority: 4,
+        //     completed: true,
+        //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+        //   }
+        // ]
+        const action = { type: 'SET_PROJECTS', projects: mockProjects }
 
         const prevState = testStore.getState()
         testStore.dispatch(action)
         const newState = testStore.getState()
 
-        expect(newState.projects).to.be.deep.equal(projects);
+        expect(newState.projects).to.be.deep.equal(mockProjects);
         expect(newState.projects).to.not.be.equal(prevState.projects);
       })
     })
@@ -167,31 +149,39 @@ describe('Tier One: Projects', () => {
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
     const { findAll: projectFindAll } = Project
+    const fakeFindAll = sinon.fake.resolves(mockProjects)
     beforeEach(() => {
-      const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-      Project.findAll = sinon.spy(() => [
-        {
-          id: 1,
-          title: 'build barn',
-          deadline: anHourFromNow,
-          priority: 9,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-        },
-        {
-          id: 2,
-          title: 'make pizza',
-          priority: 4,
-          completed: true,
-          description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-        }
-      ])
+      // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
+      // Project.findAll = sinon.spy(() => [
+      //   {
+      //     id: 1,
+      //     title: 'build barn',
+      //     deadline: anHourFromNow,
+      //     priority: 9,
+      //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      //   },
+      //   {
+      //     id: 2,
+      //     title: 'make pizza',
+      //     priority: 4,
+      //     completed: true,
+      //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+      //   }
+      // ])
+      sinon.replace(Project, 'findAll', fakeFindAll)
     })
     afterEach(() => {
       Project.findAll = projectFindAll
     })
 
-    xit('*** GET /api/projects responds with all projects', async () => {
-      throw new Error('replace this error with your own test')
+    it('*** GET /api/projects responds with all projects', async () => {
+      // throw new Error('replace this error with your own test')
+      const response = await agent
+        .get('/api/projects')
+        .timeout({ deadline: 20 })
+        .expect(200)
+      expect(response.body).to.deep.equal(mockProjects)
+      expect(Project.findAll.calledOnce).to.be.equal(true)
     })
   })
 

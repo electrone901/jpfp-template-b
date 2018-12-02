@@ -39,7 +39,7 @@ import Root from '../../app/components/root'
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
-describe.only('Tier One: Robots', () => {
+describe('Tier One: Robots', () => {
   let fakeStore
   const robots = [
     { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
