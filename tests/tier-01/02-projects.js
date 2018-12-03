@@ -26,7 +26,7 @@ const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
-const { Project } = require('../../server/db')
+let { Project } = require('../../server/db')
 const seed = require('../../seed')
 
 const adapter = new Adapter()
@@ -39,7 +39,7 @@ import Root from '../../app/components/root'
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
-describe.only('Tier One: Projects', () => {
+describe('Tier One: Projects', () => {
   let fakeStore
   const projects = [
     { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
@@ -188,8 +188,16 @@ describe.only('Tier One: Projects', () => {
     // By replacing the findAll methods on the Project and Robot models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-    const { findAll: projectFindAll } = Project
-    const fakeFindAll = sinon.fake.resolves(mockProjects)
+
+    // if (!Project.findAll) Project.findAll = function() {}
+    if (!Project || !Project.findAll) Project = { findAll: function() {} }
+    // const { findAll: projectFindAll } = Project
+    const fakeFindAll = sinon.fake.resolves([
+      { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
+      { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
+      { id: 3, title: 'Open the pod bay doors', priority: 10 },
+      { id: 4, title: 'Make pizza', priority: 4, completed: true, description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem' },
+    ])
     beforeEach(() => {
       // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
       // Project.findAll = sinon.spy(() => [
@@ -211,7 +219,8 @@ describe.only('Tier One: Projects', () => {
       sinon.replace(Project, 'findAll', fakeFindAll)
     })
     afterEach(() => {
-      Project.findAll = projectFindAll
+      // Project.findAll = projectFindAll
+      sinon.restore()
     })
 
     it('*** GET /api/projects responds with all projects', async () => {
@@ -223,9 +232,22 @@ describe.only('Tier One: Projects', () => {
       expect(response.body).to.deep.equal(mockProjects)
       expect(Project.findAll.calledOnce).to.be.equal(true)
     })
+
+    it('GET /api/projects responds with error 500 when database throws error', async () => {
+      sinon.restore()
+      const fakeFindAllWithError = sinon.fake.rejects(
+        Error('Ooopsies, the database is on fire!')
+      )
+      sinon.replace(Project, 'findAll', fakeFindAllWithError)
+      await agent
+        .get('/api/projects')
+        .timeout({ deadline: 20 })
+        .expect(500)
+      expect(Project.findAll.calledOnce).to.be.equal(true)
+    })
   })
 
-  describe('Sequelize Model', () => {
+  xdescribe('Sequelize Model', () => {
     // clear database before the 'describe' block
     before(() => db.sync({ force: true }))
     // clear the database after each 'it' block
@@ -305,7 +327,7 @@ describe.only('Tier One: Projects', () => {
       expect(project.completed).to.equal(false)
     })
   })
-  describe('Seed File', () => {
+  xdescribe('Seed File', () => {
     beforeEach(seed)
 
     it('populates the database with at least three projects', async () => {

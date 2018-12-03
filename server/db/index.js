@@ -16,5 +16,5 @@ module.exports = {
   // Include your models in this exports object as well!
   db,
   Project,
-  Robot,
+  // Robot,
 }

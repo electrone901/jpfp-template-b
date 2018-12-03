@@ -25,7 +25,7 @@ const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
-const { Robot } = require('../../server/db')
+let { Robot } = require('../../server/db')
 const seed = require('../../seed')
 
 const adapter = new Adapter()
@@ -201,14 +201,14 @@ describe('Tier One: Robots', () => {
 
   })
 
-  describe('Express API', () => {
+  describe.only('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Robot and Student models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
     // For more information on fakes, read the docs:
     // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
-    if (!Robot.findAll) Robot.findAll = function() {}
+    if (!Robot || !Robot.findAll) Robot = { findAll: function() {} }
     const fakeFindAll = sinon.fake.resolves([
       { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
       { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
