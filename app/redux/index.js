@@ -5,7 +5,7 @@ import { combineReducers } from 'redux'
 
 const projectReducer = (projectState = [], action) => {
   switch (action.type) {
-    case 'SET_STUDENTS':
+    case 'SET_PROJECTS':
       return action.projects
     default:
       return projectState

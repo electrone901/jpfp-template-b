@@ -4,16 +4,15 @@ export const AllProjects = (props) => {
   const projects = props.projects
   const projectList = projects.map((project) =>
     (
-    <ul key={project.id}>
-      <li>Title: {project.title}</li>
-      <li>Priority Rating: {project.priority}</li>
-      <li>Completed: {project.completed ? 'Yes' : 'No'}</li>
-      <li>Description: {project.description}</li>
-    </ul>
+      <ul key={project.id}>
+        <li>Title: {project.title}</li>
+        <li>Priority Rating: {project.priority}</li>
+        <li>Completed: {project.completed ? 'Yes' : 'No'}</li>
+        <li>Description: {project.description}</li>
+      </ul>
     )
   )
 
-  console.log('projects', projectList.length)
   return <div>{projectList.length ? projectList : 'No Projects'}</div>
 }
 
