@@ -75,33 +75,6 @@ describe('Tier One: Robots', () => {
     })
   })
 
-  describe('Navigation', () => {
-    beforeEach(() => {
-      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
-        <div>{children}</div>
-      ))
-    })
-    afterEach(() => {
-      rrd.BrowserRouter.restore()
-    })
-
-    xit('renders <AllRobots /> at path /robots', () => {
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <MemoryRouter initialEntries={['/robots']}>
-            <Root />
-          </MemoryRouter>
-        </Provider>
-      )
-      expect(wrapper.find(AllRobots)).to.have.length(1)
-    })
-
-    xit('*** navbar has links to "/robots" and "/" (homepage)', () => {
-      throw new Error('replace this error with your own test')
-    })
-
-  })
-
   describe('Redux', () => {
     describe('set/fetch robots', () => {
       xit('setRobots action creator', () => {
@@ -147,38 +120,65 @@ describe('Tier One: Robots', () => {
       })
     })
 
-    describe('react-redux', () => {
+  })
 
-      xit('initializes robots from the server when the app first loads', async () => {
-        const reduxStateBeforeMount = store.getState()
-        expect(reduxStateBeforeMount.robots).to.deep.equal([])
-        mount(
-          <Provider store={store}>
-            <MemoryRouter initialEntries={['/']}>
-              <Root />
-            </MemoryRouter>
-          </Provider>
-        )
-        await waitFor(10) // wait for 10 milliseconds
-        const reduxStateAfterMount = store.getState()
-        expect(reduxStateAfterMount.robots).to.deep.equal(robots)
-      })
+  describe('Connect: react-redux', () => {
 
-      xit('<AllRobots /> is passed robots from store as props', async () => {
-        const wrapper = mount(
-          <Provider store={store}>
-            <MemoryRouter initialEntries={['/robots']}>
-              <ConnectedAllRobots />
-            </MemoryRouter>
-          </Provider>
-        )
-        store.dispatch(fetchRobots()) // fetch the robots
-        await waitFor(10) // wait for 10 milliseconds
-        wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
-        const { robots: reduxRobotes } = store.getState()
-        const { robots: componentRobots } = wrapper.find(AllRobots).props()
-        expect(componentRobots).to.deep.equal(reduxRobotes)
-      })
+    xit('initializes robots from the server when the app first loads', async () => {
+      const reduxStateBeforeMount = store.getState()
+      expect(reduxStateBeforeMount.robots).to.deep.equal([])
+      mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      await waitFor(10) // wait for 10 milliseconds
+      const reduxStateAfterMount = store.getState()
+      expect(reduxStateAfterMount.robots).to.deep.equal(robots)
+    })
+
+    xit('<AllRobots /> is passed robots from store as props', async () => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/robots']}>
+            <ConnectedAllRobots />
+          </MemoryRouter>
+        </Provider>
+      )
+      store.dispatch(fetchRobots()) // fetch the robots
+      await waitFor(10) // wait for 10 milliseconds
+      wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+      const { robots: reduxRobotes } = store.getState()
+      const { robots: componentRobots } = wrapper.find(AllRobots).props()
+      expect(componentRobots).to.deep.equal(reduxRobotes)
+    })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    xit('renders <AllRobots /> at path /robots', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/robots']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllRobots)).to.have.length(1)
+    })
+
+    xit('*** navbar has links to "/robots" and "/" (homepage)', () => {
+      throw new Error('replace this error with your own test')
     })
 
   })
