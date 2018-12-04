@@ -2,10 +2,10 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AllRobots from './AllRobots'
+import AllProjects from './AllProjects';
 import NavBar from './NavBar'
 import { fetchRobots } from '../redux/robots'
 import { fetchProjects } from '../redux/projects'
-import { AllProjects } from './AllProjects';
 
 class Root extends React.Component {
   componentDidMount() {

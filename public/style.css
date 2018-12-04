@@ -55,6 +55,24 @@ nav a {
   flex-wrap: wrap;
 }
 
+.allProjectsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.allProjectsItem {
+  flex-grow: 1;
+  width: 30%;
+  max-width: 30%;
+  border: 1px solid;
+  border-radius: 15px;
+  margin: 10px;
+  text-align: center;
+
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .allRobotsItem {
   flex-grow: 1;
   width: 30%;
