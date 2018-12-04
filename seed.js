@@ -1,19 +1,11 @@
 const { green, red } = require('chalk')
-const { db, Project } = require('./server/db')
-
-export const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000)).toString()
-const seedProjects = [
-  { id: 1, title: 'Build barn - seed file', description: 'Lorem Ipsum' },
-  { id: 2, title: 'Discover love - seed file', completed: true, deadline: anHourFromNow },
-  { id: 3, title: 'Open the pod bay doors - seed file', priority: 10 }
-]
+const { db, Project, Robot } = require('./server/db')
 
 const seed = async () => {
   try {
     await db.sync({ force: true })
 
     // seed your database here!
-      await Promise.all(seedProjects.map(project => Project.create(project)))
 
   } catch (err) {
    console.log(red(err))

@@ -39,7 +39,7 @@ import Root from '../../app/components/root'
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
-describe.only('Tier One: Projects', () => {
+describe('Tier One: Projects', () => {
   const projects = [
     { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
     { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
