@@ -169,6 +169,10 @@ describe.only('Tier One: Projects', () => {
       )
       expect(wrapper.find(AllProjects)).to.have.length(1)
     })
+
+    xit('*** navbar has links to "/projects"', () => {
+      throw new Error('replace this error with your own test')
+    })
   })
 
   describe('Express API', () => {
