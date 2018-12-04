@@ -137,6 +137,39 @@ describe('Tier One: Projects', () => {
     })
   })
 
+  describe('react-redux', () => {
+    it('initializes projects from the server when the app first loads', async () => {
+      const reduxStateBeforeMount = store.getState()
+      expect(reduxStateBeforeMount.projects).to.deep.equal([])
+      mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      await waitFor(10) // wait for 10 milliseconds
+      const reduxStateAfterMount = store.getState()
+      expect(reduxStateAfterMount.projects).to.deep.equal(projects)
+    })
+
+    it('<AllProjects /> is passed projects from store as props', async () => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/projects']}>
+            <ConnectedAllProjects />
+          </MemoryRouter>
+        </Provider>
+      )
+      store.dispatch(fetchProjects()) // fetch the projects
+      await waitFor(10) // wait for 10 milliseconds
+      wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+      const { projects: reduxProjects } = store.getState()
+      const { projects: componentProjects} = wrapper.find(AllProjects).props()
+      expect(componentProjects).to.deep.equal(reduxProjects)
+    })
+  })
+
   describe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Project and Robot models
@@ -257,4 +290,18 @@ describe('Tier One: Projects', () => {
       expect(project.completed).to.equal(false)
     })
   })
+
+  describe('Seed File', () => {
+    beforeEach(seed)
+
+    it('populates the database with at least three projects', async () => {
+      const seedProjects = await Project.findAll()
+      expect(seedProjects).to.have.lengthOf.at.least(3)
+    })
+    // If you've finished this part, remember to run the seed file from the
+    // command line to populate your actual database (rather than just the
+    // test database). Fire it up with npm run start-dev and see what it looks
+    // like in the browser!
+  })
+
 })
