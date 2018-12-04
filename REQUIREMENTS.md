@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Robots and Projects (30/66)
+### Tier 1: All Robots and Projects (32/83)
 
 <details>
 
@@ -39,20 +39,22 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 #### Testing
 
-- [ ] React (AllRobots): renders "No Robots" if passed an empty array of robots
-- [ ] React (AllProjects): renders "No Projects" if passed an empty array of projects
+- [ ] React (AllRobots): renders "No Robots" if passed no robots
+- [ ] React (AllProjects): renders "No Projects" if passed no projects
 - [ ] Redux (robots): returns the initial state by default
 - [ ] Redux (projects): returns the initial state by default
 - [ ] Sequelize (Robot): name must not be null or empty
-- [ ] Sequelize (Project): title must not be null or empty
+- [ ] Sequelize (Project): deadline must be a valid date
 - [ ] Navigation: navbar to navigate to home, robots
 - [ ] Navigation: navbar to navigate to projects
+- [ ] Seed File: creates at least one robot that has several projects
+- [ ] Seed File: creates at least one project that has several robots
 
 Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all robots and projects"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
 </details>
 
-### Tier 2: Single Robot and Single Project (14/66)
+### Tier 2: Single Robot and Single Project (14/83)
 
 <details>
 
@@ -82,7 +84,7 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 </details>
 
-### Tier 3: Adding a Robot and Adding a Project (12/66)
+### Tier 3: Adding a Robot and Adding a Project (12/83)
 
 <details>
 
@@ -109,7 +111,7 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 </details>
 
-### Tier 4: Removing a Robot and Removing a Project (10/66)
+### Tier 4: Removing a Robot and Removing a Project (10/83)
 
 <details>
 
@@ -134,19 +136,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 </details>
 
-### Bonus Tier 1: Finishing Touches (5/20 EC)
-
-<details>
-
-- [ ] If a user attempts to add a new robot or project without a required field, a helpful message should be displayed
-- [ ] If a user attempts to access a page that doesn't exist (ex. `/potato`), a helpful "not found" message should be displayed
-- [ ] If a user attempts to view a robot/project that doesn't exist, a helpful message should be displayed
-- [ ] Whenever a component needs to wait for data to load from the server, a "loading" message should be displayed until the data is available
-- [ ] Overall, the app is spectacularly styled and visually stunning
-
-</details>
-
-### Bonus Tier 2: Updating a Robot and Updating a Project (15/20 EC)
+### Tier 5: Updating a Robot and Updating a Project (15/83)
 
 <details>
 
@@ -171,5 +161,27 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 - [ ] Write a route to update an existing project
 - [ ] Write a route to update an existing robot
+
+</details>
+
+### Bonus Tier (15 EC)
+
+<details>
+
+- [ ] Finishing Touches
+  - [ ] If a user attempts to add a new robot or project without a required field, a helpful message should be displayed
+  - [ ] If a user attempts to access a page that doesn't exist (ex. `/potato`), a helpful "not found" message should be displayed
+  - [ ] If a user attempts to view a robot/project that doesn't exist, a helpful message should be displayed
+  - [ ] Whenever a component needs to wait for data to load from the server, a "loading" message should be displayed until the data is available
+  - [ ] Overall, the app is spectacularly styled and visually stunning
+- [ ] Ordering
+  - [ ] Create option for projects to be ordered based on priority on all-projects view
+  - [ ] Create option for projects to be ordered based on deadline on all-projects view
+  - [ ] Create option for robots to be ordered based on fuel level on all-robots view
+- [ ] Filtering
+  - [ ] Create filters on All Projects page so that projects can be filtered based completion status and priority (allow multiple filters to be applied)
+  - [ ] Create a filter on All Robots page to only show projects without assigned robots and vice versa
+  - [ ] Create filters on All Robots page so that robots can be filtered based on fuel type and fuel level (allow multiple filters to be applied)
+  - [ ] Create a filter on All Robots page to only show robots without assigned projects and vice versa
 
 </details>
