@@ -179,9 +179,9 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
   - [ ] Create option for projects to be ordered based on deadline on all-projects view
   - [ ] Create option for robots to be ordered based on fuel level on all-robots view
 - [ ] Filtering
-  - [ ] Create filters on All Projects page so that projects can be filtered based completion status and priority (allow multiple filters to be applied)
-  - [ ] Create a filter on All Robots page to only show projects without assigned robots and vice versa
-  - [ ] Create filters on All Robots page so that robots can be filtered based on fuel type and fuel level (allow multiple filters to be applied)
-  - [ ] Create a filter on All Robots page to only show robots without assigned projects and vice versa
+  - [ ] Create filters on all-projects view so that projects can be filtered based completion status and priority (allow multiple filters to be applied)
+  - [ ] Create a filter on all-robots view to only show projects without assigned robots and vice versa
+  - [ ] Create filters on all-robots view so that robots can be filtered based on fuel type and fuel level (allow multiple filters to be applied)
+  - [ ] Create a filter on all-robots view to only show robots without assigned projects and vice versa
 
 </details>
