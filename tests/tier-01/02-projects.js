@@ -15,7 +15,6 @@ const initialState = {
   projects: [],
 }
 
-import mockAxios from '../mock-axios'
 import {anHourFromNow} from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
@@ -68,6 +67,29 @@ describe('Tier One: Projects', () => {
     xit('*** renders "No Projects" if passed an empty array of projects', () => {
       throw new Error('replace this error with your own test')
     })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    it('renders <AllProjects /> at path /projects', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/projects']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllProjects)).to.have.length(1)
+    })
+
   })
 
   describe('Redux', () => {
