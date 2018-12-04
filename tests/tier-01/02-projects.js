@@ -148,7 +148,7 @@ describe('Tier One: Projects', () => {
     })
   })
 
-  describe('Navigation', () => {
+  describe.only('Navigation', () => {
     beforeEach(() => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
         <div>{children}</div>
@@ -158,7 +158,7 @@ describe('Tier One: Projects', () => {
       rrd.BrowserRouter.restore()
     })
 
-    xit('renders <AllProjects /> at path /projects', () => {
+    it('renders <AllProjects /> at path /projects', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter initialEntries={['/projects']}>
