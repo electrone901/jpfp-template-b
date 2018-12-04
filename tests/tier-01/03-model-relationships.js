@@ -1,39 +1,57 @@
 const { expect } = require('chai');
 const { db } = require('../../server/db')
+const seed = require('../../seed')
 const { Robot, Project } = require('../../server/db')
+import { anHourFromNow } from '../mock-axios'
 
-describe('Tier One: Project > Robot Association', () => {
+describe('Tier One: Project >-< Robot Association', () => {
   before(() => db.sync({ force: true }))
   afterEach(() => db.sync({ force: true }))
 
-  let project1, project2, robot
-  beforeEach(async () => {
-    robot = await Robot.create({
-      name: 'Jupiter Jumpstart',
-      address: '5.2 AU',
-    })
-    project1 = await Project.create({
-      firstName: 'Sally',
-      lastName: 'Ride',
-      email: 'sallyride@nasa.gov',
-      robotId: robot.id,
-    })
-    project2 = await Project.create({
-      firstName: 'Mae',
-      lastName: 'Jemison',
-      email: 'maejemison@nasa.gov',
-      robotId: robot.id,
-    })
-  })
-  afterEach(() => db.sync({ force: true }))
+  describe('Sequelize Models', () => {
 
-  xit('a project may be assigned to at most one robot', async () => {
-    const sallysRobot = await project1.getRobot()
-    expect(sallysRobot.name).to.equal(robot.name)
+    it('a project may belong to many robots', async () => {
+      const r2d2 = await Robot.create({ name: 'R2-D2' })
+      const wallE = await Robot.create({ name: 'WALL-E' })
+      const projectLove = await Project.create({
+        title: 'Discover love',
+        completed: true,
+        deadline: anHourFromNow,
+      })
+      await projectLove.addRobots([r2d2, wallE])
+      const lovingRobots = await projectLove.getRobots().map(robot => robot.name)
+      expect(lovingRobots).to.deep.equal(['R2-D2', 'WALL-E'])
+    })
+
+    it('a robot may belong to many projects', async () => {
+      const openPodBayDoors = await Project.create({ title: 'Open the pod bay doors' })
+      const makePizza = await Project.create({ title: 'Make pizza' })
+      const hal9000 = await Robot.create({ name: 'HAL-9000' })
+      await hal9000.addProjects([openPodBayDoors, makePizza])
+      const hal9000sProjects = await hal9000.getProjects().map(title => title.title)
+      expect(hal9000sProjects).to.deep.equal(['Open the pod bay doors', 'Make pizza'])
+    })
+
   })
 
-  xit('a robot may have many enrolled projects', async () => {
-    const result = await robot.hasProjects([project1, project2])
-    expect(result).to.be.equal(true)
+  describe('Seed File', () => {
+    beforeEach(seed)
+
+    xit('creates at least one robot that has no projects', () => {
+
+    })
+
+    xit('creates at least one project that has no robots', () => {
+
+    })
+
+    xit('creates at least one robot that has several projects', () => {
+
+    })
+
+    xit('creates at least one project that has several robots', () => {
+
+    })
+
   })
 })
