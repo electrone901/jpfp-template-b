@@ -186,8 +186,17 @@ describe('Tier One: Robots', () => {
       expect(wrapper.find(AllRobots)).to.have.length(1)
     })
 
-    xit('*** navbar has links to "/robots" and "/" (homepage)', () => {
-      throw new Error('replace this error with your own test')
+    it('*** navbar has links to "/robots" and "/" (homepage)', () => {
+      // throw new Error('replace this error with your own test')
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <NavBar />
+          </MemoryRouter>
+        </Provider>
+      )
+      const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
+      expect(navLinks).to.include.members(['/', '/robots'])
     })
 
   })
