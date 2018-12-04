@@ -30,22 +30,39 @@ describe('Tier One: Project >-< Robot Association', () => {
   })
 
   describe('Seed File', () => {
-    beforeEach(seed)
+    let robots, projects
+    beforeEach(async () => {
+      await seed()
+      robots = await Robot.findAll({ include: [Project] })
+      projects = await Project.findAll({ include: [Robot] })
+    })
 
     xit('creates at least one robot that has no projects', () => {
-
+      const robotsWithNoProjects = robots
+        .filter(robot => !robot.projects.length)
+        .map(robot => robot.name)
+      expect(robotsWithNoProjects).to.have.lengthOf.above(0)
     })
 
     xit('creates at least one project that has no robots', () => {
-
+      const projectsWithNoRobots = projects
+        .filter(project => !project.robots.length)
+        .map(project => project.title)
+      expect(projectsWithNoRobots).to.have.lengthOf.above(0)
     })
 
     xit('creates at least one robot that has several projects', () => {
-
+      const robotsWithSeveralProjects = robots
+        .filter(robot => robot.projects.length > 1)
+        .map(robot => robot.name)
+      expect(robotsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 
     xit('creates at least one project that has several robots', () => {
-
+      const projectsWithSeveralProjects = projects
+        .filter(project => project.robots.length > 1)
+        .map(project => project.title)
+      expect(projectsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 
   })
