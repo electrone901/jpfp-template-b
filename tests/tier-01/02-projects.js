@@ -7,7 +7,7 @@ import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 import * as rrd from 'react-router-dom'
-const { MemoryRouter } = rrd
+const { MemoryRouter, Link } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -33,6 +33,7 @@ const adapter = new Adapter()
 enzyme.configure({ adapter })
 
 import ConnectedAllProjects, { AllProjects } from '../../app/components/AllProjects'
+import NavBar from '../../app/components/NavBar'
 import Root from '../../app/components/root'
 
 // Sometimes, we want to wait for a short time for async events to finish.
@@ -121,22 +122,22 @@ describe('Tier One: Projects', () => {
       })
     })
 
-    describe('react-redux', () => {
-
-      it('initializes projects from the server when the app first loads', async () => {
-        const reduxStateBeforeMount = store.getState()
-        expect(reduxStateBeforeMount.projects).to.deep.equal([])
-        mount(
-          <Provider store={store}>
-            <MemoryRouter initialEntries={['/']}>
-              <Root />
-            </MemoryRouter>
-          </Provider>
-        )
-        await waitFor(10) // wait for 10 milliseconds
-        const reduxStateAfterMount = store.getState()
-        expect(reduxStateAfterMount.projects).to.deep.equal(projects)
-      })
+  describe('Connect: react-redux', () => {
+    // hint: take a look at the componentDidMount method in ../../app/components/root
+    it('initializes projects from the server when the app first loads', async () => {
+      const reduxStateBeforeMount = store.getState()
+      expect(reduxStateBeforeMount.projects).to.deep.equal([])
+      mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      await waitFor(10) // wait for 10 milliseconds
+      const reduxStateAfterMount = store.getState()
+      expect(reduxStateAfterMount.projects).to.deep.equal(projects)
+    })
 
       it('<AllProjects /> is passed projects from store as props', async () => {
         const wrapper = mount(
@@ -176,6 +177,20 @@ describe('Tier One: Projects', () => {
       )
       expect(wrapper.find(AllProjects)).to.have.length(1)
     })
+
+    it('*** navbar has links to "/projects"', () => {
+      // throw new Error('replace this error with your own test')
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <NavBar />
+          </MemoryRouter>
+        </Provider>
+      )
+      const navLinks = wrapper.find(Link).map(node => node.get(0).props.to)
+      expect(navLinks).to.include.members(['/projects'])
+    })
+
   })
 
   describe('Express API', () => {
@@ -318,36 +333,3 @@ describe('Tier One: Projects', () => {
     // like in the browser!
   })
 })
-
-
-/*
-
-Tier One: Robots
-  <AllRobots /> component
-    ✓ renders the robots passed in as props
-    ✓ *** renders "No Robots" if passed an empty array of robots
-  Navigation
-    ✓ renders <AllRobots /> at path /robots
-    ✓ *** navbar has links to "/robots" and "/" (homepage)
-  Redux
-    set/fetch robots
-      ✓ setRobots action creator
-      ✓ fetchRobots thunk creator
-    robots reducer
-      ✓ *** returns the initial state by default
-      ✓ reduces on SET_ROBOTS action
-    react-redux
-      ✓ initializes robots from the server when the app first loads
-      ✓ <AllRobots /> is passed robots from store as props
-  Express API
-    ✓ GET /api/robots responds with all robots
-    ✓ GET /api/robots responds with error 500 when database throws error
-  Sequelize Model
-    ✓ has fields name, imageUrl, fuelType, fuelLevel
-    ✓ *** name cannot be null or an empty string
-    ✓ fuelType can only be gas, diesel, or electric (defaults to electric)
-    ✓ fuelLevel must be between 0 and 100 (defaults to 100)
-  Seed File
-    ✓ populates the database with at least three robots
-
-*/

@@ -61,7 +61,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       expect(projectsWithNoRobots).to.have.lengthOf.above(0)
     })
 
-    it('creates at least one robot that has several projects', () => {
+    it('*** creates at least one robot that has several projects', () => {
       // console.log(robots.map(robot => ({
       //   name: robot.name,
       //   projects: robot.projects.map(project => project.title),
@@ -73,7 +73,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       expect(robotsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 
-    it('creates at least one project that has several robots', () => {
+    it('*** creates at least one project that has several robots', () => {
       // console.log(projects.map(project => ({
       //   title: project.title,
       //   robots: project.robots.map(robot => robot.name),
