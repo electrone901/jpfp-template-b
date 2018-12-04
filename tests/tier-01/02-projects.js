@@ -115,7 +115,7 @@ describe.only('Tier One: Projects', () => {
     })
   })
 
-  describe('react-redux', () => {
+  describe('Connect: react-redux', () => {
     // hint: take a look at the componentDidMount method in ../../app/components/root
     xit('initializes projects from the server when the app first loads', async () => {
       const reduxStateBeforeMount = store.getState()
