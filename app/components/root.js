@@ -5,6 +5,7 @@ import AllRobots from './AllRobots'
 import NavBar from './NavBar'
 import { fetchRobots } from '../redux/robots'
 import { fetchProjects } from '../redux/projects'
+import { AllProjects } from './AllProjects';
 
 class Root extends React.Component {
   componentDidMount() {
@@ -18,6 +19,7 @@ class Root extends React.Component {
           <NavBar />
           <Switch>
             <Route path="/robots" component={AllRobots} />
+            <Route path="/projects" component={AllProjects} />
             <Route render={() => (
               <h1>Welcome to StackBot Project Management: your robot employees are awaiting assignments!</h1>
             )} />

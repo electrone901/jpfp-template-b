@@ -45,7 +45,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       const robotsWithNoProjects = robots
         .filter(robot => !robot.projects.length)
         .map(robot => robot.name)
-      console.log('robotsWithNoProjects', robotsWithNoProjects)
+      // console.log('robotsWithNoProjects', robotsWithNoProjects)
       expect(robotsWithNoProjects).to.have.lengthOf.above(0)
     })
 
@@ -57,7 +57,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       const projectsWithNoRobots = projects
         .filter(project => !project.robots.length)
         .map(project => project.title)
-      console.log('projectsWithNoRobots', projectsWithNoRobots)
+      // console.log('projectsWithNoRobots', projectsWithNoRobots)
       expect(projectsWithNoRobots).to.have.lengthOf.above(0)
     })
 
@@ -69,7 +69,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       const robotsWithSeveralProjects = robots
         .filter(robot => robot.projects.length > 1)
         .map(robot => robot.name)
-      console.log('robotsWithSeveralProjects', robotsWithSeveralProjects)
+      // console.log('robotsWithSeveralProjects', robotsWithSeveralProjects)
       expect(robotsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 
@@ -81,7 +81,7 @@ describe('Tier One: Project >-< Robot Association', () => {
       const projectsWithSeveralProjects = projects
         .filter(project => project.robots.length > 1)
         .map(project => project.title)
-      console.log('projectsWithSeveralProjects', projectsWithSeveralProjects)
+      // console.log('projectsWithSeveralProjects', projectsWithSeveralProjects)
       expect(projectsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 

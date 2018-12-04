@@ -40,12 +40,6 @@ const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
 describe('Tier One: Projects', () => {
-  const projects = [
-    { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
-    { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
-    { id: 3, title: 'Open the pod bay doors', priority: 10 },
-  ]
-
   let fakeStore
   const projects = [
     { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
@@ -58,11 +52,11 @@ describe('Tier One: Projects', () => {
   })
 
   describe('<AllProjects /> component', () => {
-    xit('renders the projects passed in as props', () => {
+    it('renders the projects passed in as props', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
-            <AllProjects projects={mockProjects} />
+            <AllProjects projects={projects} />
           </MemoryRouter>
         </Provider>
       )
@@ -70,29 +64,36 @@ describe('Tier One: Projects', () => {
       expect(wrapper.text()).to.include('Discover love')
     })
 
-    xit('*** renders "No Projects" if passed an empty array of projects or if projects is undefined', () => {
-      throw new Error('replace this error with your own test')
+    it('*** renders "No Projects" if passed an empty array of projects or if projects is undefined', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllProjects projects={[]} />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.text().toLowerCase()).to.include('no projects')
     })
   })
 
 
   describe('Redux', () => {
     describe('set projects', () => {
-      xit('setProjects action creator', () => {
+      it('setProjects action creator', () => {
         expect(setProjects(projects)).to.deep.equal({
           type: 'SET_PROJECTS',
-          projects: mockProjects,
+          projects,
         })
       })
 
-      xit('fetchProjects thunk creator', async () => {
+      it('fetchProjects thunk creator', async () => {
         // Curiously, we can pass this test even though we haven't created any
         // API routes yet. Go check out tests/mock-axios.js to see how we can
         // send dummy data when our tests fetch data from the server.
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_PROJECTS')
-        expect(actions[0].projects).to.deep.equal(mockProjects)
+        expect(actions[0].projects).to.deep.equal(projects)
       })
     })
 
@@ -105,11 +106,11 @@ describe('Tier One: Projects', () => {
         testStore = createStore(appReducer)
       })
 
-      xit('*** returns the initial state by default', () => {
-        throw new Error('replace this error with your own test')
+      it('*** returns the initial state by default', () => {
+        expect(testStore.getState().projects).to.deep.equal(initialState.projects)
       })
 
-      xit('reduces on SET_PROJECTS action', () => {
+      it('reduces on SET_PROJECTS action', () => {
         const action = { type: 'SET_PROJECTS', projects }
 
         const prevState = testStore.getState()
@@ -155,39 +156,6 @@ describe('Tier One: Projects', () => {
     })
   })
 
-  describe('react-redux', () => {
-    xit('initializes projects from the server when the app first loads', async () => {
-      const reduxStateBeforeMount = store.getState()
-      expect(reduxStateBeforeMount.projects).to.deep.equal([])
-      mount(
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/']}>
-            <Root />
-          </MemoryRouter>
-        </Provider>
-      )
-      await waitFor(10) // wait for 10 milliseconds
-      const reduxStateAfterMount = store.getState()
-      expect(reduxStateAfterMount.projects).to.deep.equal(projects)
-    })
-
-    xit('<AllProjects /> is passed projects from store as props', async () => {
-      const wrapper = mount(
-        <Provider store={store}>
-          <MemoryRouter initialEntries={['/projects']}>
-            <ConnectedAllProjects />
-          </MemoryRouter>
-        </Provider>
-      )
-      store.dispatch(fetchProjects()) // fetch the projects
-      await waitFor(10) // wait for 10 milliseconds
-      wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
-      const { projects: reduxProjects } = store.getState()
-      const { projects: componentProjects} = wrapper.find(AllProjects).props()
-      expect(componentProjects).to.deep.equal(reduxProjects)
-    })
-  })
-
   describe('Navigation', () => {
     beforeEach(() => {
       sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
@@ -198,7 +166,7 @@ describe('Tier One: Projects', () => {
       rrd.BrowserRouter.restore()
     })
 
-    xit('renders <AllProjects /> at path /projects', () => {
+    it('renders <AllProjects /> at path /projects', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter initialEntries={['/projects']}>
@@ -224,7 +192,7 @@ describe('Tier One: Projects', () => {
       sinon.restore()
     })
 
-    xit('GET /api/projects responds with all projects', async () => {
+    it('GET /api/projects responds with all projects', async () => {
       const response = await agent
         .get('/api/projects')
         .timeout({ deadline: 20 })
@@ -233,7 +201,7 @@ describe('Tier One: Projects', () => {
       expect(Project.findAll.calledOnce).to.be.equal(true)
     })
 
-    xit('GET /api/projects responds with error 500 when database throws error', async () => {
+    it('GET /api/projects responds with error 500 when database throws error', async () => {
       sinon.restore()
       const fakeFindAllWithError = sinon.fake.rejects(
         Error('Ooopsies, the database is on fire!')
@@ -247,15 +215,15 @@ describe('Tier One: Projects', () => {
     })
   })
 
-  xdescribe('Sequelize Model', () => {
+  describe('Sequelize Model', () => {
     // clear database before the 'describe' block
     before(() => db.sync({ force: true }))
 
     // clear the database after each 'it' block
     afterEach(() => db.sync({ force: true }))
 
-    xit('has fields title, deadline, priority, completed, description', async () => {
-      const fakeDeadline = new Date(2018, 12, 31)
+    it('has fields title, deadline, priority, completed, description', async () => {
+      const fakeDeadline = new Date(2018, 12, 31).toString()
       const project = {
         title: 'Make pizza',
         deadline: fakeDeadline,
@@ -272,7 +240,7 @@ describe('Tier One: Projects', () => {
       expect(savedProject.description).to.equal('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
     })
 
-    xit('requires title', async () => {
+    it('requires title', async () => {
       const project = Project.build()
       try {
         await project.validate()
@@ -283,7 +251,7 @@ describe('Tier One: Projects', () => {
       }
     })
 
-    xit('title cannot be empty', async () => {
+    it('title cannot be empty', async () => {
       const project = Project.build({ title: '', priority: 8})
       try {
         await project.validate()
@@ -294,11 +262,17 @@ describe('Tier One: Projects', () => {
       }
     })
 
-    xit('*** deadline must be a valid date', async () => {
-      throw new Error('replace this error with your own test')
+    it('*** deadline must be a valid date', async () => {
+      try {
+        await Project.create({ title: 'Build barn', deadline: 'NOT A DATE' })
+        throw Error('validation should have failed with invalid date')
+      }
+      catch (err) {
+        expect(err.message).not.to.contain('validation should have failed')
+      }
     })
 
-    xit('priority must be an integer between 1 and 10', async () => {
+    it('priority must be an integer between 1 and 10', async () => {
       const project = {
         title: 'Create party playlist',
         priority: 15
@@ -324,7 +298,7 @@ describe('Tier One: Projects', () => {
       }
     })
 
-    xit('default completed to false if left blank', () => {
+    it('default completed to false if left blank', () => {
       const project = Project.build({ title: 'Clean campus', priority: 5})
       expect(project.completed).to.be.a('boolean')
       expect(project.completed).to.equal(false)
@@ -334,7 +308,7 @@ describe('Tier One: Projects', () => {
   describe('Seed File', () => {
     beforeEach(seed)
 
-    xit('populates the database with at least three projects', async () => {
+    it('populates the database with at least three projects', async () => {
       const seedProjects = await Project.findAll()
       expect(seedProjects).to.have.lengthOf.at.least(3)
     })
