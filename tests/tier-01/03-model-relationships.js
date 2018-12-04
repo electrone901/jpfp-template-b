@@ -2,7 +2,6 @@ const { expect } = require('chai');
 const { db } = require('../../server/db')
 const seed = require('../../seed')
 const { Robot, Project } = require('../../server/db')
-import { anHourFromNow } from '../mock-axios'
 
 describe('Tier One: Project >-< Robot Association', () => {
   before(() => db.sync({ force: true }))
@@ -10,20 +9,16 @@ describe('Tier One: Project >-< Robot Association', () => {
 
   describe('Sequelize Models', () => {
 
-    it('a project may belong to many robots', async () => {
+    xit('a project may belong to many robots', async () => {
       const r2d2 = await Robot.create({ name: 'R2-D2' })
       const wallE = await Robot.create({ name: 'WALL-E' })
-      const projectLove = await Project.create({
-        title: 'Discover love',
-        completed: true,
-        deadline: anHourFromNow,
-      })
+      const projectLove = await Project.create({ title: 'Discover love' })
       await projectLove.addRobots([r2d2, wallE])
       const lovingRobots = await projectLove.getRobots().map(robot => robot.name)
       expect(lovingRobots).to.deep.equal(['R2-D2', 'WALL-E'])
     })
 
-    it('a robot may belong to many projects', async () => {
+    xit('a robot may belong to many projects', async () => {
       const openPodBayDoors = await Project.create({ title: 'Open the pod bay doors' })
       const makePizza = await Project.create({ title: 'Make pizza' })
       const hal9000 = await Robot.create({ name: 'HAL-9000' })
