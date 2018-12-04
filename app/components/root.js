@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-class Root extends React.Component {
+export default class Root extends React.Component {
   componentDidMount() {
     // Huh, I wonder what this mysterious componentDidMount is doing here... 🤔
   }
@@ -19,5 +19,3 @@ class Root extends React.Component {
     )
   }
 }
-
-export default Root

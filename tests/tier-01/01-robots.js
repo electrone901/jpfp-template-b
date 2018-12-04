@@ -6,7 +6,8 @@ import Adapter from 'enzyme-adapter-react-16.3'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { MemoryRouter } from 'react-router-dom'
+import * as rrd from 'react-router-dom'
+const { MemoryRouter } = rrd
 
 const middlewares = [thunkMiddleware]
 const mockStore = configureMockStore(middlewares)
@@ -14,25 +15,35 @@ const initialState = {
   robots: [],
 }
 
-import mockAxios from '../mock-axios'
 import { setRobots, fetchRobots } from '../../app/redux/robots'
 
 import appReducer from '../../app/redux'
 import { createStore } from 'redux'
+import store from '../../app/store'
 
 const app = require('../../server')
 const agent = require('supertest')(app)
 
 const { db } = require('../../server/db')
 const { Robot } = require('../../server/db')
+const seed = require('../../seed')
 
 const adapter = new Adapter()
 enzyme.configure({ adapter })
 
-import { AllRobots } from '../../app/components/AllRobots'
+import ConnectedAllRobots, { AllRobots } from '../../app/components/AllRobots'
+import Root from '../../app/components/root'
+
+// Sometimes, we want to wait for a short time for async events to finish.
+const waitFor = (wait) =>
+  new Promise((resolve) => setTimeout(resolve, wait))
 
 describe('Tier One: Robots', () => {
   let fakeStore
+  const robots = [
+    { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
+    { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
+  ]
   beforeEach(() => {
     fakeStore = mockStore(initialState)
   })
@@ -59,18 +70,13 @@ describe('Tier One: Robots', () => {
       ])
     })
 
-    xit('*** renders "No Robots" if passed an empty array of robots', () => {
+    xit('*** renders "No Robots" if passed an empty array of robots or if robots is undefined', () => {
       throw new Error('replace this error with your own test')
     })
   })
 
   describe('Redux', () => {
     describe('set/fetch robots', () => {
-      const robots = [
-        { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-        { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-      ]
-
       xit('setRobots action creator', () => {
         expect(setRobots(robots)).to.deep.equal({
           type: 'SET_ROBOTS',
@@ -79,7 +85,9 @@ describe('Tier One: Robots', () => {
       })
 
       xit('fetchRobots thunk creator', async () => {
-        mockAxios.onGet('/api/robots').replyOnce(200, robots)
+        // Curiously, we can pass this test even though we haven't created any
+        // API routes yet. Go check out tests/mock-axios.js to see how we can
+        // send dummy data when our tests fetch data from the server.
         await fakeStore.dispatch(fetchRobots())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_ROBOTS')
@@ -88,6 +96,9 @@ describe('Tier One: Robots', () => {
     })
 
     describe('robots reducer', () => {
+      // Pay attention to where the store is being created, namely
+      // app/redux/index.js. Once you've created your reducer, ensure that
+      // it's actually being used by the redux store.
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)
@@ -98,10 +109,6 @@ describe('Tier One: Robots', () => {
       })
 
       xit('reduces on SET_ROBOTS action', () => {
-        const robots = [
-          { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
-          { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
-        ]
         const action = { type: 'SET_ROBOTS', robots }
 
         const prevState = testStore.getState()
@@ -112,6 +119,68 @@ describe('Tier One: Robots', () => {
         expect(newState.robots).to.not.be.equal(prevState.robots);
       })
     })
+
+  })
+
+  describe('Connect: react-redux', () => {
+
+    xit('initializes robots from the server when the app first loads', async () => {
+      const reduxStateBeforeMount = store.getState()
+      expect(reduxStateBeforeMount.robots).to.deep.equal([])
+      mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      await waitFor(10) // wait for 10 milliseconds
+      const reduxStateAfterMount = store.getState()
+      expect(reduxStateAfterMount.robots).to.deep.equal(robots)
+    })
+
+    xit('<AllRobots /> is passed robots from store as props', async () => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/robots']}>
+            <ConnectedAllRobots />
+          </MemoryRouter>
+        </Provider>
+      )
+      store.dispatch(fetchRobots()) // fetch the robots
+      await waitFor(10) // wait for 10 milliseconds
+      wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+      const { robots: reduxRobotes } = store.getState()
+      const { robots: componentRobots } = wrapper.find(AllRobots).props()
+      expect(componentRobots).to.deep.equal(reduxRobotes)
+    })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    xit('renders <AllRobots /> at path /robots', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/robots']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllRobots)).to.have.length(1)
+    })
+
+    xit('*** navbar has links to "/robots" and "/" (homepage)', () => {
+      throw new Error('replace this error with your own test')
+    })
+
   })
 
   describe('Express API', () => {
@@ -127,7 +196,7 @@ describe('Tier One: Robots', () => {
       { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
     ])
     beforeEach(() => {
-      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAll)
+      sinon.replace(Robot, 'findAll', fakeFindAll)
     })
     afterEach(() => {
       sinon.restore()
@@ -136,7 +205,7 @@ describe('Tier One: Robots', () => {
     xit('GET /api/robots responds with all robots', async () => {
       const response = await agent
         .get('/api/robots')
-        .timeout({ deadline: 50 })
+        .timeout({ deadline: 20 })
         .expect(200)
       expect(response.body).to.deep.equal([
         { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
@@ -150,10 +219,10 @@ describe('Tier One: Robots', () => {
       const fakeFindAllWithError = sinon.fake.rejects(
         Error('Ooopsies, the database is on fire!')
       )
-      if (Robot && Robot.findall) sinon.replace(Robot, 'findAll', fakeFindAllWithError)
+      sinon.replace(Robot, 'findAll', fakeFindAllWithError)
       await agent
         .get('/api/robots')
-        .timeout({ deadline: 50 })
+        .timeout({ deadline: 20 })
         .expect(500)
       expect(Robot.findAll.calledOnce).to.be.equal(true)
     })
@@ -182,7 +251,7 @@ describe('Tier One: Robots', () => {
       expect(savedRobot.notARealAttribute).to.equal(undefined)
     })
 
-    xit('*** name cannot be null or an empty string', () => {
+    xit('*** name cannot be null or an empty string', async () => {
       throw new Error('replace this error with your own test')
     })
 
@@ -218,5 +287,17 @@ describe('Tier One: Robots', () => {
       const defaultFuelLevelRobot = await Robot.create(robot)
       expect(defaultFuelLevelRobot.fuelLevel).to.equal(100)
     })
+  })
+  describe('Seed File', () => {
+    beforeEach(seed)
+
+    xit('populates the database with at least three robots', async () => {
+      const seedRobots = await Robot.findAll()
+      expect(seedRobots).to.have.lengthOf.at.least(3)
+    })
+    // If you've finished this part, remember to run the seed file from the
+    // command line to populate your actual database (rather than just the
+    // test database). Fire it up with npm run start-dev and see what it looks
+    // like in the browser!
   })
 })
