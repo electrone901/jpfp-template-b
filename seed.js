@@ -60,8 +60,14 @@ const seed = async () => {
     await db.sync({ force: true })
 
     // seed your database here!
-    await Promise.all(seedRobots.map(robot => Robot.create(robot)))
-    await Promise.all(seedProjects.map(project => Project.create(project)))
+    const [r2d2, c3po, wallE] = await Promise.all(seedRobots.map(robot => Robot.create(robot)))
+    const [buildBarn, discoverLove, planUprising] = await Promise.all(seedProjects.map(project => Project.create(project)))
+    await Promise.all([
+      r2d2.addProject(buildBarn),
+      r2d2.addProject(discoverLove),
+      c3po.addProject(discoverLove),
+      wallE.addProject(planUprising),
+    ])
 
   } catch (err) {
    console.log(red(err))

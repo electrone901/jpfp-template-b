@@ -208,7 +208,7 @@ describe('Tier One: Robots', () => {
     // our Sequelize models haven't been implemented yet.
     // For more information on fakes, read the docs:
     // https://sinonjs.org/releases/latest/fakes/#adding-the-fake-to-the-system-under-test
-    if (!Robot || !Robot.findAll) Robot = { findAll: function() {} }
+    if (!Robot.findAll) Robot = { findAll: function() {} }
     const fakeFindAll = sinon.fake.resolves([
       { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
       { id: 2, name: 'WALL-E', imageUrl: '/images/walle.jpeg' },
@@ -223,7 +223,7 @@ describe('Tier One: Robots', () => {
     it('GET /api/robots responds with all robots', async () => {
       const response = await agent
         .get('/api/robots')
-        .timeout({ deadline: 20 })
+        .timeout({ deadline: 50 })
         .expect(200)
       expect(response.body).to.deep.equal([
         { id: 1, name: 'R2-D2', imageUrl: '/images/r2d2.png' },
@@ -240,7 +240,7 @@ describe('Tier One: Robots', () => {
       sinon.replace(Robot, 'findAll', fakeFindAllWithError)
       await agent
         .get('/api/robots')
-        .timeout({ deadline: 20 })
+        .timeout({ deadline: 50 })
         .expect(500)
       expect(Robot.findAll.calledOnce).to.be.equal(true)
     })

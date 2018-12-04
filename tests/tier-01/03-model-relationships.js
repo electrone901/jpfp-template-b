@@ -30,22 +30,59 @@ describe('Tier One: Project >-< Robot Association', () => {
   })
 
   describe('Seed File', () => {
-    beforeEach(seed)
-
-    xit('creates at least one robot that has no projects', () => {
-
+    let robots, projects
+    beforeEach(async () => {
+      await seed()
+      robots = await Robot.findAll({ include: [Project] })
+      projects = await Project.findAll({ include: [Robot] })
     })
 
-    xit('creates at least one project that has no robots', () => {
-
+    it('creates at least one robot that has no projects', () => {
+      // console.log(robots.map(robot => ({
+      //   name: robot.name,
+      //   projects: robot.projects.map(project => project.title),
+      // })))
+      const robotsWithNoProjects = robots
+        .filter(robot => !robot.projects.length)
+        .map(robot => robot.name)
+      console.log('robotsWithNoProjects', robotsWithNoProjects)
+      expect(robotsWithNoProjects).to.have.lengthOf.above(0)
     })
 
-    xit('creates at least one robot that has several projects', () => {
-
+    it('creates at least one project that has no robots', () => {
+      // console.log(projects.map(project => ({
+      //   title: project.title,
+      //   robots: project.robots.map(robot => robot.name),
+      // })))
+      const projectsWithNoRobots = projects
+        .filter(project => !project.robots.length)
+        .map(project => project.title)
+      console.log('projectsWithNoRobots', projectsWithNoRobots)
+      expect(projectsWithNoRobots).to.have.lengthOf.above(0)
     })
 
-    xit('creates at least one project that has several robots', () => {
+    it('creates at least one robot that has several projects', () => {
+      // console.log(robots.map(robot => ({
+      //   name: robot.name,
+      //   projects: robot.projects.map(project => project.title),
+      // })))
+      const robotsWithSeveralProjects = robots
+        .filter(robot => robot.projects.length > 1)
+        .map(robot => robot.name)
+      console.log('robotsWithSeveralProjects', robotsWithSeveralProjects)
+      expect(robotsWithSeveralProjects).to.have.lengthOf.above(0)
+    })
 
+    it('creates at least one project that has several robots', () => {
+      // console.log(projects.map(project => ({
+      //   title: project.title,
+      //   robots: project.robots.map(robot => robot.name),
+      // })))
+      const projectsWithSeveralProjects = projects
+        .filter(project => project.robots.length > 1)
+        .map(project => project.title)
+      console.log('projectsWithSeveralProjects', projectsWithSeveralProjects)
+      expect(projectsWithSeveralProjects).to.have.lengthOf.above(0)
     })
 
   })
