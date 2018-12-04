@@ -51,18 +51,12 @@ describe('Tier One: Project >-< Robot Association', () => {
       expect(projectsWithNoRobots).to.have.lengthOf.above(0)
     })
 
-    xit('creates at least one robot that has several projects', () => {
-      const robotsWithSeveralProjects = robots
-        .filter(robot => robot.projects.length > 1)
-        .map(robot => robot.name)
-      expect(robotsWithSeveralProjects).to.have.lengthOf.above(0)
+    xit('*** creates at least one robot that has several projects', () => {
+      throw new Error('replace this error with your own test')
     })
 
-    xit('creates at least one project that has several robots', () => {
-      const projectsWithSeveralProjects = projects
-        .filter(project => project.robots.length > 1)
-        .map(project => project.title)
-      expect(projectsWithSeveralProjects).to.have.lengthOf.above(0)
+    xit('*** creates at least one project that has several robots', () => {
+      throw new Error('replace this error with your own test')
     })
 
   })
