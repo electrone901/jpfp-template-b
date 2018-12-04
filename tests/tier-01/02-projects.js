@@ -39,7 +39,7 @@ import Root from '../../app/components/root'
 const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
-describe('Tier One: Projects', () => {
+describe.only('Tier One: Projects', () => {
   const projects = [
     { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
     { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
@@ -116,6 +116,7 @@ describe('Tier One: Projects', () => {
   })
 
   describe('react-redux', () => {
+    // hint: take a look at the componentDidMount method in ../../app/components/root
     xit('initializes projects from the server when the app first loads', async () => {
       const reduxStateBeforeMount = store.getState()
       expect(reduxStateBeforeMount.projects).to.deep.equal([])
