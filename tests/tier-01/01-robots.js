@@ -70,7 +70,7 @@ describe('Tier One: Robots', () => {
       ])
     })
 
-    xit('*** renders "No Robots" if passed an empty array of robots', () => {
+    xit('*** renders "No Robots" if passed an empty array of robots or if robots is undefined', () => {
       throw new Error('replace this error with your own test')
     })
   })
