@@ -9,7 +9,11 @@ export const setProjects = (projects) => {
 
 export const fetchProjects = () => {
   return async (dispatch) => {
-    const {data} = await Axios.get('/api/projects')
-    dispatch(setProjects(data))
+    try {
+      const {data} = await Axios.get('/api/projects')
+      dispatch(setProjects(data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }

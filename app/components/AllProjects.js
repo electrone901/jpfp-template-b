@@ -1,7 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux'
 
 export const AllProjects = (props) => {
-  const projects = props.projects
+  const {projects} = props
+  if (!projects || !projects.length) return <div>No Projects</div>
+
   const projectList = projects.map((project) =>
     (
       <ul key={project.id}>
@@ -13,10 +16,16 @@ export const AllProjects = (props) => {
     )
   )
 
-  return <div>{projectList.length ? projectList : 'No Projects'}</div>
+  return <div>{projectList}</div>
+}
+
+const mapState = (state) => {
+  return {
+    projects: state.projects
+  }
 }
 
 // Currently, we're just exporting the component as-is. When we're ready to
 // hook it up to the redux store, we'll export the connected component by default:
-// export default connect(mapState, mapDispatch)(AllProjects)
-export default AllProjects
+export default connect(mapState)(AllProjects)
+// export default AllProjects

@@ -64,33 +64,11 @@ describe('Tier One: Projects', () => {
       expect(wrapper.text()).to.include('Discover love')
     })
 
-    xit('*** renders "No Projects" if passed an empty array of projects', () => {
+    xit('*** renders "No Projects" if passed an empty array of projects or if projects is undefined', () => {
       throw new Error('replace this error with your own test')
     })
   })
 
-  describe('Navigation', () => {
-    beforeEach(() => {
-      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
-        <div>{children}</div>
-      ))
-    })
-    afterEach(() => {
-      rrd.BrowserRouter.restore()
-    })
-
-    it('renders <AllProjects /> at path /projects', () => {
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <MemoryRouter initialEntries={['/projects']}>
-            <Root />
-          </MemoryRouter>
-        </Provider>
-      )
-      expect(wrapper.find(AllProjects)).to.have.length(1)
-    })
-
-  })
 
   describe('Redux', () => {
     describe('set projects', () => {
@@ -138,7 +116,7 @@ describe('Tier One: Projects', () => {
   })
 
   describe('react-redux', () => {
-    it('initializes projects from the server when the app first loads', async () => {
+    xit('initializes projects from the server when the app first loads', async () => {
       const reduxStateBeforeMount = store.getState()
       expect(reduxStateBeforeMount.projects).to.deep.equal([])
       mount(
@@ -153,7 +131,7 @@ describe('Tier One: Projects', () => {
       expect(reduxStateAfterMount.projects).to.deep.equal(projects)
     })
 
-    it('<AllProjects /> is passed projects from store as props', async () => {
+    xit('<AllProjects /> is passed projects from store as props', async () => {
       const wrapper = mount(
         <Provider store={store}>
           <MemoryRouter initialEntries={['/projects']}>
@@ -167,6 +145,28 @@ describe('Tier One: Projects', () => {
       const { projects: reduxProjects } = store.getState()
       const { projects: componentProjects} = wrapper.find(AllProjects).props()
       expect(componentProjects).to.deep.equal(reduxProjects)
+    })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    xit('renders <AllProjects /> at path /projects', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/projects']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllProjects)).to.have.length(1)
     })
   })
 
@@ -294,7 +294,7 @@ describe('Tier One: Projects', () => {
   describe('Seed File', () => {
     beforeEach(seed)
 
-    it('populates the database with at least three projects', async () => {
+    xit('populates the database with at least three projects', async () => {
       const seedProjects = await Project.findAll()
       expect(seedProjects).to.have.lengthOf.at.least(3)
     })

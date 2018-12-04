@@ -1,9 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { fetchProjects } from '../redux/projects';
+import { connect } from 'react-redux'
 
 class Root extends React.Component {
   componentDidMount() {
     // Huh, I wonder what this mysterious componentDidMount is doing here... 🤔
+    this.props.fetchProjects()
   }
   render() {
     return (
@@ -20,4 +23,10 @@ class Root extends React.Component {
   }
 }
 
-export default Root
+const mapDispatch = (dispatch) => {
+  return {
+    fetchProjects: () => dispatch(fetchProjects())
+  }
+}
+
+export default connect(null, mapDispatch)(Root)
