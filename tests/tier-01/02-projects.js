@@ -15,7 +15,7 @@ const initialState = {
   projects: [],
 }
 
-import mockAxios, { mockProjects, anHourFromNow } from '../mock-axios'
+import {anHourFromNow} from '../mock-axios'
 import { setProjects, fetchProjects } from '../../app/redux/projects'
 
 import appReducer from '../../app/redux'
@@ -40,6 +40,12 @@ const waitFor = (wait) =>
   new Promise((resolve) => setTimeout(resolve, wait))
 
 describe('Tier One: Projects', () => {
+  const projects = [
+    { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
+    { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
+    { id: 3, title: 'Open the pod bay doors', priority: 10 },
+  ]
+
   let fakeStore
   const projects = [
     { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
@@ -52,7 +58,7 @@ describe('Tier One: Projects', () => {
   })
 
   describe('<AllProjects /> component', () => {
-    it('renders the projects passed in as props', () => {
+    xit('renders the projects passed in as props', () => {
       const wrapper = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
@@ -61,47 +67,28 @@ describe('Tier One: Projects', () => {
         </Provider>
       )
       expect(wrapper.text()).to.include('Build barn')
-      expect(wrapper.text()).to.include('Make pizza')
+      expect(wrapper.text()).to.include('Discover love')
     })
 
-    xit('*** renders "No Projects" if passed an empty array of projects', () => {
+    xit('*** renders "No Projects" if passed an empty array of projects or if projects is undefined', () => {
       throw new Error('replace this error with your own test')
     })
   })
 
+
   describe('Redux', () => {
-    beforeEach(() => {
-      fakeStore = mockStore(initialState)
-    })
-
     describe('set projects', () => {
-      // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-      // TODO: Use the same mock data from mock-axios
-      // const projects = [
-      //   {
-      //     id: 1,
-      //     title: 'build barn',
-      //     deadline: anHourFromNow,
-      //     priority: 9,
-      //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-      //   },
-      //   {
-      //     id: 2,
-      //     title: 'make pizza',
-      //     priority: 4,
-      //     completed: true,
-      //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-      //   }
-      // ]
-
-      it('setProjects action creator', () => {
-        expect(setProjects(mockProjects)).to.deep.equal({
+      xit('setProjects action creator', () => {
+        expect(setProjects(projects)).to.deep.equal({
           type: 'SET_PROJECTS',
           projects: mockProjects,
         })
       })
 
-      it('fetchProjects thunk creator', async () => {
+      xit('fetchProjects thunk creator', async () => {
+        // Curiously, we can pass this test even though we haven't created any
+        // API routes yet. Go check out tests/mock-axios.js to see how we can
+        // send dummy data when our tests fetch data from the server.
         await fakeStore.dispatch(fetchProjects())
         const actions = fakeStore.getActions()
         expect(actions[0].type).to.equal('SET_PROJECTS')
@@ -109,7 +96,10 @@ describe('Tier One: Projects', () => {
       })
     })
 
-    describe('reducer', () => {
+    describe('projects reducer', () => {
+      // Pay attention to where the store is being created, namely
+      // app/redux/index.js. Once you've created your reducer, ensure that
+      // it's actually being used by the redux store.
       let testStore
       beforeEach(() => {
         testStore = createStore(appReducer)
@@ -119,31 +109,13 @@ describe('Tier One: Projects', () => {
         throw new Error('replace this error with your own test')
       })
 
-      it('reduces on SET_STUDENTS action', () => {
-        // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-        // const projects = [
-        //   {
-        //     id: 1,
-        //     title: 'build barn',
-        //     deadline: anHourFromNow,
-        //     priority: 9,
-        //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-        //   },
-        //   {
-        //     id: 2,
-        //     title: 'make pizza',
-        //     priority: 4,
-        //     completed: true,
-        //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-        //   }
-        // ]
-        const action = { type: 'SET_PROJECTS', projects: mockProjects }
+      xit('reduces on SET_PROJECTS action', () => {
+        const action = { type: 'SET_PROJECTS', projects }
 
         const prevState = testStore.getState()
         testStore.dispatch(action)
         const newState = testStore.getState()
-
-        expect(newState.projects).to.be.deep.equal(mockProjects);
+        expect(newState.projects).to.be.deep.equal(projects);
         expect(newState.projects).to.not.be.equal(prevState.projects);
       })
     })
@@ -183,57 +155,85 @@ describe('Tier One: Projects', () => {
     })
   })
 
+  describe('react-redux', () => {
+    xit('initializes projects from the server when the app first loads', async () => {
+      const reduxStateBeforeMount = store.getState()
+      expect(reduxStateBeforeMount.projects).to.deep.equal([])
+      mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      await waitFor(10) // wait for 10 milliseconds
+      const reduxStateAfterMount = store.getState()
+      expect(reduxStateAfterMount.projects).to.deep.equal(projects)
+    })
+
+    xit('<AllProjects /> is passed projects from store as props', async () => {
+      const wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/projects']}>
+            <ConnectedAllProjects />
+          </MemoryRouter>
+        </Provider>
+      )
+      store.dispatch(fetchProjects()) // fetch the projects
+      await waitFor(10) // wait for 10 milliseconds
+      wrapper.update() // forces the component to re-render airbnb.io/enzyme/docs/api/ShallowWrapper/update.html
+      const { projects: reduxProjects } = store.getState()
+      const { projects: componentProjects} = wrapper.find(AllProjects).props()
+      expect(componentProjects).to.deep.equal(reduxProjects)
+    })
+  })
+
+  describe('Navigation', () => {
+    beforeEach(() => {
+      sinon.stub(rrd, 'BrowserRouter').callsFake(({ children }) => (
+        <div>{children}</div>
+      ))
+    })
+    afterEach(() => {
+      rrd.BrowserRouter.restore()
+    })
+
+    xit('renders <AllProjects /> at path /projects', () => {
+      const wrapper = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter initialEntries={['/projects']}>
+            <Root />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapper.find(AllProjects)).to.have.length(1)
+    })
+  })
+
   describe('Express API', () => {
     // Let's test our Express routes WITHOUT actually using the database.
     // By replacing the findAll methods on the Project and Robot models
     // with a spy, we can ensure that our API tests won't fail just because
     // our Sequelize models haven't been implemented yet.
-
-    // if (!Project.findAll) Project.findAll = function() {}
-    if (!Project || !Project.findAll) Project = { findAll: function() {} }
-    // const { findAll: projectFindAll } = Project
-    const fakeFindAll = sinon.fake.resolves([
-      { id: 1, title: 'Build barn', description: 'Lorem Ipsum' },
-      { id: 2, title: 'Discover love', completed: true, deadline: anHourFromNow },
-      { id: 3, title: 'Open the pod bay doors', priority: 10 },
-      { id: 4, title: 'Make pizza', priority: 4, completed: true, description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem' },
-    ])
+    if (!Project.findAll) Project.findAll = function() {}
+    const fakeFindAll = sinon.fake.resolves(projects)
     beforeEach(() => {
-      // const anHourFromNow = new Date(Date.now() + 60 * (60 * 1000))
-      // Project.findAll = sinon.spy(() => [
-      //   {
-      //     id: 1,
-      //     title: 'build barn',
-      //     deadline: anHourFromNow,
-      //     priority: 9,
-      //     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-      //   },
-      //   {
-      //     id: 2,
-      //     title: 'make pizza',
-      //     priority: 4,
-      //     completed: true,
-      //     description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
-      //   }
-      // ])
       sinon.replace(Project, 'findAll', fakeFindAll)
     })
     afterEach(() => {
-      // Project.findAll = projectFindAll
       sinon.restore()
     })
 
-    it('*** GET /api/projects responds with all projects', async () => {
-      // throw new Error('replace this error with your own test')
+    xit('GET /api/projects responds with all projects', async () => {
       const response = await agent
         .get('/api/projects')
         .timeout({ deadline: 20 })
         .expect(200)
-      expect(response.body).to.deep.equal(mockProjects)
+      expect(response.body).to.deep.equal(projects)
       expect(Project.findAll.calledOnce).to.be.equal(true)
     })
 
-    it('GET /api/projects responds with error 500 when database throws error', async () => {
+    xit('GET /api/projects responds with error 500 when database throws error', async () => {
       sinon.restore()
       const fakeFindAllWithError = sinon.fake.rejects(
         Error('Ooopsies, the database is on fire!')
@@ -250,21 +250,25 @@ describe('Tier One: Projects', () => {
   xdescribe('Sequelize Model', () => {
     // clear database before the 'describe' block
     before(() => db.sync({ force: true }))
+
     // clear the database after each 'it' block
     afterEach(() => db.sync({ force: true }))
 
     xit('has fields title, deadline, priority, completed, description', async () => {
+      const fakeDeadline = new Date(2018, 12, 31)
       const project = {
-        title: 'build barn',
+        title: 'Make pizza',
+        deadline: fakeDeadline,
         priority: 9,
         completed: false,
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
       }
       project.notARealAttribute = 'does not compute'
       const savedProject = await Project.create(project)
-      expect(savedProject.title).to.equal('build barn')
+      expect(savedProject.title).to.equal('Make pizza')
       expect(savedProject.priority).to.equal(9)
       expect(savedProject.completed).to.equal(false)
+      expect(savedProject.deadline.toString()).to.equal(fakeDeadline.toString())
       expect(savedProject.description).to.equal('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
     })
 
@@ -286,7 +290,7 @@ describe('Tier One: Projects', () => {
         throw Error('validation should have failed with empty title')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation notEmpty on title')
+        expect(err.message).to.contain('Validation notEmpty on title failed')
       }
     })
 
@@ -296,20 +300,19 @@ describe('Tier One: Projects', () => {
 
     xit('priority must be an integer between 1 and 10', async () => {
       const project = {
-        title: 'make pizza',
-        deadline: new Date(2018, 11, 31),
-        priority: 15,
-        completed: false,
-        description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem'
+        title: 'Create party playlist',
+        priority: 15
       }
+
       const highPriority = Project.build(project)
       try {
         await highPriority.validate()
         throw Error('validation should have failed with too high priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation max on priority')
+        expect(err.message).to.contain('Validation max on priority failed')
       }
+
       project.priority = 0
       const lowPriority = Project.build(project)
       try {
@@ -317,20 +320,21 @@ describe('Tier One: Projects', () => {
         throw Error('validation should have failed with too low priority')
       }
       catch (err) {
-        expect(err.message).to.contain('Validation min on priority')
+        expect(err.message).to.contain('Validation min on priority failed')
       }
     })
 
     xit('default completed to false if left blank', () => {
-      const project = Project.build({ title: 'clean room', priority: 5})
+      const project = Project.build({ title: 'Clean campus', priority: 5})
       expect(project.completed).to.be.a('boolean')
       expect(project.completed).to.equal(false)
     })
   })
-  xdescribe('Seed File', () => {
+
+  describe('Seed File', () => {
     beforeEach(seed)
 
-    it('populates the database with at least three projects', async () => {
+    xit('populates the database with at least three projects', async () => {
       const seedProjects = await Project.findAll()
       expect(seedProjects).to.have.lengthOf.at.least(3)
     })
