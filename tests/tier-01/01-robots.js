@@ -72,15 +72,24 @@ describe('Tier One: Robots', () => {
       ])
     })
 
-    it('*** renders "No Robots" if passed an empty array of robots', () => {
-      const wrapper = mount(
+    it('*** renders "No Robots" if passed an empty array of robots or if robots is undefined', () => {
+      // throw new Error('replace this error with your own test')
+      const wrapperEmptyArr = mount(
         <Provider store={fakeStore}>
           <MemoryRouter>
             <AllRobots robots={[]} />
           </MemoryRouter>
         </Provider>
       )
-      expect(wrapper.text().toLowerCase()).to.include('no robots')
+      expect(wrapperEmptyArr.text().toLowerCase()).to.include('no robots')
+      const wrapperUndefined = mount(
+        <Provider store={fakeStore}>
+          <MemoryRouter>
+            <AllRobots />
+          </MemoryRouter>
+        </Provider>
+      )
+      expect(wrapperUndefined.text().toLowerCase()).to.include('no robots')
     })
   })
 
@@ -114,6 +123,7 @@ describe('Tier One: Robots', () => {
       })
 
       it('*** returns the initial state by default', () => {
+        // throw new Error('replace this error with your own test')
         expect(testStore.getState().robots).to.deep.equal(initialState.robots)
       })
 
