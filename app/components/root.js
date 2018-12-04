@@ -7,7 +7,7 @@ import NavBar from './NavBar'
 import { fetchRobots } from '../redux/robots'
 import { fetchProjects } from '../redux/projects'
 
-export default class Root extends React.Component {
+class Root extends React.Component {
   componentDidMount() {
     // Huh, I wonder what this mysterious componentDidMount is doing here... 🤔
     this.props.fetchInitial()
