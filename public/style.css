@@ -90,6 +90,10 @@ nav a {
   background-color: #AC9FBB;
 }
 
+.allProjectsItem:hover {
+  background-color: #AC9FBB;
+}
+
 main {
   align-items: center;
   display: flex;
