@@ -22,6 +22,7 @@ beforeEach(() => {
 
   // Mock GET /api/robots => all robots
   mock.onGet('/api/robots').reply(200, mockRobots)
+  // mock.onGet(/\/api\/robots\/?/).reply(200, mockRobots)
 
   // Mock GET /api/projects => all projects
   mock.onGet('/api/projects').reply(200, mockProjects)
