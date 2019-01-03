@@ -35,4 +35,20 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const id = +req.params.id
+    const robot = await Robot.findById(id, {
+      include: Project
+    })
+    if (!robot) return res.sendStatus(404)
+    await Robot.destroy({
+      where: { id }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router

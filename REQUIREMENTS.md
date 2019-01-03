@@ -117,10 +117,10 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 #### Frontend
 
-- [ ] In the all-robots view, include an `X` button next to each robot
-- [ ] Clicking the `X` button should:
-  - [ ] Make an AJAX request that causes that robot to be removed from database
-  - [ ] Remove the robot from the list of robots without needing to refresh the page
+- [x] In the all-robots view, include an `X` button next to each robot
+- [x] Clicking the `X` button should:
+  - [x] Make an AJAX request that causes that robot to be removed from database
+  - [x] Remove the robot from the list of robots without needing to refresh the page
 
 - [ ] In the all-projects view, include an `X` button next to each project
 - [ ] Clicking the `X` button should:
@@ -129,7 +129,7 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 #### Backend
 
-- [ ] Write a route to remove a robot (based on its id)
+- [x] Write a route to remove a robot (based on its id)
 - [ ] Write a route to remove a project (based on its id)
 
 Congrats! You have completed your fourth vertical slice! Make sure to `commit -m "Feature: Remove Robot and Project"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!

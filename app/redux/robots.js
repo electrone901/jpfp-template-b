@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { fetchProjects } from './index' // TODO: Confirm this works
+import { fetchProjects } from './index'
 
 // ACTION TYPES
 const SET_ROBOTS = 'SET_ROBOTS'
@@ -19,11 +19,11 @@ export const fetchRobots = () => async dispatch => {
     console.error(err)
   }
 }
+
 export const deleteRobot = (id) => async dispatch => {
   try {
-    const { data } = await axios.delete(`/api/robots/${id}`)
-    console.log('DATA', data)
-    // We refresh both projects and robots in case associations have changed
+    await axios.delete(`/api/robots/${id}`) // We don't need the response body
+    // Refresh both projects and robots in case associations have changed
     dispatch(fetchRobots())
     dispatch(fetchProjects())
   } catch (err) {

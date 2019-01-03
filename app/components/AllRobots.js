@@ -34,6 +34,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
 }
 
 const mapState = ({ robots }) => ({ robots })
+
 const mapDispatch = (dispatch) => ({
   destroyRobot: (id) => dispatch(deleteRobot(id)),
 })
