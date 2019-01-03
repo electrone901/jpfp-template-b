@@ -1,8 +1,9 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import SingleRobot from './SingleRobot'
 import AllRobots from './AllRobots'
-import AllProjects from './AllProjects';
+import AllProjects from './AllProjects'
 import NavBar from './NavBar'
 import { fetchRobots } from '../redux/robots'
 import { fetchProjects } from '../redux/projects'
@@ -18,6 +19,7 @@ class Root extends React.Component {
         <div>
           <NavBar />
           <Switch>
+            <Route path="/robots/:id" component={SingleRobot} />
             <Route path="/robots" component={AllRobots} />
             <Route path="/projects" component={AllProjects} />
             <Route render={() => (

@@ -4,23 +4,23 @@ const { db, Robot, Project } = require('./server/db')
 const seedRobots = [
   {
     name: 'R2-D2',
-    imageUrl: 'images/r2d2.png',
+    imageUrl: '/images/r2d2.png',
     fuelType: 'electric',
     fuelLevel: 88.34,
   },
   {
     name: 'C-3PO',
-    imageUrl: 'images/c3po.png',
+    imageUrl: '/images/c3po.png',
     fuelLevel: 13.7,
   },
   {
     name: 'WALL-E',
-    imageUrl: 'images/walle.png',
+    imageUrl: '/images/walle.png',
     fuelType: 'gas',
   },
   {
     name: 'HAL-9000',
-    imageUrl: 'images/hal-9000.png',
+    imageUrl: '/images/hal-9000.png',
     fuelLevel: 0,
   },
 ]
