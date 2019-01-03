@@ -90,6 +90,10 @@ nav a {
   height: 100px;
 }
 
+.allRobotsItem button {
+  cursor: url(images/bomb_icon.png) 1 1, crosshair;
+}
+
 .allRobotsItem:hover {
   background-color: #AC9FBB;
 }

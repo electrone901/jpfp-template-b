@@ -14,4 +14,10 @@ const appReducer = combineReducers({
   project, // single project
 })
 
+// Export all the named exports from this file
+export * from './robots'
+export * from './robot'
+export * from './projects'
+export * from './project'
+// Export the combined reducer as default export
 export default appReducer
