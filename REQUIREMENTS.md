@@ -77,7 +77,7 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 
 #### Backend
 
-- [ ] Write a route to serve up a single robot (based on their id), _including that robot's projects_
+- [x] Write a route to serve up a single robot (based on their id), _including that robot's projects_
 - [ ] Write a route to serve up a single project (based on its id), _including that projects' robots_
 
 Congrats! You have completed your second vertical slice! Make sure to `commit -m "Feature: Get Single Project and Robot"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!

@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import SingleRobot from './SingleRobot'
+import SingleProject from './SingleProject'
 import AllRobots from './AllRobots'
 import AllProjects from './AllProjects'
 import NavBar from './NavBar'
@@ -20,6 +21,7 @@ class Root extends React.Component {
           <NavBar />
           <Switch>
             <Route path="/robots/:id" component={SingleRobot} />
+            <Route path="/projects/:id" component={SingleProject} />
             <Route path="/robots" component={AllRobots} />
             <Route path="/projects" component={AllProjects} />
             <Route render={() => (
