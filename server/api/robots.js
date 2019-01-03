@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const Robot = require('../db/robot')
-const Project = require('../db/project')
+const { Project, Robot } = require('../db')
 
 // ASYNC AWAIT SOLUTION
 router.get('/', async (req, res, next) => {

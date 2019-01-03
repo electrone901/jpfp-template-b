@@ -13,11 +13,15 @@ class SingleRobot extends React.Component {
     return (
       <div>
         <h1>{robot.name}</h1>
-        <div className="singleRobotContainer">
+        <div className="singleItemContainer">
           <img src={robot.imageUrl} />
           <div>
-            <p>Fuel Type: {robot.fuelType}</p>
-            <p>Fuel Level: {robot.fuelLevel}</p>
+            <p>
+              <span>Fuel Type:</span> {robot.fuelType}
+            </p>
+            <p>
+              <span>Fuel Level:</span> {robot.fuelLevel}
+            </p>
           </div>
         </div>
         <div className="robotsProjects">

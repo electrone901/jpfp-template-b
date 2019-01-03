@@ -9,7 +9,7 @@ export const AllProjects = ({ projects = [] }) => {
       <h1>Here are all your projects:</h1>
       <div className="allProjectsContainer">
       {projects.map(project => (
-        <Link className="projectListItem" key={project.id} to="#">
+        <Link className="projectListItem" key={project.id} to={`/projects/${project.id}`}>
           <div>
               <h2>{project.title}</h2>
               <p>Priority Rating: {project.priority}</p>

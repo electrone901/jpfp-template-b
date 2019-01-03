@@ -4,9 +4,9 @@ import axios from 'axios'
 const SET_PROJECT = 'SET_PROJECT'
 
 // ACTION CREATORS
-export const setProject = (robot) => ({
+export const setProject = (project) => ({
   type: SET_PROJECT,
-  robot,
+  project,
 })
 
 // THUNK CREATORS

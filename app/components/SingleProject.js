@@ -9,15 +9,37 @@ class SingleProject extends React.Component {
   }
   render() {
     const { project } = this.props
-    if (!project || !project.name) return <h1>No project found!</h1>
+
+    const dateTimeOptions = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    }
+    const deadline = project.deadline
+      ? new Date(project.deadline).toLocaleString('en-US', dateTimeOptions)
+      : 'No deadline'
+    if (!project || !project.title) return <h1>No project found!</h1>
     return (
       <div>
         <h1>{project.title}</h1>
-        <div className="singleRobotContainer">
+        <div className="singleItemContainer">
           <div>
-            <p>Description: {project.description}</p>
-            <p>Deadline: {project.deadline}</p>
-            <p>Completed? {project.completed ? 'Yes!' : 'Nope.' }</p>
+            <p>
+              <span>Description:</span> {project.description}
+            </p>
+            <p>
+              <span>Deadline:</span> {deadline}
+            </p>
+            <p>
+              <span>Priority:</span> {project.priority}
+            </p>
+            <p>
+              <span>Completed?</span> {project.completed ? 'Yes!' : 'Nope.' }
+            </p>
           </div>
         </div>
         <div className="robotsProjects">

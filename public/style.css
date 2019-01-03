@@ -98,16 +98,21 @@ nav a {
   background-color: #AC9FBB;
 }
 
-.singleRobotContainer {
+.singleItemContainer {
   display: flex;
   justify-content: space-around;
+  margin: 0px 50px 0px 50px;
 }
 
-.singleRobotContainer > img {
+.singleItemContainer > img {
   border: 1px solid;
   border-radius: 15px;
   width: 200px;
   height: 200px;
+}
+
+.singleItemContainer span {
+  font-weight: bold;
 }
 
 .robotsProjects {
