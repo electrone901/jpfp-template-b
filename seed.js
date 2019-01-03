@@ -52,6 +52,7 @@ const seedProjects = [
     title: 'Make Coffee',
     deadline: anHourAgo,
     priority: 9,
+    completed: true,
   },
 ]
 
