@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Robot = require('../db/robot')
+const Project = require('../db/project')
 
 // ASYNC AWAIT SOLUTION
 router.get('/', async (req, res, next) => {
@@ -11,7 +12,6 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 })
-
 // DOT THEN SOLUTION
 // router.get('/', (req, res, next) => {
 //   Robot.findAll()
@@ -22,5 +22,18 @@ router.get('/', async (req, res, next) => {
 //     next(err)
 //   })
 // })
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const id = +req.params.id
+    const robot = await Robot.findById(id, {
+      include: Project
+    })
+    if (!robot) return res.sendStatus(404)
+    res.json(robot)
+  } catch (error) {
+    next(error)
+  }
+})
 
 module.exports = router
