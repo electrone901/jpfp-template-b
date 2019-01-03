@@ -10,11 +10,13 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
       <h1>Here are all your robots:</h1>
       <div className="allRobotsContainer">
       {robots.map(robot => (
-        <Link key={robot.id} className="allRobotsItem" to={`/robots/${robot.id}`}>
-          <div>
-            <p>{robot.name}</p>
-            <img src={robot.imageUrl} />
-          </div>
+        <div className="allRobotsItem" key={robot.id}>
+          <Link to={`/robots/${robot.id}`}>
+            <div>
+              <p>{robot.name}</p>
+              <img src={robot.imageUrl} />
+            </div>
+          </Link>
           <button
             type="button"
             style={{
@@ -24,7 +26,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
             onClick={() => destroyRobot(robot.id)}>
             X
           </button>
-        </Link>
+        </div>
       ))}
       </div>
     </div>
