@@ -90,8 +90,10 @@ nav a {
   height: 100px;
 }
 
-.allRobotsItem button {
-  cursor: url(images/bomb_icon.png) 1 1, crosshair;
+.deleteButton {
+  cursor: url(images/bomb_icon.png) 1 1, pointer;
+  background-color: orange;
+  width: 60px;
 }
 
 .allRobotsItem:hover {

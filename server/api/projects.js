@@ -24,4 +24,18 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const id = +req.params.id
+    const project = await Project.findById(id)
+    if (!project) return res.sendStatus(404)
+    await Project.destroy({
+      where: { id }
+    })
+    res.sendStatus(204)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router;

@@ -38,9 +38,7 @@ router.get('/:id', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
-    const robot = await Robot.findById(id, {
-      include: Project
-    })
+    const robot = await Robot.findById(id)
     if (!robot) return res.sendStatus(404)
     await Robot.destroy({
       where: { id }

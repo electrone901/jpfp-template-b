@@ -38,7 +38,7 @@ class SingleProject extends React.Component {
               <span>Priority:</span> {project.priority}
             </p>
             <p>
-              <span>Completed?</span> {project.completed ? 'Yes!' : 'Nope.' }
+              <span>Completed?</span> {project.completed ? 'Yes' : 'No' }
             </p>
           </div>
         </div>

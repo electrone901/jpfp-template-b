@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { deleteRobot } from '../redux/robots'
+import { deleteRobot } from '../redux'
 
 export const AllRobots = ({ robots = [], destroyRobot }) => {
   if (!robots.length) return <h1>You got no robots! 🤖 😢 </h1>
@@ -19,6 +19,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
           </Link>
           <button
             type="button"
+            className="deleteButton"
             style={{
               backgroundColor: 'orange',
               width: '60px',
