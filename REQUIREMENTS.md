@@ -8,47 +8,47 @@ The requirements below are broken into separate **tiers**, which model the way w
 
 #### Frontend
 
-- [ ] Write a component to display a list of all robots (at least their names and imageUrls)
-- [ ] Write a component to display a list of all projects (at least their titles and deadlines)
-- [ ] Write a robots sub-reducer to manage robots in your Redux store
-- [ ] Write a projects sub-reducer to manage projects in your Redux store
-- [ ] Display the AllRobots component when the url matches `/robots`
-- [ ] Display the AllProjects component when the url matches `/projects`
-- [ ] Add links to the navbar that can be used to navigate to the all-projects view and the all-robots view
+- [x] Write a component to display a list of all robots (at least their names and imageUrls)
+- [x] Write a component to display a list of all projects (at least their titles and deadlines)
+- [x] Write a robots sub-reducer to manage robots in your Redux store
+- [x] Write a projects sub-reducer to manage projects in your Redux store
+- [x] Display the AllRobots component when the url matches `/robots`
+- [x] Display the AllProjects component when the url matches `/projects`
+- [x] Add links to the navbar that can be used to navigate to the all-projects view and the all-robots view
 
 #### Backend
 
-- [ ] Write a route to serve up all robots
-- [ ] Write a route to serve up all projects
+- [x] Write a route to serve up all robots
+- [x] Write a route to serve up all projects
 
-- [ ] Write a `robots` model with the following information:
-  - [ ] name - not empty or null
-  - [ ] fuelType - can be one of gas, diesel, or electric (defaults to electric)
-  - [ ] fuelLevel - can be a decimal value between 0 and 100 (defaults to 100)
-  - [ ] imageUrl - with a default value
-- [ ] Write a `projects` model with the following information:
-  - [ ] title - not empty or null
-  - [ ] deadline - a date
-  - [ ] priority - an integer between 1 and 10
-  - [ ] completed - boolean value, defaults to false
-  - [ ] description - extremely large text
-- [ ] Robots may be associated with many projects. Likewise, projects may be associated with many robots.
+- [x] Write a `robots` model with the following information:
+  - [x] name - not empty or null
+  - [x] fuelType - can be one of gas, diesel, or electric (defaults to electric)
+  - [x] fuelLevel - can be a decimal value between 0 and 100 (defaults to 100)
+  - [x] imageUrl - with a default value
+- [x] Write a `projects` model with the following information:
+  - [x] title - not empty or null
+  - [x] deadline - a date
+  - [x] priority - an integer between 1 and 10
+  - [x] completed - boolean value, defaults to false
+  - [x] description - extremely large text
+- [x] Robots may be associated with many projects. Likewise, projects may be associated with many robots.
 
 #### Seed
-- [ ] Running the seed file creates projects and robots for demonstration purposes
+- [x] Running the seed file creates projects and robots for demonstration purposes
 
 #### Testing
 
-- [ ] React (AllRobots): renders "No Robots" if passed no robots
-- [ ] React (AllProjects): renders "No Projects" if passed no projects
-- [ ] Redux (robots): returns the initial state by default
-- [ ] Redux (projects): returns the initial state by default
-- [ ] Sequelize (Robot): name must not be null or empty
-- [ ] Sequelize (Project): deadline must be a valid date
-- [ ] Navigation: navbar to navigate to home, robots
-- [ ] Navigation: navbar to navigate to projects
-- [ ] Seed File: creates at least one robot that has several projects
-- [ ] Seed File: creates at least one project that has several robots
+- [x] React (AllRobots): renders "No Robots" if passed no robots
+- [x] React (AllProjects): renders "No Projects" if passed no projects
+- [x] Redux (robots): returns the initial state by default
+- [x] Redux (projects): returns the initial state by default
+- [x] Sequelize (Robot): name must not be null or empty
+- [x] Sequelize (Project): deadline must be a valid date
+- [x] Navigation: navbar to navigate to home, robots
+- [x] Navigation: navbar to navigate to projects
+- [x] Seed File: creates at least one robot that has several projects
+- [x] Seed File: creates at least one project that has several robots
 
 Congrats! You have completed your first vertical slice! Make sure to `commit -m "Feature: Get all robots and projects"` before moving on (see RUBRIC.md - points are awarded/deducted for a proper git workflow)!
 
