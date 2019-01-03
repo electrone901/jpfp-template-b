@@ -10,18 +10,12 @@ export const setRobots = (robots) => ({
 })
 
 // THUNK CREATORS
-// export const fetchRobots = () => async dispatch => {
-//   try {
-//     const { data } = await axios.get('/api/robots')
-//     dispatch(setRobots(data))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
-export const fetchRobots = () => {
-  return async dispatch => {
-    const { data } = await axios.get('/api/robots/')
+export const fetchRobots = () => async dispatch => {
+  try {
+    const { data } = await axios.get('/api/robots')
     dispatch(setRobots(data))
+  } catch (err) {
+    console.error(err)
   }
 }
 

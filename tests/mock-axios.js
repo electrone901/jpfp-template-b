@@ -21,11 +21,12 @@ export const mockRobots = [
 beforeEach(() => {
 
   // Mock GET /api/robots => all robots
-  mock.onGet('/api/robots').reply(200, mockRobots)
-  // mock.onGet(/\/api\/robots\/?/).reply(200, mockRobots)
+  // mock.onGet('/api/robots').reply(200, mockRobots) // Non-regex
+  mock.onGet(/\/api\/robots\/?/).reply(200, mockRobots)
 
   // Mock GET /api/projects => all projects
-  mock.onGet('/api/projects').reply(200, mockProjects)
+  // mock.onGet('/api/projects').reply(200, mockProjects) // Non-regex
+  mock.onGet(/\/api\/projects\/?/).reply(200, mockProjects)
 
   // Mock GET /api/robots/:id => single robot with matching id
   mock.onGet(/\/api\/robots\/\d+/).reply(config => {
