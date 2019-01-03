@@ -60,7 +60,7 @@ nav a {
   flex-wrap: wrap;
 }
 
-.allProjectsItem {
+.projectListItem {
   flex-grow: 1;
   width: 30%;
   max-width: 30%;
@@ -75,8 +75,7 @@ nav a {
 
 .allRobotsItem {
   flex-grow: 1;
-  width: 30%;
-  max-width: 30%;
+  max-width: 33%;
   border: 1px solid;
   border-radius: 15px;
   margin: 10px;
@@ -86,12 +85,36 @@ nav a {
   font-weight: bold;
 }
 
+.allRobotsItem img {
+  width: 100px;
+  height: 100px;
+}
+
 .allRobotsItem:hover {
   background-color: #AC9FBB;
 }
 
-.allProjectsItem:hover {
+.projectListItem:hover {
   background-color: #AC9FBB;
+}
+
+.singleRobotContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.singleRobotContainer > img {
+  border: 1px solid;
+  border-radius: 15px;
+  width: 200px;
+  height: 200px;
+}
+
+.robotsProjects {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 main {

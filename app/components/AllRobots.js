@@ -9,7 +9,7 @@ export const AllRobots = ({ robots = [] }) => {
       <h1>Here are all your robots:</h1>
       <div className="allRobotsContainer">
       {robots.map(robot => (
-        <Link className="allRobotsItem" key={robot.id} to="#">
+        <Link className="allRobotsItem" key={robot.id} to={`/robots/${robot.id}`}>
           <div>
               <p>{robot.name}</p>
               <img src={robot.imageUrl} />
@@ -23,7 +23,4 @@ export const AllRobots = ({ robots = [] }) => {
 
 const mapState = ({ robots }) => ({ robots })
 
-// Currently, we're just exporting the component as-is. When we're ready to
-// hook it up to the redux store, we'll export the connected component by default:
 export default connect(mapState)(AllRobots)
-// export default AllRobots

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { fetchRobot } from '../redux/robot'
 
 class SingleRobot extends React.Component {
@@ -10,9 +11,29 @@ class SingleRobot extends React.Component {
     const { robot } = this.props
     if (!robot || !robot.name) return <h1>No robot found!</h1>
     return (
-      <div className="singleRobotContainer">
+      <div>
         <h1>{robot.name}</h1>
-        <img src={robot.imageUrl} />
+        <div className="singleRobotContainer">
+          <img src={robot.imageUrl} />
+          <div>
+            <p>Fuel Type: {robot.fuelType}</p>
+            <p>Fuel Level: {robot.fuelLevel}</p>
+          </div>
+        </div>
+        <div className="robotsProjects">
+          <h2>Projects:</h2>
+          {
+            robot.projects.length
+            ? robot.projects.map(project => (
+              <Link className="projectListItem" key={project.id} to={`/projects/${project.id}`}>
+                <div>
+                  <p>{project.title}</p>
+                </div>
+              </Link>
+            ))
+            : <p>No projects assigned at this time</p>
+          }
+        </div>
       </div>
     )
   }
