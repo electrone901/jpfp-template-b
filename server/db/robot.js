@@ -9,6 +9,7 @@ const Robot = db.define('robot', {
   },
   imageUrl: {
     type: Sequelize.STRING,
+    defaultValue: '/images/robot.png'
   },
   fuelType: {
     type: Sequelize.ENUM('electric', 'gas', 'diesel'),

@@ -54,8 +54,9 @@ router.post('/', async (req, res, next) => {
     console.log('REQ BODY', req.body.robot)
     const body = ['name', 'fuelLevel', 'fuelType', 'imageUrl'].reduce((acc, prop) => {
       console.log('prop', prop)
-      if (prop in req.body.robot) {
-        return {...acc, [prop]: req.body.robot[prop]}
+      const reqBodyProp = req.body.robot[prop]
+      if (reqBodyProp) {
+        return {...acc, [prop]: reqBodyProp}
       }
       return acc
     }, {})

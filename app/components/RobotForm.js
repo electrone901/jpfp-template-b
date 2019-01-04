@@ -10,10 +10,22 @@ export class RobotForm extends React.Component {
     name: '',
     fuelType: '',
     fuelLevel: '',
+    imageUrl: '',
   }
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.createRobot({ robot: this.state })
+    // If the user doesn't specify an imageUrl, set it to
+    // the robot's name on RoboHash
+    if (!this.state.imageUrl) {
+      this.props.createRobot({
+        robot: {
+          ...this.state,
+          imageUrl: `https://robohash.org/${this.state.name}.png`
+        }
+      })
+    } else {
+      this.props.createRobot({ robot: this.state })
+    }
   }
   handleChange = (event) => {
     this.setState({
@@ -22,12 +34,13 @@ export class RobotForm extends React.Component {
   }
   render() {
     const { robot } = this.props
-    const { name, fuelType, fuelLevel } = this.state
+    const { name, fuelType, fuelLevel, imageUrl } = this.state
     if (robot && robot.name) {
       this.setState({
         name: robot.name,
         fuelType: robot.fuelType,
         fuelLevel: robot.fuelLevel,
+        imageUrl: robot.imageUrl,
       })
     }
     return (
@@ -44,6 +57,8 @@ export class RobotForm extends React.Component {
           <input name="fuelType" type="text" value={fuelType} />
           <label htmlFor="fuelLevel">Fuel Level: </label>
           <input name="fuelLevel" type="number" value={fuelLevel} />
+          <label htmlFor="imageUrl">Image URL: </label>
+          <input name="imageUrl" type="text" value={imageUrl} />
           <button type="submit">Submit</button>
 
         </form>
