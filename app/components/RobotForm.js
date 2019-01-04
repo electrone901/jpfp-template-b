@@ -9,7 +9,7 @@ export class RobotForm extends React.Component {
   state = {
     name: '',
     fuelType: '',
-    fuelLevel: '',
+    fuelLevel: 100,
     imageUrl: '',
   }
   handleSubmit = (event) => {
@@ -52,11 +52,24 @@ export class RobotForm extends React.Component {
           onSubmit={this.handleSubmit}>
 
           <label htmlFor="name">Name: </label>
-          <input name="name" type="text" value={name} />
+          <input required name="name" type="text" value={name} />
           <label htmlFor="fuelType">Fuel Type: </label>
-          <input name="fuelType" type="text" value={fuelType} />
+          <select name="fuelType" value={fuelType}>
+            <option value="electric">Electric</option>
+            <option value="gas">Gas</option>
+            <option value="diesel">Diesel</option>
+          </select>
           <label htmlFor="fuelLevel">Fuel Level: </label>
-          <input name="fuelLevel" type="number" value={fuelLevel} />
+          <div>
+            <input name="fuelLevel" type="number" onChange={this.handleChange} value={fuelLevel} />
+            <input
+              name="fuelLevel"
+              type="range"
+              min={1}
+              max={100}
+              onChange={this.handleChange}
+              value={fuelLevel} />
+          </div>
           <label htmlFor="imageUrl">Image URL: </label>
           <input name="imageUrl" type="text" value={imageUrl} />
           <button type="submit">Submit</button>

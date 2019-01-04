@@ -53,6 +53,7 @@ nav a {
 .allRobotsContainer {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .allProjectsContainer {
@@ -75,7 +76,8 @@ nav a {
 
 .allRobotsItem {
   flex-grow: 1;
-  max-width: 33%;
+  max-width: 20vw;
+  width: 20vw;
   border: 1px solid;
   border-radius: 15px;
   margin: 10px;
@@ -83,6 +85,13 @@ nav a {
 
   text-decoration: none;
   font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .allRobotsItem {
+    max-width: 40vw;
+    width: 40vw;
+  }
 }
 
 .allRobotsItem img {
