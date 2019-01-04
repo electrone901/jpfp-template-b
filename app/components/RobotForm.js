@@ -53,12 +53,14 @@ export class RobotForm extends React.Component {
 
           <label htmlFor="name">Name: </label>
           <input required name="name" type="text" value={name} />
+
           <label htmlFor="fuelType">Fuel Type: </label>
           <select name="fuelType" value={fuelType}>
             <option value="electric">Electric</option>
             <option value="gas">Gas</option>
             <option value="diesel">Diesel</option>
           </select>
+
           <label htmlFor="fuelLevel">Fuel Level: </label>
           <div>
             <input name="fuelLevel" type="number" value={fuelLevel} />
@@ -69,8 +71,10 @@ export class RobotForm extends React.Component {
               max={100}
               value={fuelLevel} />
           </div>
+
           <label htmlFor="imageUrl">Image URL: </label>
           <input name="imageUrl" type="text" value={imageUrl} />
+
           <button type="submit">Submit</button>
 
         </form>

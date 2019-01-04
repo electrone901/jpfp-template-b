@@ -47,8 +47,8 @@ export class ProjectForm extends React.Component {
           <label htmlFor="description">Description: </label>
           <input type="text" name="description" value={description} onChange={this.handleChange} />
 
-          <label htmlFor="deadline">Image URL: </label>
-          <input name="deadline" type="date" value={deadline} onChange={this.handleChange} />
+          <label htmlFor="deadline">Deadline: </label>
+          <input name="deadline" type="datetime-local" value={deadline} onChange={this.handleChange} />
 
           <label htmlFor="priority">Priority: </label>
           <input name="priority" type="number" value={priority} onChange={this.handleChange} />

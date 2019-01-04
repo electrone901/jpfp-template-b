@@ -38,4 +38,26 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    const body = [
+      'title',
+      'description',
+      'deadline',
+      'priority',
+      'completed',
+    ].reduce((acc, prop) => {
+      const reqBodyProp = req.body.project[prop]
+      if (reqBodyProp) {
+        return {...acc, [prop]: reqBodyProp}
+      }
+      return acc
+    }, {})
+    const project = await Project.create(body)
+    res.json(project)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router;

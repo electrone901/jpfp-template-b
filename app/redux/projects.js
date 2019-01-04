@@ -3,11 +3,16 @@ import { fetchRobots } from './index'
 
 // ACTION TYPES
 const SET_PROJECTS = 'SET_PROJECTS'
+const ADD_PROJECT = 'ADD_PROJECT'
 
 // ACTION CREATORS
 export const setProjects = (projects) => ({
   type: SET_PROJECTS,
   projects,
+})
+export const addProject = (project) => ({
+  type: ADD_PROJECT,
+  project,
 })
 
 // THUNK CREATORS
@@ -31,12 +36,22 @@ export const deleteProject = (id) => async dispatch => {
   }
 }
 
+export const postProject = (project) => async dispatch => {
+  try {
+    const { data } = await axios.post('/api/projects', project)
+    dispatch(addProject(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 // REDUCER
 export default function reducer(state = [], action) {
   switch (action.type) {
     case SET_PROJECTS:
       return action.projects
+    case ADD_PROJECT:
+      return [...state, action.project]
     default:
       return state
   }
