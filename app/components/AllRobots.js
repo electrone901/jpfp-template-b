@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import RobotForm from './RobotForm'
 import { deleteRobot } from '../redux'
 
 export const AllRobots = ({ robots = [], destroyRobot }) => {
@@ -30,6 +31,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
         </div>
       ))}
       </div>
+      <RobotForm />
     </div>
   )
 }
