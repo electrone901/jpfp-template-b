@@ -49,4 +49,24 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    console.log('REQ BODY', req.body.robot)
+    const body = ['name', 'fuelLevel', 'fuelType', 'imageUrl'].reduce((acc, prop) => {
+      console.log('prop', prop)
+      if (prop in req.body.robot) {
+        return {...acc, [prop]: req.body.robot[prop]}
+      }
+      return acc
+    }, {})
+    console.log('BODY', body)
+    const robot = await Robot.create(body)
+    console.log('ROBOT CREATED', robot.name)
+    res.json(robot)
+  } catch (error) {
+    // res.sendStatus(500) // this also works I guess
+    next(error)
+  }
+})
+
 module.exports = router
