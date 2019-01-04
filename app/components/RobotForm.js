@@ -81,8 +81,8 @@ export class RobotForm extends React.Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  // TODO: Create these methods
   createRobot: (robot) => dispatch(postRobot(robot)),
+  // TODO: Create this method
   editRobot: (id) => dispatch({ id }),
 })
 

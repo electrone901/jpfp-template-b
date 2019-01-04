@@ -2,12 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { deleteProject } from '../redux'
+import ProjectForm from './ProjectForm'
 
 export const AllProjects = ({ projects = [], destroyProject }) => {
   if (!projects.length) return <h1>You got no projects! 📈 💼 </h1>
   return (
     <div>
       <h1>Here are all your projects:</h1>
+      <ProjectForm />
       <div className="allProjectsContainer">
       {projects.map(project => (
         <div className="projectListItem" key={project.id}>
