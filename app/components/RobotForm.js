@@ -61,13 +61,12 @@ export class RobotForm extends React.Component {
           </select>
           <label htmlFor="fuelLevel">Fuel Level: </label>
           <div>
-            <input name="fuelLevel" type="number" onChange={this.handleChange} value={fuelLevel} />
+            <input name="fuelLevel" type="number" value={fuelLevel} />
             <input
               name="fuelLevel"
               type="range"
               min={1}
               max={100}
-              onChange={this.handleChange}
               value={fuelLevel} />
           </div>
           <label htmlFor="imageUrl">Image URL: </label>

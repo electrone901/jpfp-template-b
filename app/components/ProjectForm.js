@@ -37,28 +37,28 @@ export class ProjectForm extends React.Component {
     return (
       <div>
         <h2>New Project:</h2>
-  <form
-    className="projectForm"
-    onSubmit={this.handleSubmit}>
+        <form
+          className="projectForm"
+          onSubmit={this.handleSubmit}>
 
-    <label htmlFor="title">Title: </label>
-    <input required name="title" type="text" value={title} onChange={this.handleChange} />
+          <label htmlFor="title">Title: </label>
+          <input required name="title" type="text" value={title} onChange={this.handleChange} />
 
-    <label htmlFor="description">Description: </label>
-    <input type="text" name="description" value={description} onChange={this.handleChange} />
+          <label htmlFor="description">Description: </label>
+          <input type="text" name="description" value={description} onChange={this.handleChange} />
 
-    <label htmlFor="deadline">Image URL: </label>
-    <input name="deadline" type="date" value={deadline} onChange={this.handleChange} />
+          <label htmlFor="deadline">Image URL: </label>
+          <input name="deadline" type="date" value={deadline} onChange={this.handleChange} />
 
-    <label htmlFor="priority">Priority: </label>
-    <input name="priority" type="number" value={priority} onChange={this.handleChange} />
+          <label htmlFor="priority">Priority: </label>
+          <input name="priority" type="number" value={priority} onChange={this.handleChange} />
 
-    <label htmlFor="completed">Completed? </label>
-    <input name="completed" type="checkbox" value={completed} onChange={this.handleChange} />
+          <label htmlFor="completed">Completed? </label>
+          <input name="completed" type="checkbox" value={completed} onChange={this.handleChange} />
 
-    <button type="submit">Submit</button>
+          <button type="submit">Submit</button>
 
-  </form>
+        </form>
       </div>
     )
   }
