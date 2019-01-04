@@ -14,17 +14,20 @@ export class RobotForm extends React.Component {
   }
   handleSubmit = (event) => {
     event.preventDefault()
+    const createOrEdit = this.props.robot
+      ? this.props.editRobot
+      : this.props.createRobot
     // If the user doesn't specify an imageUrl, set it to
     // the robot's name on RoboHash
     if (!this.state.imageUrl) {
-      this.props.createRobot({
+      createOrEdit({
         robot: {
           ...this.state,
           imageUrl: `https://robohash.org/${this.state.name}.png`
         }
       })
     } else {
-      this.props.createRobot({ robot: this.state })
+      createOrEdit({ robot: this.state })
     }
   }
   handleChange = (event) => {
