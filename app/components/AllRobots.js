@@ -9,6 +9,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
   return (
     <div>
       <h1>Here are all your robots:</h1>
+      <RobotForm />
       <div className="allRobotsContainer">
       {robots.map(robot => (
         <div className="allRobotsItem" key={robot.id}>
@@ -21,17 +22,12 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
           <button
             type="button"
             className="deleteButton"
-            style={{
-              backgroundColor: 'orange',
-              width: '60px',
-            }}
             onClick={() => destroyRobot(robot.id)}>
             X
           </button>
         </div>
       ))}
       </div>
-      <RobotForm />
     </div>
   )
 }
