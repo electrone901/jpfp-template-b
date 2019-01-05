@@ -63,11 +63,28 @@ const pickPropsFromObj = (props, obj) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const robotToCreate = pickPropsFromObj(
+    const robotData = pickPropsFromObj(
       ['name', 'fuelLevel', 'fuelType', 'imageUrl'],
       req.body.robot
     )
-    const robot = await Robot.create(robotToCreate)
+    const robot = await Robot.create(robotData)
+    res.json(robot)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const id = +req.params.id
+    const foundRobot = await Robot.findById(id)
+    if (!foundRobot) return res.sendStatus(404)
+
+    const robotData = pickPropsFromObj(
+      ['name', 'fuelLevel', 'fuelType', 'imageUrl'],
+      req.body.robot
+    )
+    const robot = await foundRobot.update(robotData)
     res.json(robot)
   } catch (error) {
     next(error)
