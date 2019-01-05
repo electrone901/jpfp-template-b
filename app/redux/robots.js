@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { fetchProjects } from './index'
+import { fetchProjects, fetchRobot } from './index'
 
 // ACTION TYPES
 const SET_ROBOTS = 'SET_ROBOTS'
@@ -58,7 +58,9 @@ export const putRobot = (robot) => async dispatch => {
   try {
     console.log('PUT robot', robot)
     const { data } = await axios.put(`/api/robots/${robot.robot.id}`, robot)
+    console.log('DATA', data)
     dispatch(editRobot(data))
+    dispatch(fetchRobot(robot.robot.id))
   } catch (err) {
     console.error(err)
   }
