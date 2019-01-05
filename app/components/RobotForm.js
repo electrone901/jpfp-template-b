@@ -10,7 +10,7 @@ export class RobotForm extends React.Component {
   state = {
     name: '',
     fuelType: '',
-    fuelLevel: 100,
+    fuelLevel: '100',
     imageUrl: '',
   }
   handleSubmit = (event) => {
@@ -18,18 +18,7 @@ export class RobotForm extends React.Component {
     const createOrEdit = this.props.robotToEdit
       ? this.props.editRobot
       : this.props.createRobot
-    // If the user doesn't specify an imageUrl, set it to
-    // the robot's name on RoboHash
-    if (!this.state.imageUrl) {
-      createOrEdit({
-        robot: {
-          ...this.state,
-          imageUrl: `https://robohash.org/${this.state.name}.png`
-        }
-      })
-    } else {
-      createOrEdit({ robot: this.state })
-    }
+    createOrEdit({ robot: this.state })
   }
   static getDerivedStateFromProps(nextProps) {
     return nextProps.robotToEdit
@@ -61,7 +50,11 @@ export class RobotForm extends React.Component {
           </select>
 
           <label htmlFor="fuelLevel">Fuel Level: </label>
-          <input name="fuelLevel" type="number" value={fuelLevel} onChange={this.handleChange} />
+          <input
+            name="fuelLevel"
+            type="number"
+            value={fuelLevel}
+            onChange={this.handleChange} />
           <input
             name="fuelLevel"
             type="range"
@@ -86,7 +79,6 @@ export class RobotForm extends React.Component {
 }
 
 const mapState = ({ robot }, ownProps) => {
-  // console.log('params: ', ownProps.match.params)
   return {
     robotToEdit: ownProps.match.params.id ? robot : null
   }

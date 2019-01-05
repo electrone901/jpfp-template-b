@@ -9,7 +9,6 @@ const Robot = db.define('robot', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: '/images/robot.png'
   },
   fuelType: {
     type: Sequelize.ENUM('electric', 'gas', 'diesel'),
@@ -24,6 +23,12 @@ const Robot = db.define('robot', {
     validate: { min: 0, max: 100 },
     defaultValue: 100,
   },
+})
+
+Robot.beforeSave((robot) => {
+  if (!robot.imageUrl) {
+    robot.imageUrl = `https://robohash.org/${robot.name}.png`
+  }
 })
 
 module.exports = Robot
