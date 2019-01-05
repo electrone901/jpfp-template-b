@@ -4,14 +4,21 @@ import { fetchRobots } from './index'
 // ACTION TYPES
 const SET_PROJECTS = 'SET_PROJECTS'
 const ADD_PROJECT = 'ADD_PROJECT'
+const EDIT_PROJECT = 'EDIT_PROJECT'
 
 // ACTION CREATORS
 export const setProjects = (projects) => ({
   type: SET_PROJECTS,
   projects,
 })
+
 export const addProject = (project) => ({
   type: ADD_PROJECT,
+  project,
+})
+
+export const editProject = (project) => ({
+  type: EDIT_PROJECT,
   project,
 })
 
@@ -40,6 +47,16 @@ export const postProject = (project) => async dispatch => {
   try {
     const { data } = await axios.post('/api/projects', project)
     dispatch(addProject(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// TODO: FINISH DOING THIS
+export const putProject = (project) => async dispatch => {
+  try {
+    const { data } = await axios.put('/api/projects', project)
+    dispatch(editProject(data))
   } catch (err) {
     console.error(err)
   }

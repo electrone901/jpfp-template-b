@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { postRobot } from '../redux'
+import { postRobot, putRobot } from '../redux'
 
 // This form can be used to create a new robot or edit an existing
 // one. If passed a robot, it pre-populates the form. Otherwise,
@@ -87,7 +87,7 @@ const mapState = ({ robot }, ownProps) => {
 const mapDispatch = (dispatch) => ({
   createRobot: (robot) => dispatch(postRobot(robot)),
   // TODO: Create this method
-  editRobot: (id) => dispatch({ id }),
+  editRobot: (robot) => dispatch(putRobot(robot)),
 })
 
 export default withRouter(

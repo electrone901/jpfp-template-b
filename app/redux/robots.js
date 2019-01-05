@@ -4,6 +4,7 @@ import { fetchProjects } from './index'
 // ACTION TYPES
 const SET_ROBOTS = 'SET_ROBOTS'
 const ADD_ROBOT = 'ADD_ROBOT'
+const EDIT_ROBOT = 'EDIT_ROBOT'
 
 // ACTION CREATORS
 export const setRobots = (robots) => ({
@@ -13,6 +14,11 @@ export const setRobots = (robots) => ({
 
 export const addRobot = (robot) => ({
   type: ADD_ROBOT,
+  robot,
+})
+
+export const editRobot = (robot) => ({
+  type: EDIT_ROBOT,
   robot,
 })
 
@@ -39,8 +45,20 @@ export const deleteRobot = (id) => async dispatch => {
 
 export const postRobot = (robot) => async dispatch => {
   try {
+    console.log('POST robot', robot)
     const { data } = await axios.post('/api/robots', robot)
     dispatch(addRobot(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+// TODO: Evaluate whether its better to nest the robot like this
+export const putRobot = (robot) => async dispatch => {
+  try {
+    console.log('PUT robot', robot)
+    const { data } = await axios.put(`/api/robots/${robot.robot.id}`, robot)
+    dispatch(editRobot(data))
   } catch (err) {
     console.error(err)
   }
@@ -53,6 +71,12 @@ export default function reducer(state = [], action) {
       return action.robots
     case ADD_ROBOT:
       return [...state, action.robot]
+    case EDIT_ROBOT:
+      return state.map(robot => {
+        return robot.id === action.robot.id
+                ? action.robot
+                : robot
+      })
     default:
       return state
   }
