@@ -9,7 +9,10 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
   return (
     <div>
       <h1>Here are all your robots:</h1>
-      <RobotForm />
+      <div>
+        <h2>Create a new robot:</h2>
+        <RobotForm />
+      </div>
       <div className="allRobotsContainer">
       {robots.map(robot => (
         <div className="allRobotsItem" key={robot.id}>

@@ -46,13 +46,13 @@ export class RobotForm extends React.Component {
         imageUrl: robot.imageUrl,
       })
     }
+    console.dir(this.state)
     return (
       <div>
-        <h2>New Robot:</h2>
         <form
           className="robotForm"
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}>
+          onSubmit={this.handleSubmit}
+          >
 
           <label htmlFor="name">Name: </label>
           <input required name="name" type="text" value={name} />
@@ -65,15 +65,13 @@ export class RobotForm extends React.Component {
           </select>
 
           <label htmlFor="fuelLevel">Fuel Level: </label>
-          <div>
-            <input name="fuelLevel" type="number" value={fuelLevel} />
-            <input
-              name="fuelLevel"
-              type="range"
-              min={1}
-              max={100}
-              value={fuelLevel} />
-          </div>
+          <input name="fuelLevel" type="number" value={fuelLevel} />
+          <input
+            name="fuelLevel"
+            type="range"
+            min={1}
+            max={100}
+            value={fuelLevel} />
 
           <label htmlFor="imageUrl">Image URL: </label>
           <input name="imageUrl" type="text" value={imageUrl} />
