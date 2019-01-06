@@ -18,7 +18,7 @@ export class RobotForm extends React.Component {
     const createOrEdit = this.props.robotToEdit
       ? this.props.editRobot
       : this.props.createRobot
-    createOrEdit({ robot: this.state })
+    createOrEdit(this.state)
   }
   static getDerivedStateFromProps(nextProps) {
     return nextProps.robotToEdit

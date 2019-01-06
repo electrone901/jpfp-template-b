@@ -65,7 +65,7 @@ router.post('/', async (req, res, next) => {
   try {
     const robotData = pickPropsFromObj(
       ['name', 'fuelLevel', 'fuelType', 'imageUrl'],
-      req.body.robot
+      req.body
     )
     const robot = await Robot.create(robotData)
     res.json(robot)
@@ -82,7 +82,7 @@ router.put('/:id', async (req, res, next) => {
 
     const robotData = pickPropsFromObj(
       ['name', 'fuelLevel', 'fuelType', 'imageUrl'],
-      req.body.robot
+      req.body
     )
     const robot = await foundRobot.update(robotData)
     res.json(robot)

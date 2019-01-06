@@ -53,14 +53,13 @@ export const postRobot = (robot) => async dispatch => {
   }
 }
 
-// TODO: Evaluate whether its better to nest the robot like this
 export const putRobot = (robot) => async dispatch => {
   try {
     console.log('PUT robot', robot)
-    const { data } = await axios.put(`/api/robots/${robot.robot.id}`, robot)
+    const { data } = await axios.put(`/api/robots/${robot.id}`, robot)
     console.log('DATA', data)
     dispatch(editRobot(data))
-    dispatch(fetchRobot(robot.robot.id))
+    dispatch(fetchRobot(robot.id))
   } catch (err) {
     console.error(err)
   }
