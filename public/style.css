@@ -145,6 +145,45 @@ nav a {
   flex-direction: column;
 }
 
+.formContainer {
+
+}
+
+.robotForm {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.labelInput {
+  /* display: flex;
+  padding-left: 50%;
+  justify-content: flex-start;
+  margin: 5px auto 5px auto; */
+  display: flex;
+  justify-content: flex-end;
+  padding: .5em;
+}
+
+.labelInput > label {
+   padding: .5em 1em .5em 0;
+   flex: 1;
+ }
+ .labelInput > input {
+   flex: 2;
+ }
+
+.submitButton {
+  padding: 5px 15px;
+  width: 100px;
+  border-radius: 15px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
 main {
   align-items: center;
   display: flex;

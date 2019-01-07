@@ -14,7 +14,10 @@ class SingleRobot extends React.Component {
     return (
       <div>
         <h1>{robot.name}</h1>
-        <RobotForm robot={robot} />
+        <div className="formContainer">
+          <h2>Edit Robot:</h2>
+          <RobotForm robot={robot} />
+        </div>
         <div className="singleItemContainer">
           <img src={robot.imageUrl} />
           <div>

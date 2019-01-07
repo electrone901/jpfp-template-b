@@ -34,43 +34,44 @@ export class RobotForm extends React.Component {
           className="robotForm"
           onSubmit={this.handleSubmit}>
 
-          <label htmlFor="name">Name: </label>
-          <input
-            required
-            name="name"
-            type="text"
-            value={name}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="name">Name: </label>
+            <input
+              required
+              name="name"
+              type="text"
+              value={name}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="fuelType">Fuel Type: </label>
-          <select name="fuelType" value={fuelType} onChange={this.handleChange}>
-            <option value="electric">Electric</option>
-            <option value="gas">Gas</option>
-            <option value="diesel">Diesel</option>
-          </select>
+          <div className="labelInput">
+            <label htmlFor="fuelType">Fuel Type: </label>
+            <select name="fuelType" value={fuelType} onChange={this.handleChange}>
+              <option value="electric">Electric</option>
+              <option value="gas">Gas</option>
+              <option value="diesel">Diesel</option>
+            </select>
+          </div>
 
-          <label htmlFor="fuelLevel">Fuel Level: </label>
-          <input
-            name="fuelLevel"
-            type="number"
-            value={fuelLevel}
-            onChange={this.handleChange} />
-          <input
-            name="fuelLevel"
-            type="range"
-            min={1}
-            max={100}
-            value={fuelLevel}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="fuelLevel">Fuel Level: </label>
+            <input
+              name="fuelLevel"
+              type="number"
+              value={fuelLevel}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="imageUrl">Image URL: </label>
-          <input
-            name="imageUrl"
-            type="text"
-            value={imageUrl}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="imageUrl">Image URL: </label>
+            <input
+              name="imageUrl"
+              type="text"
+              value={imageUrl}
+              onChange={this.handleChange} />
+          </div>
 
-          <button type="submit">Submit</button>
+          <button className="submitButton" type="submit">Submit</button>
 
         </form>
       </div>
