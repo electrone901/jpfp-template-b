@@ -86,7 +86,6 @@ const mapState = ({ robot }, ownProps) => {
 
 const mapDispatch = (dispatch) => ({
   createRobot: (robot) => dispatch(postRobot(robot)),
-  // TODO: Create this method
   editRobot: (robot) => dispatch(putRobot(robot)),
 })
 

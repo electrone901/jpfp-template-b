@@ -47,7 +47,7 @@ router.post('/', async (req, res, next) => {
       'priority',
       'completed',
     ].reduce((acc, prop) => {
-      const reqBodyProp = req.body.project[prop]
+      const reqBodyProp = req.body[prop]
       if (reqBodyProp) {
         return {...acc, [prop]: reqBodyProp}
       }
