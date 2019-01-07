@@ -8,7 +8,7 @@ export const AllProjects = ({ projects = [], destroyProject }) => {
   if (!projects.length) return <h1>You got no projects! 📈 💼 </h1>
   return (
     <div>
-      <h1>Here are all your projects:</h1>
+      <h1>📈 PROJECTS 📈</h1>
       <div className="formListContainer">
         <div className="formContainer">
           <h2>Create a Project:</h2>

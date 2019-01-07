@@ -8,7 +8,7 @@ export const AllRobots = ({ robots = [], destroyRobot }) => {
   if (!robots.length) return <h1>You got no robots! 🤖 😢 </h1>
   return (
     <div>
-      <h1>Here are all your robots:</h1>
+      <h1>🤖 ROBOTS 🤖</h1>
       <div className="formListContainer">
         <div className="formContainer">
           <h2>Create a new robot:</h2>
