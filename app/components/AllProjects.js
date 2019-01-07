@@ -9,7 +9,10 @@ export const AllProjects = ({ projects = [], destroyProject }) => {
   return (
     <div>
       <h1>Here are all your projects:</h1>
-      <ProjectForm />
+      <div>
+        <h2>Create a Project:</h2>
+        <ProjectForm />
+      </div>
       <div className="allProjectsContainer">
       {projects.map(project => (
         <div className="projectListItem" key={project.id}>

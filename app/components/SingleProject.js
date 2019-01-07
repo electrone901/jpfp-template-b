@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchProject } from '../redux/project'
+import ProjectForm from './ProjectForm'
 
 class SingleProject extends React.Component {
   componentDidMount() {
@@ -26,6 +27,10 @@ class SingleProject extends React.Component {
     return (
       <div>
         <h1>{project.title}</h1>
+        <div>
+          <h2>Edit Project:</h2>
+          <ProjectForm />
+        </div>
         <div className="singleItemContainer">
           <div>
             <p>
