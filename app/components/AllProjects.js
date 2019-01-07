@@ -9,29 +9,32 @@ export const AllProjects = ({ projects = [], destroyProject }) => {
   return (
     <div>
       <h1>Here are all your projects:</h1>
-      <div>
-        <h2>Create a Project:</h2>
-        <ProjectForm />
-      </div>
-      <div className="allProjectsContainer">
-      {projects.map(project => (
-        <div className="projectListItem" key={project.id}>
-          <Link to={`/projects/${project.id}`}>
-            <div>
-              <h2>{project.title}</h2>
-              <p>Priority Rating: {project.priority}</p>
-              <p>Completed: {project.completed ? 'Yes' : 'No'}</p>
-            </div>
-          </Link>
-          <button
-            type="button"
-            className="deleteButton"
-            onClick={() => destroyProject(project.id)}>
-            X
-          </button>
+      <div className="formListContainer">
+        <div className="formContainer">
+          <h2>Create a Project:</h2>
+          <ProjectForm />
         </div>
-      ))}
+        <div className="listContainer">
+        {projects.map(project => (
+          <div className="projectListItem" key={project.id}>
+            <Link to={`/projects/${project.id}`}>
+              <div>
+                <h2>{project.title}</h2>
+                <p>Priority Rating: {project.priority}</p>
+                <p>Completed: {project.completed ? 'Yes' : 'No'}</p>
+              </div>
+            </Link>
+            <button
+              type="button"
+              className="deleteButton"
+              onClick={() => destroyProject(project.id)}>
+              X
+            </button>
+          </div>
+        ))}
+        </div>
       </div>
+
     </div>
   )
 }

@@ -40,6 +40,18 @@ nav a {
   border-radius: 15px;
 }
 
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+input[type="checkbox"] {
+  width: 30px;
+  height: 30px;
+}
+
 .right-navbar {
   display: flex;
 }
@@ -52,15 +64,10 @@ nav a {
   border-width: thin;
 }
 
-.allRobotsContainer {
+.listContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.allProjectsContainer {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .projectListItem {
@@ -87,13 +94,6 @@ nav a {
 
   text-decoration: none;
   font-weight: bold;
-}
-
-@media only screen and (max-width: 600px) {
-  .allRobotsItem {
-    max-width: 40vw;
-    width: 40vw;
-  }
 }
 
 .allRobotsItem img {
@@ -145,12 +145,16 @@ nav a {
   flex-direction: column;
 }
 
+/* For the div that wraps a div with the header above it */
 .formContainer {
-
+  align-items: flex-end;
 }
 
-.robotForm {
-  width: 50%;
+.formListContainer {
+  display: flex;
+}
+
+form {
   display: flex;
   flex-direction: column;
   border: 1px dashed;
@@ -158,35 +162,35 @@ nav a {
   padding: 15px;
 }
 
+/* For divs that group labels and inputs together */
 .labelInput {
-  /* display: flex;
-  padding-left: 50%;
-  justify-content: flex-start;
-  margin: 5px auto 5px auto; */
   display: flex;
   justify-content: flex-end;
   padding: .5em;
 }
-
 .labelInput > label {
-   padding: .5em 1em .5em 0;
-   flex: 1;
- }
- .labelInput > input {
-   flex: 2;
- }
+  padding: .5em 1em .5em 0;
+  flex: 1;
+}
+.labelInput > input {
+  flex: 2;
+}
 
 .submitButton {
   padding: 5px 15px;
-  width: 100px;
+  width: 100%;
   border-radius: 15px;
   background: #4CAF50;
   cursor: pointer;
+  margin-top: 10px;
 }
 
-main {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+@media only screen and (max-width: 700px) {
+  .allRobotsItem {
+    max-width: 40vw;
+    width: 40vw;
+  }
+  .formListContainer {
+    display: block;
+  }
 }

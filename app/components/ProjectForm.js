@@ -30,46 +30,55 @@ export class ProjectForm extends React.Component {
     return (
       <div>
         <form
-          className="projectForm"
           onSubmit={this.handleSubmit}>
 
-          <label htmlFor="title">Title: </label>
-          <input
-            required
-            name="title"
-            type="text"
-            value={title}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="title">Title: </label>
+            <input
+              required
+              name="title"
+              type="text"
+              value={title}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="description">Description: </label>
-          <input
-            type="text"
-            name="description"
-            value={description}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="description">Description: </label>
+            <input
+              type="text"
+              name="description"
+              value={description}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="deadline">Deadline: </label>
-          <input
-            name="deadline"
-            type="datetime-local"
-            value={moment(deadline).format('YYYY-MM-DDTkk:mm')}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="deadline">Deadline: </label>
+            <input
+              name="deadline"
+              type="datetime-local"
+              value={moment(deadline).format('YYYY-MM-DDTkk:mm')}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="priority">Priority: </label>
-          <input
-            name="priority"
-            type="number"
-            value={priority}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="priority">Priority: </label>
+            <input
+              name="priority"
+              type="number"
+              value={priority}
+              onChange={this.handleChange} />
+          </div>
 
-          <label htmlFor="completed">Completed? </label>
-          <input
-            name="completed"
-            type="checkbox"
-            value={completed}
-            onChange={this.handleChange} />
+          <div className="labelInput">
+            <label htmlFor="completed">Completed? </label>
+            <input
+              name="completed"
+              type="checkbox"
+              value={completed}
+              onChange={this.handleChange} />
+          </div>
 
-          <button type="submit">Submit</button>
+          <button className="submitButton" type="submit">Submit</button>
 
         </form>
       </div>

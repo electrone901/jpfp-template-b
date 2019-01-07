@@ -27,7 +27,7 @@ class SingleProject extends React.Component {
     return (
       <div>
         <h1>{project.title}</h1>
-        <div>
+        <div className="formContainer">
           <h2>Edit Project:</h2>
           <ProjectForm />
         </div>

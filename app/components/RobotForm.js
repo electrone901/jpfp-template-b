@@ -31,7 +31,6 @@ export class RobotForm extends React.Component {
     return (
       <div>
         <form
-          className="robotForm"
           onSubmit={this.handleSubmit}>
 
           <div className="labelInput">
