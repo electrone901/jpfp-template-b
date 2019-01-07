@@ -27,24 +27,26 @@ class SingleProject extends React.Component {
     return (
       <div>
         <h1>{project.title}</h1>
-        <div className="formContainer">
-          <h2>Edit Project:</h2>
-          <ProjectForm />
-        </div>
-        <div className="singleItemContainer">
-          <div>
-            <p>
-              <span>Description:</span> {project.description}
-            </p>
-            <p>
-              <span>Deadline:</span> {deadline}
-            </p>
-            <p>
-              <span>Priority:</span> {project.priority}
-            </p>
-            <p>
-              <span>Completed?</span> {project.completed ? 'Yes' : 'No' }
-            </p>
+        <div className="formDetailContainer">
+          <div className="formContainer">
+            <h2>Edit Project:</h2>
+            <ProjectForm />
+          </div>
+          <div className="singleItemContainer">
+            <div>
+              <p>
+                <span>Description:</span> {project.description}
+              </p>
+              <p>
+                <span>Deadline:</span> {deadline}
+              </p>
+              <p>
+                <span>Priority:</span> {project.priority}
+              </p>
+              <p>
+                <span>Completed?</span> {project.completed ? 'Yes' : 'No' }
+              </p>
+            </div>
           </div>
         </div>
         <div className="robotsProjects">

@@ -52,6 +52,10 @@ input[type="checkbox"] {
   height: 30px;
 }
 
+p {
+  max-width: 80vw;
+}
+
 .right-navbar {
   display: flex;
 }
@@ -126,7 +130,7 @@ input[type="checkbox"] {
   display: flex;
   justify-content: space-around;
   width: 100%;
-  margin: 0px 50px 0px 50px;
+  margin: 0px 20px 0px 20px;
 }
 
 .singleItemContainer > img {
@@ -177,7 +181,7 @@ form {
   padding: .5em 1em .5em 0;
   flex: 1;
 }
-.labelInput > input {
+.labelInput > input,textarea {
   flex: 2;
 }
 

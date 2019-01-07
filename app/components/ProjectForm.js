@@ -44,8 +44,7 @@ export class ProjectForm extends React.Component {
 
           <div className="labelInput">
             <label htmlFor="description">Description: </label>
-            <input
-              type="text"
+            <textarea
               name="description"
               value={description}
               onChange={this.handleChange} />
