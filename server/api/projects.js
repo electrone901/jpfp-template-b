@@ -38,22 +38,31 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+// Picks the array of props from an object and doesn't
+// assign keys to the returned object that are falsey
+const pickPropsFromObj = (props, obj) => {
+  return props.reduce((acc, prop) => {
+    const value = obj[prop]
+    if (obj[prop]) {
+      return {...acc, [prop]: value}
+    }
+    return acc
+  }, {})
+}
+
 router.post('/', async (req, res, next) => {
   try {
-    const body = [
-      'title',
-      'description',
-      'deadline',
-      'priority',
-      'completed',
-    ].reduce((acc, prop) => {
-      const reqBodyProp = req.body[prop]
-      if (reqBodyProp) {
-        return {...acc, [prop]: reqBodyProp}
-      }
-      return acc
-    }, {})
-    const project = await Project.create(body)
+    const projectData = pickPropsFromObj(
+      [
+        'title',
+        'description',
+        'deadline',
+        'priority',
+        'completed',
+      ],
+      req.body
+    )
+    const project = await Project.create(projectData)
     res.json(project)
   } catch (error) {
     next(error)

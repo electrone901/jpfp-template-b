@@ -23,7 +23,12 @@ export class ProjectForm extends React.Component {
     return nextProps.projectToEdit
   }
   handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value })
+    // HTML checkbozes are really really dumb.
+    if (name === 'completed') {
+      this.setState((prevState) => ({ completed: !prevState.completed }))
+    } else {
+      this.setState({ [name]: value })
+    }
   }
   render() {
     const { title, description, deadline, priority, completed } = this.state
@@ -55,7 +60,9 @@ export class ProjectForm extends React.Component {
             <input
               name="deadline"
               type="datetime-local"
-              value={moment(deadline).format('YYYY-MM-DDTkk:mm')}
+              value={deadline
+                ? moment(deadline).format('YYYY-MM-DDTkk:mm')
+                : ''}
               onChange={this.handleChange} />
           </div>
 
