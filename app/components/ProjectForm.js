@@ -4,9 +4,6 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import { postProject, putProject } from '../redux'
 
-// This form can be used to create a new robot or edit an existing
-// one. If passed a robot, it pre-populates the form. Otherwise,
-// it creates a new robot.
 export class ProjectForm extends React.Component {
   state = {
     title: '',
