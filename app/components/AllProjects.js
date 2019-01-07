@@ -19,7 +19,7 @@ export const AllProjects = ({ projects = [], destroyProject }) => {
           <div className="projectListItem" key={project.id}>
             <Link to={`/projects/${project.id}`}>
               <div>
-                <h2>{project.title}</h2>
+                <h3>{project.title}</h3>
                 <p>Priority Rating: {project.priority}</p>
                 <p>Completed: {project.completed ? 'Yes' : 'No'}</p>
               </div>

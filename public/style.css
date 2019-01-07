@@ -76,7 +76,8 @@ input[type="checkbox"] {
   max-width: 30%;
   border: 1px solid;
   border-radius: 15px;
-  margin: 10px;
+  margin: 5px;
+  padding: 5px;
   text-align: center;
 
   text-decoration: none;
@@ -124,6 +125,7 @@ input[type="checkbox"] {
 .singleItemContainer {
   display: flex;
   justify-content: space-around;
+  width: 100%;
   margin: 0px 50px 0px 50px;
 }
 
@@ -132,6 +134,7 @@ input[type="checkbox"] {
   border-radius: 15px;
   width: 200px;
   height: 200px;
+  margin: 10px;
 }
 
 .singleItemContainer span {
@@ -141,18 +144,19 @@ input[type="checkbox"] {
 .robotsProjects {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   flex-direction: column;
 }
 
 /* For the div that wraps a div with the header above it */
 .formContainer {
   align-items: flex-end;
+  margin: 15px;
 }
 
-.formListContainer {
+.formListContainer, .formDetailContainer {
   display: flex;
-  margin: 0 15px 0 15px;
+  margin: 15px;
 }
 
 form {
@@ -191,7 +195,7 @@ form {
     max-width: 40vw;
     width: 40vw;
   }
-  .formListContainer {
+  .formListContainer, .formDetailContainer {
     display: block;
   }
 }

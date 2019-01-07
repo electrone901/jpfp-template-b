@@ -14,19 +14,21 @@ class SingleRobot extends React.Component {
     return (
       <div>
         <h1>{robot.name}</h1>
-        <div className="formContainer">
-          <h2>Edit Robot:</h2>
-          <RobotForm />
-        </div>
-        <div className="singleItemContainer">
-          <img src={robot.imageUrl} />
-          <div>
-            <p>
-              <span>Fuel Type:</span> {robot.fuelType}
-            </p>
-            <p>
-              <span>Fuel Level:</span> {robot.fuelLevel}
-            </p>
+        <div className="formDetailContainer">
+          <div className="formContainer">
+            <h2>Edit Robot:</h2>
+            <RobotForm />
+          </div>
+          <div className="singleItemContainer">
+            <img src={robot.imageUrl} />
+            <div>
+              <p>
+                <span>Fuel Type:</span> {robot.fuelType}
+              </p>
+              <p>
+                <span>Fuel Level:</span> {robot.fuelLevel}
+              </p>
+            </div>
           </div>
         </div>
         <div className="robotsProjects">
