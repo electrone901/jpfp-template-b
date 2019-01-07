@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { fetchRobots } from './index'
+import { fetchRobots, fetchProject } from './index'
 
 // ACTION TYPES
 const SET_PROJECTS = 'SET_PROJECTS'
@@ -52,11 +52,11 @@ export const postProject = (project) => async dispatch => {
   }
 }
 
-// TODO: FINISH DOING THIS
 export const putProject = (project) => async dispatch => {
   try {
-    const { data } = await axios.put('/api/projects', project)
+    const { data } = await axios.put(`/api/projects/${project.id}`, project)
     dispatch(editProject(data))
+    dispatch(fetchProject(project.id))
   } catch (err) {
     console.error(err)
   }
@@ -69,6 +69,12 @@ export default function reducer(state = [], action) {
       return action.projects
     case ADD_PROJECT:
       return [...state, action.project]
+    case EDIT_PROJECT:
+      return state.map(project => {
+        return project.id === action.project.id
+                ? action.project
+                : project
+      })
     default:
       return state
   }

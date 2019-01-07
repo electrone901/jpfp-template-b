@@ -45,7 +45,6 @@ export const deleteRobot = (id) => async dispatch => {
 
 export const postRobot = (robot) => async dispatch => {
   try {
-    console.log('POST robot', robot)
     const { data } = await axios.post('/api/robots', robot)
     dispatch(addRobot(data))
   } catch (err) {
@@ -55,9 +54,7 @@ export const postRobot = (robot) => async dispatch => {
 
 export const putRobot = (robot) => async dispatch => {
   try {
-    console.log('PUT robot', robot)
     const { data } = await axios.put(`/api/robots/${robot.id}`, robot)
-    console.log('DATA', data)
     dispatch(editRobot(data))
     dispatch(fetchRobot(robot.id))
   } catch (err) {
