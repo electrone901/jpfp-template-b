@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
 import { postProject, putProject } from '../redux'
 
 // This form can be used to create a new robot or edit an existing
@@ -54,7 +55,7 @@ export class ProjectForm extends React.Component {
           <input
             name="deadline"
             type="datetime-local"
-            value={deadline}
+            value={moment(deadline).format('YYYY-MM-DDTkk:mm')}
             onChange={this.handleChange} />
 
           <label htmlFor="priority">Priority: </label>
