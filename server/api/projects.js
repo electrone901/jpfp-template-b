@@ -69,4 +69,27 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const id = +req.params.id
+    const foundProject = await Project.findById(id)
+    if (!foundProject) return res.sendStatus(404)
+
+    const projectData = pickPropsFromObj(
+      [
+        'title',
+        'description',
+        'deadline',
+        'priority',
+        'completed',
+      ],
+      req.body
+    )
+    const robot = await foundProject.update(projectData)
+    res.json(robot)
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router;

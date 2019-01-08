@@ -151,9 +151,9 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 - [x] Write a component to display a form updating _at least_ a project's title and completion status
 - [x] Display this component EITHER as part of the single-project view, or as its own view
-- [ ] Submitting the form with valid data should:
-  - [ ] Make an AJAX request that causes that project to be updated in the database
-  - [ ] Update the project in the current view without needing to refresh the page
+- [x] Submitting the form with valid data should:
+  - [x] Make an AJAX request that causes that project to be updated in the database
+  - [x] Update the project in the current view without needing to refresh the page
 - [ ] In the single-project view, display an `Unassign` button next to each robot assigned to it, which unassigns that robot (in the database as well as this view)
 - [ ] In the single-project view, display a `Complete` button, which marks the project as completed (in the database as well as this view)
 
