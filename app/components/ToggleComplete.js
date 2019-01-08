@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { putProject } from '../redux'
 
-export const ToggleComplete = (props) => {
-  const { isComplete, toggleProjectCompleted } = props
+export const ToggleComplete = ({ isComplete, toggleProjectCompleted }) => {
   return (
     <button
       className="toggleCompleteButton"
@@ -15,16 +14,13 @@ export const ToggleComplete = (props) => {
   )
 }
 
-const mapState = (_, ownProps) => {
-  // console.log('ownProps', ownProps)
+const mapState = (_, { isComplete }) => {
   return {
-    isComplete: ownProps.isComplete,
+    isComplete: isComplete,
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
-  console.log('ownProps in Dispatch', ownProps)
-  const { isComplete, projectId } = ownProps
+const mapDispatch = (dispatch, { isComplete, projectId }) => {
   return {
     toggleProjectCompleted: () =>
       dispatch(putProject({

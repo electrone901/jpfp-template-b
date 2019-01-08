@@ -58,7 +58,6 @@ router.post('/', async (req, res, next) => {
         'description',
         'deadline',
         'priority',
-        'completed',
       ],
       req.body
     )
@@ -85,7 +84,6 @@ router.put('/:id', async (req, res, next) => {
       ],
       req.body
     )
-    console.log('projectData', projectData)
     const robot = await foundProject.update(projectData)
     res.json(robot)
   } catch (error) {

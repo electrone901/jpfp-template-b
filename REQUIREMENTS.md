@@ -155,7 +155,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
   - [x] Make an AJAX request that causes that project to be updated in the database
   - [x] Update the project in the current view without needing to refresh the page
 - [ ] In the single-project view, display an `Unassign` button next to each robot assigned to it, which unassigns that robot (in the database as well as this view)
-- [ ] In the single-project view, display a `Complete` button, which marks the project as completed (in the database as well as this view)
+- [x] In the single-project view, display a `Complete` button, which marks the project as completed (in the database as well as this view)
 
 #### Backend
 
