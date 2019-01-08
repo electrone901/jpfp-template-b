@@ -163,6 +163,15 @@ p {
   margin: 15px;
 }
 
+.toggleCompleteButton {
+  padding: 5px 15px;
+  width: 50%;
+  border-radius: 15px;
+  cursor: pointer;
+  /* background: #4CAF50; */
+  /* or #FCAB10 */
+}
+
 form {
   display: flex;
   flex-direction: column;

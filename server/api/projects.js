@@ -43,7 +43,7 @@ router.delete('/:id', async (req, res, next) => {
 const pickPropsFromObj = (props, obj) => {
   return props.reduce((acc, prop) => {
     const value = obj[prop]
-    if (obj[prop]) {
+    if (obj[prop] || value === false) {
       return {...acc, [prop]: value}
     }
     return acc
@@ -85,6 +85,7 @@ router.put('/:id', async (req, res, next) => {
       ],
       req.body
     )
+    console.log('projectData', projectData)
     const robot = await foundProject.update(projectData)
     res.json(robot)
   } catch (error) {

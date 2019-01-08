@@ -10,7 +10,6 @@ export class ProjectForm extends React.Component {
     description: '',
     deadline: '',
     priority: 1,
-    completed: false,
   }
   handleSubmit = (event) => {
     event.preventDefault()
@@ -23,15 +22,10 @@ export class ProjectForm extends React.Component {
     return nextProps.projectToEdit
   }
   handleChange = ({ target: { name, value } }) => {
-    // HTML checkbozes are really really dumb.
-    if (name === 'completed') {
-      this.setState((prevState) => ({ completed: !prevState.completed }))
-    } else {
-      this.setState({ [name]: value })
-    }
+    this.setState({ [name]: value })
   }
   render() {
-    const { title, description, deadline, priority, completed } = this.state
+    const { title, description, deadline, priority } = this.state
     return (
       <div>
         <form
@@ -72,15 +66,6 @@ export class ProjectForm extends React.Component {
               name="priority"
               type="number"
               value={priority}
-              onChange={this.handleChange} />
-          </div>
-
-          <div className="labelInput">
-            <label htmlFor="completed">Completed? </label>
-            <input
-              name="completed"
-              type="checkbox"
-              value={completed}
               onChange={this.handleChange} />
           </div>
 

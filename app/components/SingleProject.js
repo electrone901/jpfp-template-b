@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchProject } from '../redux/project'
 import ProjectForm from './ProjectForm'
+import ToggleComplete from './ToggleComplete'
 
 class SingleProject extends React.Component {
   componentDidMount() {
@@ -46,6 +47,9 @@ class SingleProject extends React.Component {
               <p>
                 <span>Completed?</span> {project.completed ? 'Yes' : 'No' }
               </p>
+              <ToggleComplete
+                projectId={project.id}
+                isComplete={project.completed} />
             </div>
           </div>
         </div>
