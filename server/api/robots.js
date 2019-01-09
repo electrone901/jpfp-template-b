@@ -91,4 +91,19 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+router.delete('/:robotId/projects/:projectId', async (req, res, next) => {
+  try {
+    const { robotId, projectId } = req.params
+    const robot = await Robot.findById(robotId, { include: Project })
+    if (!robot) return res.sendStatus(404)
+    await robot.removeProject(projectId)
+    res.json({
+      robot: await Robot.findById(robotId, { include: Project }),
+      project: await Project.findById(robotId, { include: Robot }),
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
 module.exports = router

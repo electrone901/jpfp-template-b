@@ -1,5 +1,11 @@
 import axios from 'axios'
-import { fetchProjects, fetchRobot, fetchProject } from './index'
+import {
+  fetchProjects,
+  fetchRobot,
+  fetchProject,
+  setRobot,
+  setProject,
+} from './index'
 
 // ACTION TYPES
 const SET_ROBOTS = 'SET_ROBOTS'
@@ -65,9 +71,11 @@ export const putRobot = (robot) => async dispatch => {
 // This thunk creator could have just as easily been in the projects reducer
 export const unassign = (robotId, projectId) => async dispatch => {
   try {
-    await axios.delete(`/api/robots/${robotId}/projects/${projectId}`)
-    dispatch(fetchRobot(robotId))
-    dispatch(fetchProject(projectId))
+    const { data: { robot, project } } = await axios.delete(
+      `/api/robots/${robotId}/projects/${projectId}`
+    )
+    dispatch(setRobot(robot))
+    dispatch(setProject(project))
   } catch (err) {
     console.error(err)
   }

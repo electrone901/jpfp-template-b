@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import { unassign } from '../redux'
 
 export const Unassign = ({ unassignRobotProject }) => {
+  const handleClick = (event) => {
+    event.preventDefault()
+    unassignRobotProject()
+  }
   return (
     <button
       className="unassignButton"
       type="button"
-      onClick={() => unassignRobotProject()}>
+      onClick={handleClick}>
       Unassign
     </button>
   )
@@ -16,11 +20,10 @@ export const Unassign = ({ unassignRobotProject }) => {
 const mapDispatch = (dispatch, { robotId, projectId }) => {
   return {
     unassignRobotProject: () =>
-      dispatch(unassign({
+      dispatch(unassign(
         robotId,
         projectId,
-      })
-    )
+      ))
   }
 }
 
