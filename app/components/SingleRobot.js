@@ -39,8 +39,7 @@ class SingleRobot extends React.Component {
             ? robot.projects.map(project => (
               <Link className="projectListItem" key={project.id} to={`/projects/${project.id}`}>
                 <div>
-                  <span>{project.title} </span>
-                  <span><Unassign robotId={robot.id} projectId={project.id} /></span>
+                  {project.title} <Unassign robotId={robot.id} projectId={project.id} />
                 </div>
               </Link>
             ))
