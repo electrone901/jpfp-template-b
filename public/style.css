@@ -108,8 +108,15 @@ p {
 
 .deleteButton {
   cursor: url(images/bomb_icon.png) 1 1, pointer;
-  background-color: orange;
+  background-color: #FCAB10;
   width: 60px;
+}
+
+.unassignButton {
+  background-color: #FCAB10;
+  padding: 5px 15px;
+  border-radius: 15px;
+  cursor: url(images/bomb_icon.png) 1 1, pointer;
 }
 
 .allRobotsItem:hover {

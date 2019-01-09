@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchRobot } from '../redux/robot'
 import RobotForm from './RobotForm'
+import Unassign from './Unassign';
 
 class SingleRobot extends React.Component {
   componentDidMount() {
@@ -38,7 +39,8 @@ class SingleRobot extends React.Component {
             ? robot.projects.map(project => (
               <Link className="projectListItem" key={project.id} to={`/projects/${project.id}`}>
                 <div>
-                  <p>{project.title}</p>
+                  <span>{project.title} </span>
+                  <span><Unassign robotId={robot.id} projectId={project.id} /></span>
                 </div>
               </Link>
             ))
