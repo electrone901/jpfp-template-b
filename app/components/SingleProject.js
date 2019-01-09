@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { fetchProject } from '../redux/project'
 import ProjectForm from './ProjectForm'
 import ToggleComplete from './ToggleComplete'
+import Unassign from './Unassign'
 
 class SingleProject extends React.Component {
   componentDidMount() {
@@ -60,7 +61,8 @@ class SingleProject extends React.Component {
             ? project.robots.map(robot => (
               <Link className="projectListItem" key={robot.id} to={`/robots/${robot.id}`}>
                 <div>
-                  <p>{robot.name}</p>
+                  <span>{robot.name} </span>
+                  <span><Unassign robotId={robot.id} projectId={project.id} /></span>
                 </div>
               </Link>
             ))
