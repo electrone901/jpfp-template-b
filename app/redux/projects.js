@@ -26,6 +26,13 @@ export const editProject = (project) => ({
 export const fetchProjects = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/projects')
+    // console.log('DATA', data)
+    // const cleanedData = data.map(project => {
+    //   return {
+    //     ...project,
+    //     deadline: new Date(project.deadline).toLocaleDateString('en-US'),
+    //   }
+    // })
     dispatch(setProjects(data))
   } catch (err) {
     console.error(err)

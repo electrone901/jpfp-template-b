@@ -2,7 +2,7 @@ import axios from 'axios'
 import {
   fetchProjects,
   fetchRobot,
-  fetchProject,
+  // fetchProject,
   setRobot,
   setProject,
 } from './index'

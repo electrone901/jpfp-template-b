@@ -1,6 +1,7 @@
 // The purpose of this module is to bring your Sequelize instance (`db`) together
 // with your models, for which you'll find some blank files in this directory:
 
+const Sequelize = require('sequelize')
 const db = require('./database')
 const Project = require('./project')
 const Robot = require('./robot')
@@ -10,6 +11,14 @@ const Robot = require('./robot')
 // Example:
 //
 // Puppy.belongsTo(Owner)
+
+// const Assignments = db.define('assignments', {
+//   role: {
+//     type: Sequelize.ENUM('follower', 'leader'),
+//     defaultValue: 'follower'
+//   }
+// })
+
 Project.belongsToMany(Robot, { through: 'robot_projects' })
 Robot.belongsToMany(Project, { through: 'robot_projects' })
 
