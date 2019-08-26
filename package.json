@@ -22,8 +22,8 @@
     "chalk": "^2.4.1",
     "express": "^4.14.0",
     "pg": "^7.4.3",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.2.2",
@@ -51,14 +51,14 @@
     "eslint-plugin-react": "^7.8.2",
     "jsdom": "^11.12.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.4",
+    "nodemon": "^1.19.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-mock-store": "^1.5.3",
     "sinon": "^6.1.5",
     "style-loader": "^0.21.0",
     "supertest": "^3.1.0",
     "volleyball": "^1.5.1",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^3.3.2"
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   }
 }
