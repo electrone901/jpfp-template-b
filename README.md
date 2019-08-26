@@ -1,4 +1,4 @@
-# Senior Enrichment Project
+# Junior Phase Final Project
 
 ## Getting started
 
@@ -9,7 +9,7 @@
 5. Start the build process and your application with: `npm run start-dev`; if you're using Windows, you may need to execute `npm run start-server` and `npm run build-watch` separately (in their own terminal tabs)
 6. If you navigate to the URL you should see some UI already :) [We already have some connection code to get you started]
 7. Check out the starting seed file in `seed.js` - you can run it by executing `npm run seed`
-8. Create `senior-enrichment` and `senior-enrichment-test` databases
+8. Create `final-project` and `final-project-test` databases
 
 ## Details
 
@@ -49,7 +49,7 @@ Take a look in the wireframes folder as a reference for how your front-end _coul
 ### Video Walkthrough
 Please submit a short, 5 minute screencast of a walk-through of the functionality for each user story in your app. E.g. for "As a user, I can create a project", you can fill out the form for creating a project and then see the new project appear in the projects list. *There is no need to show us the code you wrote.* We recommend using Quicktime to record the screencast (instructions on how to do that [here](https://support.apple.com/kb/PH5882?locale=en_US&viewlocale=en_US)).
 
-Once you've recorded your screencast, please *upload it to YouTube as an unlisted video*. Email `academics@fullstackacademy.com` with the title `Senior Enrichment Submission: [Your Name]` and include your repo link and YouTube recording link. This will aid us in evaluating your submission.
+Once you've recorded your screencast, please *upload it to YouTube as an unlisted video*. Email the instructors with the title `Junior Phase Final Project: [Your Name]` and include your repo link and YouTube recording link. This will aid us in evaluating your submission.
 
 Well before the deadline, we recommend practicing this by recording a very short screencast and uploading it as an unlisted video. If you encounter any technical issues, reach out to us so that we can help you resolve them.
 
