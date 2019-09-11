@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from 'redux'
 import axios from 'axios'
 import appReducer from './redux'
 import { createLogger } from 'redux-logger' // https://github.com/evgenyrodionov/redux-logger
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk' // https://github.com/gaearon/redux-thunk
 
 let middleware = [
@@ -35,6 +36,7 @@ export default createStore(
   rootReducer,
   // 👇 This uses the Redux DevTools extension, assuming you have it installed in your browser.
   // 👇 See: https://github.com/zalmoxisus/redux-devtools-extension
-  process.browser && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : undefined,
-  applyMiddleware(...middleware),
+  composeWithDevTools(
+    applyMiddleware(...middleware)
+  )
 )

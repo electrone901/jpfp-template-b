@@ -2,7 +2,7 @@ const { expect } = require('chai');
 import enzyme, { mount } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
-import Adapter from 'enzyme-adapter-react-16.3'
+import Adapter from 'enzyme-adapter-react-16'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
