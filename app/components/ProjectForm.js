@@ -4,6 +4,13 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import { postProject, putProject } from '../redux'
 
+const blankState = {
+  title: '',
+  description: '',
+  deadline: '',
+  priority: 1,
+}
+
 export class ProjectForm extends React.Component {
   // Check out these articles for context surrounding setting initial state from props
   // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
@@ -13,12 +20,7 @@ export class ProjectForm extends React.Component {
     if (props.projectToEdit) {
       this.state = { ...props.projectToEdit }
     } else {
-      this.state = {
-        title: '',
-        description: '',
-        deadline: '',
-        priority: 1,
-      }
+      this.state = blankState
     }
   }
   handleSubmit = event => {
@@ -27,6 +29,9 @@ export class ProjectForm extends React.Component {
       ? this.props.editProject
       : this.props.createProject
     createOrEdit(this.state)
+    if (!this.props.projectToEdit) {
+      this.setState(blankState)
+    }
   }
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
