@@ -5,21 +5,28 @@ import moment from 'moment'
 import { postProject, putProject } from '../redux'
 
 export class ProjectForm extends React.Component {
-  state = {
-    title: '',
-    description: '',
-    deadline: '',
-    priority: 1,
+  // Check out these articles for context surrounding setting initial state from props
+  // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+  // https://zhenyong.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html
+  constructor(props) {
+    super(props)
+    if (props.projectToEdit) {
+      this.state = { ...props.projectToEdit }
+    } else {
+      this.state = {
+        title: '',
+        description: '',
+        deadline: '',
+        priority: 1,
+      }
+    }
   }
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault()
     const createOrEdit = this.props.projectToEdit
       ? this.props.editProject
       : this.props.createProject
     createOrEdit(this.state)
-  }
-  static getDerivedStateFromProps(nextProps) {
-    return nextProps.projectToEdit
   }
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
@@ -28,9 +35,7 @@ export class ProjectForm extends React.Component {
     const { title, description, deadline, priority } = this.state
     return (
       <div>
-        <form
-          onSubmit={this.handleSubmit}>
-
+        <form onSubmit={this.handleSubmit}>
           <div className="labelInput">
             <label htmlFor="title">Title: </label>
             <input
@@ -38,7 +43,8 @@ export class ProjectForm extends React.Component {
               name="title"
               type="text"
               value={title}
-              onChange={this.handleChange} />
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="labelInput">
@@ -46,7 +52,8 @@ export class ProjectForm extends React.Component {
             <textarea
               name="description"
               value={description}
-              onChange={this.handleChange} />
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="labelInput">
@@ -54,10 +61,11 @@ export class ProjectForm extends React.Component {
             <input
               name="deadline"
               type="datetime-local"
-              value={deadline
-                ? moment(deadline).format('YYYY-MM-DDTkk:mm')
-                : ''}
-              onChange={this.handleChange} />
+              value={
+                deadline ? moment(deadline).format('YYYY-MM-DDTkk:mm') : ''
+              }
+              onChange={this.handleChange}
+            />
           </div>
 
           <div className="labelInput">
@@ -66,11 +74,13 @@ export class ProjectForm extends React.Component {
               name="priority"
               type="number"
               value={priority}
-              onChange={this.handleChange} />
+              onChange={this.handleChange}
+            />
           </div>
 
-          <button className="submitButton" type="submit">Submit</button>
-
+          <button className="submitButton" type="submit">
+            Submit
+          </button>
         </form>
       </div>
     )
@@ -79,15 +89,18 @@ export class ProjectForm extends React.Component {
 
 const mapState = ({ project }, ownProps) => {
   return {
-    projectToEdit: ownProps.match.params.id ? project : null
+    projectToEdit: ownProps.match.params.id ? project : null,
   }
 }
 
-const mapDispatch = (dispatch) => ({
-  createProject: (project) => dispatch(postProject(project)),
-  editProject: (project) => dispatch(putProject(project)),
+const mapDispatch = dispatch => ({
+  createProject: project => dispatch(postProject(project)),
+  editProject: project => dispatch(putProject(project)),
 })
 
 export default withRouter(
-  connect(mapState, mapDispatch)(ProjectForm)
+  connect(
+    mapState,
+    mapDispatch
+  )(ProjectForm)
 )
