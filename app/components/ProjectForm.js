@@ -93,6 +93,7 @@ export class ProjectForm extends React.Component {
 }
 
 const mapState = ({ project }, ownProps) => {
+  // console.log('project', project)
   return {
     projectToEdit: ownProps.match.params.id ? project : null,
   }

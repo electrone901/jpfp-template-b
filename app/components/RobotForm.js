@@ -16,7 +16,7 @@ const blankState = {
 export class RobotForm extends React.Component {
   constructor(props) {
     super(props)
-    console.log('PROPS', props)
+    console.log('PROPS', props.robotToEdit)
     if (props.robotToEdit) {
       this.state = { ...props.robotToEdit }
     } else {
@@ -33,9 +33,9 @@ export class RobotForm extends React.Component {
       this.setState(blankState)
     }
   }
-  componentWillUnmount() {
-    console.log('ROBOT FORM WILL UNMOUNT')
-  }
+  // componentWillUnmount() {
+  //   console.log('ROBOT FORM WILL UNMOUNT')
+  // }
   // static getDerivedStateFromProps(nextProps) {
   //   return nextProps.robotToEdit
   // }
@@ -101,7 +101,7 @@ export class RobotForm extends React.Component {
 }
 
 const mapState = ({ robot }, ownProps) => {
-  console.log('robot', robot)
+  // console.log('robot', robot)
   return {
     robotToEdit: ownProps.match.params.id ? robot : null,
   }
