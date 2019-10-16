@@ -11,6 +11,9 @@ const blankState = {
   priority: 1,
 }
 
+// This form can be used to create a new project or edit an existing
+// one. If passed a project, it pre-populates the form. Otherwise,
+// it creates a new project.
 export class ProjectForm extends React.Component {
   // Check out these articles for context surrounding setting initial state from props
   // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
@@ -93,7 +96,6 @@ export class ProjectForm extends React.Component {
 }
 
 const mapState = ({ project }, ownProps) => {
-  // console.log('project', project)
   return {
     projectToEdit: ownProps.match.params.id ? project : null,
   }

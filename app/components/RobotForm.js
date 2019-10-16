@@ -14,9 +14,11 @@ const blankState = {
 // one. If passed a robot, it pre-populates the form. Otherwise,
 // it creates a new robot.
 export class RobotForm extends React.Component {
+  // Check out these articles for context surrounding setting initial state from props
+  // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+  // https://zhenyong.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html
   constructor(props) {
     super(props)
-    console.log('PROPS', props.robotToEdit)
     if (props.robotToEdit) {
       this.state = { ...props.robotToEdit }
     } else {
@@ -33,12 +35,6 @@ export class RobotForm extends React.Component {
       this.setState(blankState)
     }
   }
-  // componentWillUnmount() {
-  //   console.log('ROBOT FORM WILL UNMOUNT')
-  // }
-  // static getDerivedStateFromProps(nextProps) {
-  //   return nextProps.robotToEdit
-  // }
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }
@@ -101,7 +97,6 @@ export class RobotForm extends React.Component {
 }
 
 const mapState = ({ robot }, ownProps) => {
-  // console.log('robot', robot)
   return {
     robotToEdit: ownProps.match.params.id ? robot : null,
   }

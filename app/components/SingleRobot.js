@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchRobot } from '../redux/robot'
 import RobotForm from './RobotForm'
-import Unassign from './Unassign';
+import Unassign from './Unassign'
 
 class SingleRobot extends React.Component {
   componentDidMount() {
@@ -18,7 +18,9 @@ class SingleRobot extends React.Component {
         <div className="formDetailContainer">
           <div className="formContainer">
             <h2>Edit Robot:</h2>
-            <RobotForm />
+            {/* Thanks to this key prop, we'll completely re-mount the form
+                when the robot is loaded from the thunk */}
+            <RobotForm key={robot.id} />
           </div>
           <div className="singleItemContainer">
             <img src={robot.imageUrl} />
@@ -34,17 +36,22 @@ class SingleRobot extends React.Component {
         </div>
         <div className="robotsProjects">
           <h2>Projects:</h2>
-          {
-            robot.projects.length
-            ? robot.projects.map(project => (
-              <Link className="projectListItem" key={project.id} to={`/projects/${project.id}`}>
+          {robot.projects.length ? (
+            robot.projects.map(project => (
+              <Link
+                className="projectListItem"
+                key={project.id}
+                to={`/projects/${project.id}`}
+              >
                 <div>
-                  {project.title} <Unassign robotId={robot.id} projectId={project.id} />
+                  {project.title}{' '}
+                  <Unassign robotId={robot.id} projectId={project.id} />
                 </div>
               </Link>
             ))
-            : <p>No projects assigned at this time</p>
-          }
+          ) : (
+            <p>No projects assigned at this time</p>
+          )}
         </div>
       </div>
     )
@@ -56,8 +63,11 @@ const mapState = ({ robot }) => ({ robot })
 const mapDispatch = (dispatch, ownProps) => {
   const id = +ownProps.match.params.id
   return {
-    fetchSingleRobot: () => dispatch(fetchRobot(id))
+    fetchSingleRobot: () => dispatch(fetchRobot(id)),
   }
 }
 
-export default connect(mapState, mapDispatch)(SingleRobot)
+export default connect(
+  mapState,
+  mapDispatch
+)(SingleRobot)

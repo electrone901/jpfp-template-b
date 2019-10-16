@@ -32,7 +32,9 @@ class SingleProject extends React.Component {
         <div className="formDetailContainer">
           <div className="formContainer">
             <h2>Edit Project:</h2>
-            <ProjectForm />
+            {/* Thanks to this key prop, we'll completely re-mount the form
+                when the project is loaded from the thunk */}
+            <ProjectForm key={project.id} />
           </div>
           <div className="singleItemContainer">
             <div>
@@ -46,27 +48,33 @@ class SingleProject extends React.Component {
                 <span>Priority:</span> {project.priority}
               </p>
               <p>
-                <span>Completed?</span> {project.completed ? 'Yes' : 'No' }
+                <span>Completed?</span> {project.completed ? 'Yes' : 'No'}
               </p>
               <ToggleComplete
                 projectId={project.id}
-                isComplete={project.completed} />
+                isComplete={project.completed}
+              />
             </div>
           </div>
         </div>
         <div className="robotsProjects">
           <h2>Assigned Robots:</h2>
-          {
-            project.robots.length
-            ? project.robots.map(robot => (
-              <Link className="projectListItem" key={robot.id} to={`/robots/${robot.id}`}>
+          {project.robots.length ? (
+            project.robots.map(robot => (
+              <Link
+                className="projectListItem"
+                key={robot.id}
+                to={`/robots/${robot.id}`}
+              >
                 <div>
-                  {robot.name} <Unassign robotId={robot.id} projectId={project.id} />
+                  {robot.name}{' '}
+                  <Unassign robotId={robot.id} projectId={project.id} />
                 </div>
               </Link>
             ))
-            : <p>No robots assigned to this project</p>
-          }
+          ) : (
+            <p>No robots assigned to this project</p>
+          )}
         </div>
       </div>
     )
@@ -78,8 +86,11 @@ const mapState = ({ project }) => ({ project })
 const mapDispatch = (dispatch, ownProps) => {
   const id = +ownProps.match.params.id
   return {
-    fetchSingleProject: () => dispatch(fetchProject(id))
+    fetchSingleProject: () => dispatch(fetchProject(id)),
   }
 }
 
-export default connect(mapState, mapDispatch)(SingleProject)
+export default connect(
+  mapState,
+  mapDispatch
+)(SingleProject)
