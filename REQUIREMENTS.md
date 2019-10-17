@@ -2,7 +2,7 @@
 
 The requirements below are broken into separate **tiers**, which model the way we **recommend you approach the project**. That is, we recommend you complete (or complete the majority of) the requirements in Tier 1 before moving on to Tier 2, and so on. Of course, if you get stuck on a particular feature, we recommend moving on and trying another feature - don't sacrifice the good for the perfect!
 
-### Tier 1: All Robots and Projects (32/83)
+### Tier 1: All Robots and Projects (30/73)
 
 <details>
 
@@ -21,12 +21,12 @@ The requirements below are broken into separate **tiers**, which model the way w
 - [x] Write a route to serve up all robots
 - [x] Write a route to serve up all projects
 
-- [x] Write a `robots` model with the following information:
+- Write a `robots` model with the following information:
   - [x] name - not empty or null
   - [x] fuelType - can be one of gas, diesel, or electric (defaults to electric)
   - [x] fuelLevel - can be a decimal value between 0 and 100 (defaults to 100)
   - [x] imageUrl - with a default value
-- [x] Write a `projects` model with the following information:
+- Write a `projects` model with the following information:
   - [x] title - not empty or null
   - [x] deadline - a date
   - [x] priority - an integer between 1 and 10
@@ -54,19 +54,19 @@ Congrats! You have completed your first vertical slice! Make sure to `commit -m 
 
 </details>
 
-### Tier 2: Single Robot and Single Project (14/83)
+### Tier 2: Single Robot and Single Project (12/73)
 
 <details>
 
 #### Frontend
 
-- [x] Write a component to display a single robot with the following information:
+- Write a component to display a single robot with the following information:
   - [x] The robot's name, image, fuelType, fuelLevel
   - [x] The names of all their assigned projects (or a helpful message if they don't have any)
 - [x] Display the appropriate robot when the url matches `/robots/:robotId`
 - [x] Clicking on a robot from the all-robots view should navigate to show that robot in the single-robot view
 
-- [x] Write a component to display a single project with the following information:
+- Write a component to display a single project with the following information:
   - [x] The project's title, deadline, priority, description
   - [x] A list of the names of all robots in that project (or a helpful message if it doesn't have any robots)
 - [x] Display the appropriate project's info when the url matches `/projects/:projectId`
@@ -84,7 +84,7 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 </details>
 
-### Tier 3: Adding a Robot and Adding a Project (12/83)
+### Tier 3: Adding a Robot and Adding a Project (10/73)
 
 <details>
 
@@ -92,13 +92,13 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 - [x] Write a component to display a form for adding a new robot that contains _at least_ an input for name
 - [x] Display this component EITHER as part of the all-robots view, or as its own view
-- [x] Submitting the form with valid data should:
+- Submitting the form with valid data should:
   - [x] Make an AJAX request that causes the new robot to be persisted in the database
   - [x] Add the new robot to the list of robots without needing to refresh the page
 
 - [x] Write a component to display a form for adding a new project that contains _at least_ an input for title
 - [x] Display this component EITHER as part of the all-projects view, or as its own view (your choice)
-- [x] Submitting the form with valid data should:
+- Submitting the form with valid data should:
   - [x] Make an AJAX request that causes the new project to be saved to the database
   - [x] Add the new project to the list of projects without needing to refresh the page
 
@@ -111,19 +111,19 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 </details>
 
-### Tier 4: Removing a Robot and Removing a Project (10/83)
+### Tier 4: Removing a Robot and Removing a Project (8/73)
 
 <details>
 
 #### Frontend
 
 - [x] In the all-robots view, include an `X` button next to each robot
-- [x] Clicking the `X` button should:
+- Clicking the `X` button should:
   - [x] Make an AJAX request that causes that robot to be removed from database
   - [x] Remove the robot from the list of robots without needing to refresh the page
 
 - [x] In the all-projects view, include an `X` button next to each project
-- [x] Clicking the `X` button should:
+- Clicking the `X` button should:
   - [x] Make an AJAX request that causes that project to be removed from database
   - [x] Remove the project from the list of projects without needing to refresh the page
 
@@ -136,7 +136,7 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 </details>
 
-### Tier 5: Updating a Robot and Updating a Project (15/83)
+### Tier 5: Updating a Robot and Updating a Project (13/73)
 
 <details>
 
@@ -144,14 +144,14 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 - [x] Write a component to display a form updating _at least_ a robot's name and fuelLevel
 - [x] Display this component EITHER as part of the single-robot view, or as its own view
-- [x] Submitting the form with valid data should:
+- Submitting the form with valid data should:
   - [x] Make an AJAX request that causes that robot to be updated in the database
   - [x] Update the robot in the current view without needing to refresh the page
 - [x] In the single-robot view, display an `Unassign` button next to each of its projects, which unassigns it from that project (in the database as well as this view)
 
 - [x] Write a component to display a form updating _at least_ a project's title and completion status
 - [x] Display this component EITHER as part of the single-project view, or as its own view
-- [x] Submitting the form with valid data should:
+- Submitting the form with valid data should:
   - [x] Make an AJAX request that causes that project to be updated in the database
   - [x] Update the project in the current view without needing to refresh the page
 - [x] In the single-project view, display an `Unassign` button next to each robot assigned to it, which unassigns that robot (in the database as well as this view)
@@ -168,20 +168,24 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 <details>
 
-- [ ] Finishing Touches
+- Finishing Touches
   - [ ] If a user attempts to add a new robot or project without a required field, a helpful message should be displayed
   - [ ] If a user attempts to access a page that doesn't exist (ex. `/potato`), a helpful "not found" message should be displayed
   - [ ] If a user attempts to view a robot/project that doesn't exist, a helpful message should be displayed
   - [ ] Whenever a component needs to wait for data to load from the server, a "loading" message should be displayed until the data is available
   - [ ] Overall, the app is spectacularly styled and visually stunning
-- [ ] Ordering
+- Ordering
   - [ ] Create option for projects to be ordered based on priority on all-projects view
   - [ ] Create option for projects to be ordered based on deadline on all-projects view
   - [ ] Create option for robots to be ordered based on fuel level on all-robots view
-- [ ] Filtering
+- Filtering
   - [ ] Create filters on all-projects view so that projects can be filtered based completion status and priority (allow multiple filters to be applied)
   - [ ] Create a filter on all-robots view to only show projects without assigned robots and vice versa
   - [ ] Create filters on all-robots view so that robots can be filtered based on fuel type and fuel level (allow multiple filters to be applied)
   - [ ] Create a filter on all-robots view to only show robots without assigned projects and vice versa
+- Seeding
+ - [ ] Seed 100+ students and 100+ campuses
+ - [ ] Implement pagination for robots (e.g. `/robots?page=1` shows the first ten robots, and `/robots?page=2` shows robots 11-20)
+ - [ ] Implement pagination for projects (e.g. `/projects?page=1` shows the first ten projects, and `/projects?page=2` shows robots 11-20)
 
 </details>
