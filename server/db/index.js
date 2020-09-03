@@ -9,16 +9,8 @@ const Robot = require('./robot')
 // This is a great place to establish associations between your models
 // (https://sequelize-guides.netlify.com/association-types/).
 // Example:
-//
-// Puppy.belongsTo(Owner)
 
-// const Assignments = db.define('assignments', {
-//   role: {
-//     type: Sequelize.ENUM('follower', 'leader'),
-//     defaultValue: 'follower'
-//   }
-// })
-
+// Associates projects to have many robots through robot_projects  table
 Project.belongsToMany(Robot, { through: 'robot_projects' })
 Robot.belongsToMany(Project, { through: 'robot_projects' })
 

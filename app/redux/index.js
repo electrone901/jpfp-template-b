@@ -4,9 +4,7 @@ import robot from './robot'
 import projects from './projects'
 import project from './project'
 
-// This reducer is just a stub. We should probably do something
-// with that combineReducers thing up there...
-
+// The combineReducers takes all the reducers and combines into a single state. Here we are using the new es6 to assigned values since the have the same name we can just add robots.
 const appReducer = combineReducers({
   robots, // all robots
   robot, // single robot

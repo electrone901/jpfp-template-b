@@ -74,7 +74,7 @@ const seed = async () => {
     ])
 
   } catch (err) {
-   console.log(red(err))
+    console.log(red(err))
   }
 }
 

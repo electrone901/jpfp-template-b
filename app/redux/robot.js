@@ -10,6 +10,7 @@ export const setRobot = (robot) => ({
 })
 
 // THUNK CREATORS
+// gets a robot by id
 export const fetchRobot = (id) => async dispatch => {
   try {
     const { data } = await axios.get(`/api/robots/${id}`)

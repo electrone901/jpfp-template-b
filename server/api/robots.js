@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { Project, Robot } = require('../db')
 
-// ASYNC AWAIT SOLUTION
+//  api/robots => serves up all robots
 router.get('/', async (req, res, next) => {
   try {
     const robots = await Robot.findAll()
@@ -22,6 +22,7 @@ router.get('/', async (req, res, next) => {
 //   })
 // })
 
+//  api/robots/id => serves up a robot by id
 router.get('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
@@ -35,6 +36,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+//  api/robots/id => deletes a robot by id
 router.delete('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
@@ -55,18 +57,27 @@ const pickPropsFromObj = (props, obj) => {
   return props.reduce((acc, prop) => {
     const value = obj[prop]
     if (obj[prop]) {
-      return {...acc, [prop]: value}
+      return { ...acc, [prop]: value }
     }
     return acc
   }, {})
 }
 
+//  api/robots => creates a robot
 router.post('/', async (req, res, next) => {
   try {
     const robotData = pickPropsFromObj(
       ['name', 'fuelLevel', 'fuelType', 'imageUrl'],
       req.body
     )
+    /*
+    basically we are doing this  using pickPropsFromObj & will return an obj that will be use to create a new robot
+    const newObj = {
+      name: req.body.name,
+      fuelLevel: req.body.fuelLevel,
+      fuelType: req.body.fuelType
+    }
+    */
     const robot = await Robot.create(robotData)
     res.json(robot)
   } catch (error) {
@@ -74,6 +85,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+//  api/robots/id => edits a robot by id
 router.put('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
@@ -91,11 +103,14 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+//  api/robots/robotId/projects/:projectId => find a robot and deltes a project by id
 router.delete('/:robotId/projects/:projectId', async (req, res, next) => {
   try {
+    // gets robotId, projectId from req.params then find robot by id, if it exist call the magic method & pass the projectId to delete. Finally return find the robot * project  By Id and return it
     const { robotId, projectId } = req.params
     const robot = await Robot.findById(robotId, { include: Project })
     if (!robot) return res.sendStatus(404)
+
     await robot.removeProject(projectId)
     res.json({
       robot: await Robot.findById(robotId, { include: Project }),

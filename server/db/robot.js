@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
 
+// defines Robot models
 const Robot = db.define('robot', {
   name: {
     allowNull: false,
@@ -11,6 +12,7 @@ const Robot = db.define('robot', {
     type: Sequelize.STRING,
   },
   fuelType: {
+    // value must be equal to  'gas', 'diesel', 'electric'
     type: Sequelize.ENUM('electric', 'gas', 'diesel'),
     defaultValue: 'electric',
     // type: Sequelize.STRING,
@@ -25,6 +27,7 @@ const Robot = db.define('robot', {
   },
 })
 
+// class method sequelize hook: set a default imageUrl
 Robot.beforeSave((robot) => {
   if (!robot.imageUrl) {
     robot.imageUrl = `https://robohash.org/${robot.name}.png`

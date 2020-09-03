@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { Project, Robot } = require('../db')
 
+//  api/projects => serves up all projects
 router.get('/', async (req, res, next) => {
   try {
     const projects = await Project.findAll()
@@ -11,6 +12,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+//  api/projects/:id => serves up a project by id
 router.get('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
@@ -24,6 +26,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+//  api/projects/:id => deletes a project by id
 router.delete('/:id', async (req, res, next) => {
   try {
     const id = +req.params.id
@@ -50,6 +53,7 @@ const pickPropsFromObj = (props, obj) => {
   }, {})
 }
 
+//  api/projects => creates a project
 router.post('/', async (req, res, next) => {
   try {
     const projectData = pickPropsFromObj(
@@ -68,8 +72,10 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+//  api/projects/id => updates a project by id
 router.put('/:id', async (req, res, next) => {
   try {
+    // + converts the id to a number
     const id = +req.params.id
     const foundProject = await Project.findById(id)
     if (!foundProject) return res.sendStatus(404)

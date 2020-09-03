@@ -1,8 +1,8 @@
 import axios from 'axios'
+// we import these to reuse them
 import {
   fetchProjects,
   fetchRobot,
-  // fetchProject,
   setRobot,
   setProject,
 } from './index'
@@ -29,6 +29,7 @@ export const editRobot = (robot) => ({
 })
 
 // THUNK CREATORS
+// fetch from db and dispatch setRobots with the data from db
 export const fetchRobots = () => async dispatch => {
   try {
     const { data } = await axios.get('/api/robots')
@@ -49,6 +50,7 @@ export const deleteRobot = (id) => async dispatch => {
   }
 }
 
+// create robot
 export const postRobot = (robot) => async dispatch => {
   try {
     const { data } = await axios.post('/api/robots', robot)
@@ -58,6 +60,7 @@ export const postRobot = (robot) => async dispatch => {
   }
 }
 
+// edit robot
 export const putRobot = (robot) => async dispatch => {
   try {
     const { data } = await axios.put(`/api/robots/${robot.id}`, robot)
@@ -71,6 +74,7 @@ export const putRobot = (robot) => async dispatch => {
 // This thunk creator could have just as easily been in the projects reducer
 export const unassign = (robotId, projectId) => async dispatch => {
   try {
+    // destructures the data from axios & extracts robot & project from data
     const { data: { robot, project } } = await axios.delete(
       `/api/robots/${robotId}/projects/${projectId}`
     )
@@ -87,12 +91,15 @@ export default function reducer(state = [], action) {
     case SET_ROBOTS:
       return action.robots
     case ADD_ROBOT:
+      // creates a copy of the state and then adds the action.robot & combines them and returns
       return [...state, action.robot]
+
     case EDIT_ROBOT:
+      // gets robots & finds then updated with the payload = the  action.robot otherwise return the original robot
       return state.map(robot => {
         return robot.id === action.robot.id
-                ? action.robot
-                : robot
+          ? action.robot
+          : robot
       })
     default:
       return state

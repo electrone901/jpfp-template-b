@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('./database')
 
+// defines Project models
 const Project = db.define('project', {
   title: {
     type: Sequelize.STRING,

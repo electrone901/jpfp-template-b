@@ -1,4 +1,5 @@
 import axios from 'axios'
+// we import these to reuse them
 import { fetchRobots, fetchProject } from './index'
 
 // ACTION TYPES
@@ -50,6 +51,7 @@ export const deleteProject = (id) => async dispatch => {
   }
 }
 
+//creates a project
 export const postProject = (project) => async dispatch => {
   try {
     const { data } = await axios.post('/api/projects', project)
@@ -59,6 +61,7 @@ export const postProject = (project) => async dispatch => {
   }
 }
 
+//edits a project by id
 export const putProject = (project) => async dispatch => {
   try {
     const { data } = await axios.put(`/api/projects/${project.id}`, project)
@@ -70,17 +73,21 @@ export const putProject = (project) => async dispatch => {
 }
 
 // REDUCER
+// initially the state is []
 export default function reducer(state = [], action) {
   switch (action.type) {
     case SET_PROJECTS:
+      // set  action.projects to be the new state
       return action.projects
     case ADD_PROJECT:
+      // makes a  copy of the state, combines the new action.project and returns it
       return [...state, action.project]
     case EDIT_PROJECT:
+      // gets projects & finds the project to update then updates that project with the payload/the  action.robot otherwise return the original robot
       return state.map(project => {
         return project.id === action.project.id
-                ? action.project
-                : project
+          ? action.project
+          : project
       })
     default:
       return state

@@ -10,6 +10,7 @@ export const setProject = (project) => ({
 })
 
 // THUNK CREATORS
+// gets project by id
 export const fetchProject = (id) => async dispatch => {
   try {
     const { data } = await axios.get(`/api/projects/${id}`)
