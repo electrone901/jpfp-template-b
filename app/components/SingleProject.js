@@ -25,17 +25,21 @@ class SingleProject extends React.Component {
     const deadline = project.deadline
       ? new Date(project.deadline).toLocaleString('en-US', dateTimeOptions)
       : 'No deadline'
+
     if (!project || !project.title) return <h1>No project found!</h1>
+
     return (
       <div>
         <h1>{project.title}</h1>
         <div className="formDetailContainer">
+
           <div className="formContainer">
             <h2>Edit Project:</h2>
             {/* Thanks to this key prop, we'll completely re-mount the form
                 when the project is loaded from the thunk */}
             <ProjectForm key={project.id} />
           </div>
+
           <div className="singleItemContainer">
             <div>
               <p>
@@ -56,26 +60,30 @@ class SingleProject extends React.Component {
               />
             </div>
           </div>
+
         </div>
+
         <div className="robotsProjects">
           <h2>Assigned Robots:</h2>
-          {project.robots.length ? (
-            project.robots.map(robot => (
-              <Link
-                className="projectListItem"
-                key={robot.id}
-                to={`/robots/${robot.id}`}
-              >
-                <div>
-                  {robot.name}{' '}
-                  <Unassign robotId={robot.id} projectId={project.id} />
-                </div>
-              </Link>
-            ))
-          ) : (
-            <p>No robots assigned to this project</p>
-          )}
+          {
+            project.robots.length ? (
+              project.robots.map(robot => (
+                <Link
+                  className="projectListItem"
+                  key={robot.id}
+                  to={`/robots/${robot.id}`}
+                >
+                  <div>
+                    {robot.name}{' '}
+                    <Unassign robotId={robot.id} projectId={project.id} />
+                  </div>
+                </Link>
+              ))
+            ) : (
+                <p>No robots assigned to this project</p>
+              )}
         </div>
+
       </div>
     )
   }

@@ -20,27 +20,42 @@ export class ProjectForm extends React.Component {
   // https://zhenyong.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html
   constructor(props) {
     super(props)
+    // check if we are in edit mode populate the data if not use the blankState
     if (props.projectToEdit) {
+      // we are usign spread operator to get
       this.state = { ...props.projectToEdit }
     } else {
       this.state = blankState
     }
   }
+
+  //
   handleSubmit = event => {
     event.preventDefault()
+    // checks if editProject exist then call createOrEdit whit the data otherwise use the other one
     const createOrEdit = this.props.projectToEdit
       ? this.props.editProject
       : this.props.createProject
+
     createOrEdit(this.state)
+
+    // !this.props.projectToEdit  then reset the form
     if (!this.props.projectToEdit) {
       this.setState(blankState)
     }
   }
+
+  // extracting the name & value from target & update state
+  // you can pass it as for name e.target.name & value: e.target.value
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }
+
+
   render() {
+    console.log("props from  FORM ", this.props)
     const { title, description, deadline, priority } = this.state
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -96,16 +111,21 @@ export class ProjectForm extends React.Component {
 }
 
 const mapState = ({ project }, ownProps) => {
+  // ownProps: the props of the component
+  // destructuring project from state
+  // gets the id if the projectToEdit exist
   return {
     projectToEdit: ownProps.match.params.id ? project : null,
   }
 }
 
+// functions to create or editProject
 const mapDispatch = dispatch => ({
   createProject: project => dispatch(postProject(project)),
   editProject: project => dispatch(putProject(project)),
 })
 
+// withRouter gives you access to history and props..match.params.id
 export default withRouter(
   connect(
     mapState,

@@ -15,6 +15,10 @@ export const ToggleComplete = ({ isComplete, toggleProjectCompleted }) => {
 }
 
 const mapState = (_, { isComplete }) => {
+  //  isComplete is completed coming from props
+  // _ maybe a shortcut for store =>  what is _ research tomorrow
+  console.log("mapState -> isComplete", isComplete)
+  console.log("what is  _", _)
   return {
     isComplete: isComplete,
   }
@@ -22,12 +26,13 @@ const mapState = (_, { isComplete }) => {
 
 const mapDispatch = (dispatch, { isComplete, projectId }) => {
   return {
+    // we getting projectId & completed from props, calls putProject
     toggleProjectCompleted: () =>
       dispatch(putProject({
         id: projectId,
         completed: !isComplete,
       })
-    )
+      )
   }
 }
 

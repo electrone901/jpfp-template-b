@@ -25,18 +25,25 @@ export class RobotForm extends React.Component {
       this.state = blankState
     }
   }
+
   handleSubmit = event => {
     event.preventDefault()
     const createOrEdit = this.props.robotToEdit
       ? this.props.editRobot
       : this.props.createRobot
     createOrEdit(this.state)
+
+    // if not projectToEdit reset the state after submit
     if (!this.props.projectToEdit) {
       this.setState(blankState)
     }
   }
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value })
+  handleChange = e =>  {
+    let fieldName = e.target.name;
+    let fieldVal = e.target.value;
+    this.setState({
+      [fieldName]: fieldVal
+     })
   }
   render() {
     const { name, fuelType, fuelLevel, imageUrl } = this.state

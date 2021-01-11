@@ -65,7 +65,9 @@ export const postProject = (project) => async dispatch => {
 export const putProject = (project) => async dispatch => {
   try {
     const { data } = await axios.put(`/api/projects/${project.id}`, project)
+    // updates a project in allProjects in the store
     dispatch(editProject(data))
+     // updates the project in sinlgeProject in the store
     dispatch(fetchProject(project.id))
   } catch (err) {
     console.error(err)
